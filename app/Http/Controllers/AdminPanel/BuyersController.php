@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminPanel;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Models\Buyers\Buyers;
 
 class BuyersController extends Controller
 {
@@ -12,9 +13,17 @@ class BuyersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $per_page = 20;
+        if ($request->per_page != null){
+            $per_page = $request->per_page;
+        }
+
+        $buyers = Buyers::getBuyers($per_page)->appends(['per_page' => $per_page]);
+        return view('AdminPanel.buyers.buyers_list')->with([
+            'buyers' => $buyers
+        ]);
     }
 
     /**
@@ -46,7 +55,11 @@ class BuyersController extends Controller
      */
     public function show($id)
     {
-        //
+        $buyer = Buyers::getBuyerById($id);
+
+        return view('AdminPanel.buyers.buyer_show')->with([
+           'buyer'=> $buyer->toArray()
+        ]);
     }
 
     /**
@@ -57,7 +70,7 @@ class BuyersController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -69,7 +82,8 @@ class BuyersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Buyers::updateBuyerById($request,$id);
+        return redirect()->back();
     }
 
     /**

@@ -19,7 +19,7 @@ class CreateBuyersTable extends Migration
             $table->string('first', 50);
             $table->string('last', 50);
             $table->string('email', 50);
-            $table->string('company', 50);
+            $table->string('company', 50)->nullable();
             $table->string('phone', 50)->nullable();
             $table->string('website', 50)->nullable();
             $table->string('street1', 50)->nullable();
