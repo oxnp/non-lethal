@@ -10,9 +10,15 @@ class Products extends Model
 
     public static function getProducts($per_page){
        $products =  Products::select('products.*','ur.name as access_level')
-            ->leftjoin('user_role as ur','ur.id','product.access')
+            ->leftjoin('user_role as ur','ur.id','products.access')
             ->groupby('products.id')
             ->paginate($per_page);
         return $products;
     }
+    public static function getProductById($id){
+       $products =  Products::find($id);
+
+        return $products;
+    }
+
 }

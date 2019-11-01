@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
+use App\Http\Models\Products\MainProducts;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Models\Products\Products;
 
 class ProductsController extends Controller
 {
@@ -12,9 +14,87 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+
+        $per_page = 20;
+        if ($request->per_page != null){
+            $per_page = $request->per_page;
+        }
+        $main_products = MainProducts::getMainProducts();
+        $all_products = Products::all()->toArray();
+        $products_links = Products::getProducts($per_page)->appends(['per_page' => $per_page]);
+        $products = Products::getProducts($per_page)->appends(['per_page' => $per_page])->toArray();
+
+
+        $data = array();
+
+        foreach($products['data'] as $key=>$product) {
+            $legacy_names = array();
+            $upd_prod_list = array();
+            if ($product['upgradeable_products'] != '') {
+                $legacy_ids = $this->getLegacyProductsId(json_decode($product['upgradeable_products']));
+                $legacy_names = $main_products->map(function ($prod) use ($legacy_ids, $legacy_names) {
+                    foreach ($legacy_ids as $value) {
+                        if ($prod->id == $value) {
+                            $legacy_names[] = $prod->prod_desc;
+                        }
+                    }
+                    return $legacy_names;
+                });
+
+                foreach ($all_products as $prod) {
+                    if ($product['upgradeable_products'] != '') {
+                        foreach (json_decode($product['upgradeable_products']) as $key => $upd_product_id) {
+
+                            if ($prod['id'] == (Int)$upd_product_id) {
+                                $upd_prod_list[] = $prod['name'];
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!empty($legacy_names)) {
+                $legacy_names = $legacy_names->toArray();
+                $result = [];
+                array_walk_recursive($legacy_names, function ($item, $key) use (&$result) {
+                    $result[] = $item;
+                });
+                $merge = array_merge($result, $upd_prod_list);
+            }else{
+                $merge = array_merge($legacy_names, $upd_prod_list);
+            }
+
+
+            $data['products'][] = array(
+                'id'=>$product['id'],
+                'published'=>$product['published'],
+                'name'=>$product['name'],
+                'access'=>$product['access_level'],
+                'upgradeable_products'=>$merge,
+                'code'=>$product['code'],
+                'paddle_pid'=>$product['paddle_pid'] == '' ? '-' : $product['paddle_pid'],
+                'paddle_upgrade_pid'=>$product['paddle_upgrade_pid'] == '' ? '-' : $product['paddle_upgrade_pid'],
+                'default_majver'=>$product['default_majver'],
+            );
+        }
+
+        return view('AdminPanel.products.products_list')->with([
+            'products' => $data['products'],
+            'products_links' =>$products_links
+        ]);
+    }
+
+    public function getLegacyProductsId($legacyIDs){
+
+        $filteredIDs = array();
+        foreach($legacyIDs as $key => $legacyID) {
+            if(preg_match("/([0-9]+)L$/i", $legacyID, $matches)) {
+                $filteredIDs[] = $matches[1];
+            }
+        }
+        return $filteredIDs;
     }
 
     /**
@@ -46,7 +126,14 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = Products::getProductById($id)->toArray();
+
+     //   dd($product);
+
+        return view('AdminPanel.products.product_show')->with([
+            'product' =>$product
+        ]);
+
     }
 
     /**
