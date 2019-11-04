@@ -3,6 +3,8 @@
 namespace App\Http\Models\Products;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Models\Products\MainProducts;
+use DB;
 
 class Products extends Model
 {
@@ -17,8 +19,31 @@ class Products extends Model
     }
     public static function getProductById($id){
        $products =  Products::find($id);
-
         return $products;
     }
 
+    public static function getUpgradeableProduct(){
+        $products = Products::select('products.name as name', 'products.id as id');
+        $maim_products = MainProducts::select(DB::raw("CONCAT(main_products.prod_desc,'(Legacy)') as name"),DB::raw("CONCAT(main_products.id,'L') as id"))->union($products)->get()->toArray();
+        return $maim_products;
+    }
+
+    public static function getAssignedPaddlePIDs($id){
+        $paddle_pid = Products::select('paddle_pid')
+            ->where('paddle_pid','!=','')
+            ->where('paddle_pid','!=',DB::raw("(select paddle_pid from products where id = ".$id.")"));
+
+        $paddle_upgrade_pid = Products::select('paddle_upgrade_pid as pid')
+            ->where('paddle_upgrade_pid','!=','')
+            ->where('paddle_upgrade_pid','!=',DB::raw("(select paddle_upgrade_pid from products where id = ".$id.")"))
+            ->union($paddle_pid)
+            ->get()
+            ->toArray();
+    return $paddle_upgrade_pid;
+    }
+
+    public static function getProductTypeById($id){
+        $type = Products::select('type')->whereId($id)->get()->toArray();
+        return $type[0]['type'];
+    }
 }
