@@ -17,9 +17,9 @@ class CreatePrecodesTable extends Migration
             $table->bigIncrements('id');
             $table->integer('product_id');
             $table->string('precode', 50);
-            $table->addColumn('tinyInteger', 'type', ['length' => 4]);
+            $table->addColumn('tinyInteger', 'type', ['length' => 4])->default(1);
             $table->text('data');
-            $table->addColumn('tinyInteger', 'used', ['length' => 1]);
+            $table->addColumn('tinyInteger', 'used', ['length' => 1])->default(0);
             $table->text('reference')->nullable();
             $table->timestamps();
         });

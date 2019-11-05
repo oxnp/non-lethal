@@ -95,13 +95,7 @@
     <input type="text" name="prefix_temp" value="{{$product['prefix_temp']}}" /><br>
 
 
-    <b>Feature Pre-Activation code settings</b><br>
-    @php $futures = explode(',',$product['features']) @endphp
-    @php $feature_prefixes = explode(',',$product['feature_prefixes']) @endphp
 
-    @foreach($futures as $future)
-        <input type="text" value="{{$future}}" /> <input type="text" value="{{$feature_prefixes[$loop->index]}}" /> <input autocomplete="off"  type="number" step="1" min="1" value="50"> <button value="Generate Batch" class="btn btn-primary"></button><br>
-    @endforeach
 
     <br>
     ------------3 TAB ------------<br>
@@ -124,7 +118,25 @@
         {{$key}}
      <input type="text" value="{{$product[$key]}}" name="{{$key}}"/><br>
     @endforeach
-    -->
+-->
     <input type="submit">
 </form>
+
+<b>Feature Pre-Activation code settings</b><br>
+@php $futures = explode(',',$product['features']) @endphp
+@php $feature_prefixes = explode(',',$product['feature_prefixes']) @endphp
+
+@foreach($futures as $future)
+    <form action="{{route('generateFeaturePreCodeAJAX')}}" method="POST" name="precodegenerate-{{$loop->index}}">
+        {{csrf_field()}}
+
+        <input type="hidden" name="productid" value="{{$product['id']}}" />
+        <input type="text" name="featurename" value="{{$future}}" />
+        <input type="text" name="prefix" value="{{$feature_prefixes[$loop->index]}}" />
+        <input autocomplete="off" name="amount" type="number" step="1" min="1" value="50"/>
+        <input type="submit" value="Generate Batch" class="btn btn-primary" /><br>
+    </form>
+@endforeach
+
+
 @stop

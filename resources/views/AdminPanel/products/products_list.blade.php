@@ -2,6 +2,14 @@
 @extends('layouts.app-admin-leftsidebar')
 @extends('layouts.app-admin-header')
 @section('content')
+    <form action="{{route('generatePreActivationCodes')}}" method="POST">
+    {{csrf_field()}}
+        <input type="text" name="cid[]" />
+        <input type="text" name="cid[]" />
+        <input type="text" name="license_type" value="1"/>
+        <input type="text" name="reference" value=""/>
+        <input type="submit">
+    </form>
     <table width="1100px">
         <tr>
             <td>ID</td>
