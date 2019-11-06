@@ -27,7 +27,6 @@ class PrecodeController extends Controller
     public function generate(Request $request)
     {
 
-
         // Get form data
         if($request->cid){
             $selectedPIDs = $request->cid;
@@ -86,7 +85,7 @@ class PrecodeController extends Controller
         // Get the model and create precodes
         $result = Precode::generatePreActivationCodes($selectedPIDs, $licenseType, $licenseCount, $codeData, $reference);
 
-        return $result;
+        return redirect()->back();
     }
 
     /**

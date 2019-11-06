@@ -124,12 +124,12 @@ class Precode extends Model
             $licenseTypeString = $licenseTypes[$licenseType];
 
             if($licenseType == 2) {
-                if(empty($product->paddle_upgrade_pid)) {
+                if(empty($product['paddle_upgrade_pid'])) {
                     //JFactory::getApplication()->enqueueMessage('No Paddle Upgrade-ID set, pre-code generation not possible: ' . $product['name'] . ' (ID ' . $product['id'] . ')', 'error');
                     //continue;
                 }
             } else {
-                if(empty($product->paddle_pid)) {
+                if(empty($product['paddle_pid'])) {
                    // JFactory::getApplication()->enqueueMessage('No Paddle Full-ID set, pre-code generation not possible: ' . $product['name'] . ' (ID ' . $product['id'] . ')', 'error');
                     //continue;
                 }
@@ -137,36 +137,35 @@ class Precode extends Model
 
             $prefix = $product['prefix_' . $licenseTypeString];
             $preCodes = array();
-            dd($prefix);
-            // Reset query before next iteration
-            $query->clear('values');
+
+
             if(!empty($prefix)) {
+                $data = array();
                 for($i=0; $i<$licenseCount; $i++) {
-                    $freshCode = $licenseModel->generatePreCode($prefix);
+                    $freshCode = License::generatePreCode($prefix);
                     $preCodes[] = $freshCode;
 
                     // Create dataset values
-                    $insertValues = array();
-                    $insertValues[] = $product['id'];
-                    $insertValues[] = $db->quote(JAppActivationHelper::cleanFormattedString($freshCode, '-'));
-                    $insertValues[] = $licenseType;
-                    $insertValues[] = $db->quote(json_encode($codeData));
-                    $insertValues[] = $db->quote($reference);
-                    $query->values(implode(',', $insertValues));
+                    $data[] = array(
+                        'product_id'=> $product['id'],
+                        'precode'=> trim(str_replace('-','',$freshCode)),
+                        'type'=> $licenseType,
+                        'data'=> json_encode($codeData),
+                        'reference'=> $reference
+                    );
                 }
 
                 // Write codes to database
                 if(!empty($preCodes)) {
-                    $db->setQuery($query);
 
                     try
                     {
-                        $db->execute();
+                        Precode::insert($data);
                     }
                     catch(RuntimeException $e)
                     {
                         //JFactory::getApplication()->enqueueMessage('Error creating pre-codes for product: ' . $product['name'] . ' (ID ' . $product['id'] . ')', 'error');
-                        continue;
+                        //continue;
                     }
                 }
 /*
