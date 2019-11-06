@@ -48,6 +48,9 @@
 .pads{
     padding:15px 0;
 }
+.list_head{
+    display: flex;
+}
 .fade{
     display: none;
 }
