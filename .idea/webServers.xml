@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="71b5d120-bad8-4e99-83e5-fde167733916" name="oxnp-lethal" url="http://ftp.s52.freehost.com.ua">
-        <fileTransfer host="ftp.s52.freehost.com.ua" port="21">
+      <webServer id="71b5d120-bad8-4e99-83e5-fde167733916" name="oxnp-lethal" url="http://oxnp.com">
+        <fileTransfer host="oxnp.com" port="21">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
