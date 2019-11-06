@@ -10,14 +10,25 @@ class Precode extends Model
 {
     protected $fillable = ['product_id','data','precode','type','used','reference'];
     private static $allPreCodes = null;
+
+    public static function getListPrecodes($per_page){
+        $precodes = Precode::select('products.name','products.code','products.licsystem','precodes.id','precodes.precode','precodes.type','precodes.used','precodes.reference','precodes.data')
+            ->join('products','products.id','precodes.product_id')
+            ->paginate($per_page);
+//dd($precodes);
+        return $precodes;
+    }
+
     public static function generateFeaturePreActivationCodes($pid, $prefix, $licenseCount, $featureName) {
 
         // Get product
         $product = Products::getProductById($pid);
         // Pre-check product type
+
         if($product->type == env('SUBSCRIPTION_BASE')) {
             return false;
         }
+
         // Reset query before next iteration
         $preCodes = array();
         if(!empty($prefix)) {
