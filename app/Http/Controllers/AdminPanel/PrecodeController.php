@@ -93,9 +93,17 @@ class PrecodeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $per_page = 20;
+        if ($request->per_page != null){
+            $per_page = $request->per_page;
+        }
+        $precodes = Precode::getListPrecodes($per_page)->appends(['per_page' => $per_page]);
+
+         return view('AdminPanel.precodes.precodes_list')->with([
+             'precodes'=> $precodes
+         ]);
     }
 
     /**

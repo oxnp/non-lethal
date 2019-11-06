@@ -19,7 +19,7 @@ class LicenseController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
