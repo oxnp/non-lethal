@@ -3,6 +3,16 @@
 @extends('layouts.app-admin-header')
 @section('content')
 
+    <div class="pads">
+        <form name="purge_codes">
+            <input type="submit" class="btn btn-primary btn-md" value="Purge used Pre-codes" />
+        </form>
+        <form name="export_codes">
+            <input type="submit" class="btn btn-primary btn-md" value="Export Pre-codes" />
+        </form>
+    </div>
+
+
     <div class="list">
         <div class="list_head">
             <div class="col-md-1">ID</div>
@@ -17,8 +27,9 @@
         <div class="list_body">
             @foreach($precodes as $precode)
                 <div class="item">
-                    <div class="col-md-1 idcol">{{$precode->id}}</div>
-                    <div class="col-md-2">{{substr(chunk_split($precode->precode,5,'-'),0,-1)}} {{$precode->used}}</div>
+                    <div class="col-md-1 idcol"><input type="checkbox" value="{{$precode['id']}}" name="precode_id" />{{$precode->id}}</div>
+                    <div class="col-md-2">{{substr(chunk_split($precode->precode,5,'-'),0,-1)}}
+                    <?php if($precode->used == 1){?><i class="fas fa-check"></i><?php }?></div>
                     <div class="col-md-1">{{$precode->code}}</div>
                     <div class="col-md-2">{{$precode->name}}</div>
                     <div class="col-md-1"> @php

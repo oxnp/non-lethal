@@ -35,6 +35,11 @@
 }
 .list .list_body .item>.idcol{
     font-weight:bold;
+    display: flex;
+    align-items: center;
+}
+.list .list_body .item>.idcol input[type="checkbox"]{
+    margin: 0 15px 0 0;
 }
 .list .list_head>div:last-child{
     border-right: 1px solid #bebebe;
@@ -47,6 +52,9 @@
 }
 .pads{
     padding:15px 0;
+}
+.pads form{
+    display: inline-block;
 }
 .list_head{
     display: flex;
@@ -68,6 +76,10 @@ select option[disabled]{
     opacity:.5;
     color:#ccc;
 }
-
+.item .fa-check{
+    color:green;
+    line-height: 28px;
+    margin-left:10px;
+}
 
 
