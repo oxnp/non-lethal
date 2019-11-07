@@ -4,10 +4,12 @@
 @section('content')
 
     <div class="pads">
-        <form name="purge_codes">
+        <form action="{{route('purgeEmpty')}}" method="GET" name="purge_codes">
+            {{csrf_field()}}
             <input type="submit" class="btn btn-primary btn-md" value="Purge used Pre-codes" />
         </form>
-        <form name="export_codes">
+        <form action="{{route('exportPrecodes')}}" method="GET" name="export_codes">
+            {{csrf_field()}}
             <input type="submit" class="btn btn-primary btn-md" value="Export Pre-codes" />
         </form>
     </div>
