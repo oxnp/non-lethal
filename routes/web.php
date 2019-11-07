@@ -31,11 +31,14 @@ Route::resource('products','AdminPanel\ProductsController');
 
 
 Route::resource('precodes','AdminPanel\PrecodeController');
+Route::resource('ilok_codes','AdminPanel\IlokCodesController');
 
 
 
 Route::post('feature_precode','AdminPanel\PrecodeController@generateFeaturePreCodeAJAX')->name('generateFeaturePreCodeAJAX');
 Route::post('pre_activation_code','AdminPanel\PrecodeController@generate')->name('generatePreActivationCodes');
+Route::get('export_precodes','AdminPanel\PrecodeController@exportPrecodes')->name('exportPrecodes');
+Route::get('purge_precodes','AdminPanel\PrecodeController@purgeEmpty')->name('purgeEmpty');
 
 
 

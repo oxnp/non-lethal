@@ -26,7 +26,6 @@ class PrecodeController extends Controller
 
     public function generate(Request $request)
     {
-
         // Get form data
         if($request->cid){
             $selectedPIDs = $request->cid;
@@ -65,7 +64,7 @@ class PrecodeController extends Controller
                 $licenseCount = $request->license_count;
             }
         }else{
-            $licenseCount = 50;
+            $licenseCount = 5;
         }
 
 
@@ -85,6 +84,30 @@ class PrecodeController extends Controller
         // Get the model and create precodes
         $result = Precode::generatePreActivationCodes($selectedPIDs, $licenseType, $licenseCount, $codeData, $reference);
 
+        return redirect()->back();
+    }
+
+    public  function exportPrecodes(Request $request){
+
+       // dd($request->all());
+        if($request->cid){
+            $selectedPIDs = $request->cid;
+        }else{
+            $selectedPIDs = array();
+        }
+        $file_data = Precode::exportPreCodes($selectedPIDs);
+
+        return response($file_data['content'])
+            ->withHeaders([
+                'Content-Type' => 'text/plain',
+                'Cache-Control' => 'no-store, no-cache',
+                'Content-Disposition' => 'attachment; filename="'.$file_data['name'].'"',
+            ]);
+
+    }
+
+    public function purgeEmpty(){
+        Precode::purgeEmpty();
         return redirect()->back();
     }
 
