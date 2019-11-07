@@ -4,7 +4,9 @@ namespace App\Http\Models\Precode;
 
 use App\Http\Models\License\License;
 use App\Http\Models\Products\Products;
+use http\Env\Request;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Precode extends Model
 {
@@ -226,4 +228,41 @@ class Precode extends Model
         }
         return true;
     }
+
+
+    public static function exportPreCodes($selectedPIDs)
+    {
+        if (!is_array($selectedPIDs) || count($selectedPIDs) < 1)
+        {
+            //JFactory::getApplication()->enqueueMessage(JText::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
+        }
+        else
+        {
+            $txtFilename = parent::createTXT($selectedPIDs);
+        }
+
+        return $txtFilename;
+    }
+
+    public static function createTXT($selectedPIDs){
+
+        $precodes = Precode::whereIn('id',$selectedPIDs)->select('precode')->get();
+        $text = '';
+        foreach($precodes as $precode){
+            $text .= substr(chunk_split($precode->precode,5,'-'),0,-1)." \r\n";
+        }
+        $filename = 'precodelist_' . date('Ymd-His') . '.txt';
+        Storage::disk('local')->put('precodes/'.$filename, $text);
+        $contents = Storage::get('precodes/'.$filename);
+        $result['content'] = $contents;
+        $result['name'] = $filename;
+
+        return $result;
+    }
+
+    public static function purgeEmpty() {
+        Precode::where('used',1)->delete();
+        return true;
+    }
+
 }
