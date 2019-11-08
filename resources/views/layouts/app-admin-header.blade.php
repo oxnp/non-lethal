@@ -17,6 +17,11 @@
                         Pre-codes
                     </a>
                 </li>
+                <li class="nav-item d-inline">
+                    <a class="nav-link" href="/ilok_codes">
+                        Ilok codes
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
