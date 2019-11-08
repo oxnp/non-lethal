@@ -89,7 +89,6 @@ class PrecodeController extends Controller
 
     public  function exportPrecodes(Request $request){
 
-       // dd($request->all());
         if($request->cid){
             $selectedPIDs = $request->cid;
         }else{
@@ -103,7 +102,6 @@ class PrecodeController extends Controller
                 'Cache-Control' => 'no-store, no-cache',
                 'Content-Disposition' => 'attachment; filename="'.$file_data['name'].'"',
             ]);
-
     }
 
     public function purgeEmpty(){

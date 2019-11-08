@@ -252,9 +252,9 @@ class Precode extends Model
             $text .= substr(chunk_split($precode->precode,5,'-'),0,-1)." \r\n";
         }
         $filename = 'precodelist_' . date('Ymd-His') . '.txt';
-        Storage::disk('local')->put('precodes/'.$filename, $text);
-        $contents = Storage::get('precodes/'.$filename);
-        $result['content'] = $contents;
+        //Storage::disk('local')->put('precodes/'.$filename, $text);
+        //$contents = Storage::get('precodes/'.$filename);
+        $result['content'] = $text;
         $result['name'] = $filename;
 
         return $result;

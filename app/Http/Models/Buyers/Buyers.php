@@ -39,4 +39,15 @@ class Buyers extends Model
             'notes'=>$request->notes
         ]);
     }
+
+    public static function getBuyersForExport($ids){
+        $buyers = Buyers::whereIn('id',$ids)->select(DB::raw("CONCAT_WS(' ',first ,last) as full"),'company','email')->get()->toArray();
+
+        $text = '';
+        foreach($buyers as $buyer){
+            $text .= $buyer['full'].','.$buyer['company'] .','.$buyer['email']." \r\n";
+        }
+
+        return $text;
+    }
 }
