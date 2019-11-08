@@ -37,4 +37,18 @@ $(document).ready(function () {
             return true;
         }
     })
+    $('form[name="delete_codes"]').submit(function (e) {
+        $('input[name="precode_id"]:checked').each(function () {
+            var val = $(this).val();
+            $('form[name="delete_codes"]').append('<input value="' + val + '" type="hidden" name="cid[]"/>');
+        })
+        var status = confirm("Click OK to continue?");
+        if(status == false){
+            $('form[name="export_codes"] input[name^="cid"]').remove();
+            return false;
+        }
+        else{
+            return true;
+        }
+    });
 })

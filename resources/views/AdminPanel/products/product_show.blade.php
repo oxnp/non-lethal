@@ -42,7 +42,7 @@
             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#t3" role="tab" aria-controls="t3"
                aria-selected="false">Serial mailer settings</a>
         </li>
-        <button style="float:right" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#gencodes">
+        <button style="float:right" class="btn btn-primary btn-md" data-toggle="modal" data-target="#gencodes">
             Feature Pre-Activation code settings
         </button>
     </ul>
