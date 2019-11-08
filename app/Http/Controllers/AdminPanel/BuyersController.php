@@ -26,6 +26,21 @@ class BuyersController extends Controller
         ]);
     }
 
+    public function export(Request $request){
+
+        $cid = $request->cid;
+        $csv_file = Buyers::getBuyersForExport($cid);
+
+        return response($csv_file)
+            ->withHeaders([
+                'Content-Type' => 'text/plain',
+                'Cache-Control' => 'no-store, no-cache',
+                'Content-Disposition' => 'attachment; filename="byuers.csv"',
+            ]);
+
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -17,15 +17,25 @@ class IlokCodesController extends Controller
     {
 
         $per_page = 20;
-        if ($request->per_page != null){
+        if ($request->per_page != null) {
             $per_page = $request->per_page;
         }
+
         $ilok_codes = IlokCodes::getListIlokCodes($per_page)->appends(['per_page' => $per_page]);
         return view('AdminPanel.ilokcodes.ilokcodes_list')
             ->with([
                 'ilok_codes' => $ilok_codes
             ]);
+
     }
+
+    public function remove(Request $request)
+    {
+        IlokCodes::remove($request->cid);
+        return redirect()->back();
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -90,6 +100,6 @@ class IlokCodesController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
 }
