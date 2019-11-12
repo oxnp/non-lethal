@@ -21,4 +21,9 @@ class IlokCodes extends Model
         return true;
     }
 
+    public static function import($data){
+        IlokCodes::insert($data);
+        return true;
+    }
+
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminPanel;
 use App\Http\Models\IlokCodes\IlokCodes;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class IlokCodesController extends Controller
 {
@@ -35,6 +36,79 @@ class IlokCodesController extends Controller
         return redirect()->back();
     }
 
+    public function import(Request $request){
+
+
+        dd($request->all());
+       // $contents = Storage::get('123.csv');
+        $contents = file_get_contents($request->file('import_file')->getRealPath());
+
+        // Get batch creation date
+        $batchDateRegex = "/Batch Creation Date:,([^\n]*)/";
+        preg_match($batchDateRegex, $contents, $matches);
+
+
+
+        if ($matches && $matches[1])
+        {
+            $batchDate = Date('Y-m-d H:i:s',strtotime($matches[1]));
+        }
+
+        // Get batch size
+        $batchSizeRegex = "/Code Count:,(\d*)/";
+        preg_match($batchSizeRegex, $contents, $matches);
+
+        $batchSize = -1;
+        if ($matches && $matches[1])
+        {
+            $batchSize = intval($matches[1]);
+        }
+
+        // Get codes
+        $ilokCodesRegex = "/(?:\d{4}-){7}\d{2}/";
+        preg_match_all($ilokCodesRegex, $contents, $matches);
+
+        //dd($matches);
+
+
+        $ilokCodes = [];
+        if ($matches)
+        {
+            $ilokCodes = $matches[0];
+        }
+
+        // Compare code count with batch size
+        if (count($ilokCodes) !== $batchSize)
+        {
+            //JFactory::getApplication()->enqueueMessage(JText::_('Parsed ilok code count differs from stated code count!'), 'error');
+            return false;
+        }
+
+        $data_insert = array();
+
+        foreach ($ilokCodes as $key => $ilokCode) {
+            $data_insert[] = array(
+                'product_id'=>$request->product_id,
+                'ilok_code'=>$ilokCode,
+                'batchtime'=>$batchDate
+            );
+
+        }
+        dd($data_insert);
+
+        try
+        {
+            IlokCodes::import($data_insert);
+        } catch (Exception $exception)
+        {
+           // JFactory::getApplication()->enqueueMessage(JText::sprintf('iLok code DB insert failed: %s', $exception->getMessage()), 'error');
+            return false;
+        }
+        //JFactory::getApplication()->enqueueMessage(JText::sprintf('Added %s iLok codes to database...', $batchSize), 'success');
+        return true;
+
+
+    }
 
 
     /**

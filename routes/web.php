@@ -35,6 +35,11 @@ Route::resource('products','AdminPanel\ProductsController');
 Route::resource('precodes','AdminPanel\PrecodeController');
 Route::resource('ilok_codes','AdminPanel\IlokCodesController');
 Route::post('remove_ilok_codes','AdminPanel\IlokCodesController@remove')->name('removeIlokCodes');
+Route::post('import_ilok_codes','AdminPanel\IlokCodesController@import')->name('importIlokCodes');
+
+
+Route::resource('licenses','AdminPanel\LicenseController');
+
 
 
 Route::post('feature_precode','AdminPanel\PrecodeController@generateFeaturePreCodeAJAX')->name('generateFeaturePreCodeAJAX');
