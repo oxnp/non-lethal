@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
-use App\Http\Models\Precode\Precode;
+use App\Http\Models\License\License;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -10,16 +10,15 @@ class LicenseController extends Controller
 {
 
 
-
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-
+        $licenses = License::getLicenses($request);
+        dd($licenses);
     }
 
     /**

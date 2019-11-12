@@ -3,12 +3,66 @@
 namespace App\Http\Models\License;
 
 use App\Http\Models\Precode\Precode;
+use http\Env\Request;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Models\Products\Products;
+use DB;
+use Illuminate\Database\Query\Builder;
 
 class License extends Model
 {
+    protected $table="licenses";
     private static $allSerials = null;
+
+    public static function getLicenses($request){
+
+        $per_page = 20;
+        if ($request->per_page != null){
+            $per_page = $request->per_page;
+        }
+
+        $query = License::select('licenses.*','b.last', 'b.first', 'b.email', 'b.company', DB::raw('b.notes AS buyer_notes'),'p.name', 'p.code', 'p.features')
+            ->leftjoin('buyers as b','b.id','licenses.buyer_id')
+            ->leftjoin('products as p','p.id','licenses.product_id');
+
+        $filter = array();
+        $filter['sort'] = 'desc';
+        $filter['orderby'] = 'licenses.id';
+        $filter['searcstring'] = '';
+
+
+
+        if($request->orderby){
+            $filter['orderby'] = $request->orderby;
+            if ($request->sort){
+                $filter['sort'] = $request->sort;
+                $query->orderby($filter['orderby'],$filter['sort']);
+            }
+
+        }
+
+        Builder::macro('whereLike', function($attributes, string $searchTerm) {
+            foreach(array_wrap($attributes) as $attribute) {
+                $this->orWhere($attribute, 'LIKE', "%{$searchTerm}%");
+            }
+
+            return $this;
+        });
+
+        if($request->searcstring){
+            $filter['searcstring'] = $request->searcstring;
+            $query->whereLike(['b.last','b.first','licenses.serial'],str_replace('-','',$filter['searcstring']));
+        }
+        $url = '';
+        foreach($filter as $filter=>$value){
+            $url .= $filter.'&'.$value;
+        }
+
+        $licenses = $query->paginate($per_page);
+        return $licenses;
+    }
+
+
     public static function generateSerialNumber($preCodeMode = false, $serialPrefix = '', $checkSumModule = 53, $serialLen = 20)
     {
         $checkSumMultiplier = 7;
