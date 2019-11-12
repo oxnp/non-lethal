@@ -1,5 +1,7 @@
 $(document).ready(function () {
     $("select[multiple]").chosen({});
+
+    /*Generate pre-activation codes*/
     $('button#show_gen').click(function (e) {
         $('input[name="pre_id"]:checked').each(function () {
             var val = $(this).val();
@@ -14,6 +16,28 @@ $(document).ready(function () {
     $('#gencodes').on('hidden.bs.modal', function () {
         $('form[name="gen_precodes"] input[name^="cid"]').remove();
     });
+
+    /*Checking import for one product selected*/
+
+    $('button#show_import').click(function (e) {
+        let idArray = new Array();
+        $('input[name="pre_id"]:checked').each(function () {
+            let val = $(this).val();
+            idArray.push(val);
+        });
+        if(idArray.length === 0 || idArray.length > 1){
+            alert('Choose one product from list!');
+        }else{
+            $('#import input[name="product_id"]').val($('input[name="pre_id"]:checked').val());
+            $('#import').modal('show');
+        }
+    });
+    $('#import').on('hidden.bs.modal', function () {
+        $('form[name="import_codes"] input[name="product_id"]').val('');
+    });
+
+
+    /*Export codes*/
     $('form[name="export_codes"]').submit(function (e) {
         $('input[name="precode_id"]:checked').each(function () {
             var val = $(this).val();
@@ -28,6 +52,10 @@ $(document).ready(function () {
             return true;
         }
     });
+
+
+    /*Purging and deleting codes*/
+
     $('form[name="purge_codes"]').submit(function (e) {
         var status = confirm("Click OK to continue?");
         if(status == false){
