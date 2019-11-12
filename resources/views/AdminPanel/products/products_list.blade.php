@@ -3,9 +3,32 @@
 @extends('layouts.app-admin-header')
 @section('content')
 
+    <div id="import" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form enctype="multipart/form-data" action="{{route('importIlokCodes')}}" method="POST" name="import_codes">
+                        {{csrf_field()}}
+                        <input type="hidden" name="product_id" />
+                        <div class="form-group text-center">
+                            Please upload a valid iLok batch file in .csv format to import all included redemption codes. They will be automatically assigned to the current selected product.
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" accept=".csv" type="file" name="import_file" />
+                        </div>
+                        <input class="btn btn-primary" type="submit" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="pads">
         <button class="btn btn-primary btn-md" id="show_gen" data-toggle="modal">
             Generate Pre-Activation Codes
+        </button>
+        <button class="btn btn-primary btn-md" data-toggle="modal" id="show_import">
+            Import iLok codes
         </button>
     </div>
     <div id="gencodes" class="modal fade">
