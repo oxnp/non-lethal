@@ -12,6 +12,7 @@ use Illuminate\Database\Query\Builder;
 class License extends Model
 {
     protected $table="licenses";
+    protected $fillable = ['buyer_id'];
     private static $allSerials = null;
 
     public static function getLicenses($request){
@@ -21,14 +22,15 @@ class License extends Model
             $per_page = $request->per_page;
         }
 
-        $query = License::select('licenses.*','b.last', 'b.first', 'b.email', 'b.company', DB::raw('b.notes AS buyer_notes'),'p.name', 'p.code', 'p.features')
+        $query = License::select('licenses.*','b.last', 'b.first', 'b.email', 'b.company', DB::raw('b.notes AS buyer_notes'),'p.name', 'p.code', 'p.features',DB::raw('count(s.id) as count_seats'))
             ->leftjoin('buyers as b','b.id','licenses.buyer_id')
-            ->leftjoin('products as p','p.id','licenses.product_id');
+            ->leftjoin('products as p','p.id','licenses.product_id')
+            ->leftjoin('seats as s','s.license_id','licenses.id')->groupby('licenses.id');
 
         $filter = array();
         $filter['sort'] = 'desc';
         $filter['orderby'] = 'licenses.id';
-        $filter['searcstring'] = '';
+        $filter['search_string'] = '';
 
 
 
@@ -49,17 +51,24 @@ class License extends Model
             return $this;
         });
 
-        if($request->searcstring){
-            $filter['searcstring'] = $request->searcstring;
-            $query->whereLike(['b.last','b.first','licenses.serial'],str_replace('-','',$filter['searcstring']));
+        if($request->searchstring){
+            $filter['search_string'] = $request->searchstring;
+            $query->whereLike(['b.last','b.first','licenses.serial',DB::raw("CONCAT(b.last,' ',b.first)")],str_replace('-','',$filter['search_string']));
         }
         $url = '';
-        foreach($filter as $filter=>$value){
-            $url .= $filter.'&'.$value;
+        foreach($filter as $f=>$value){
+            $url .= $f.'&'.$value;
         }
 
-        $licenses = $query->paginate($per_page);
-        return $licenses;
+        $result = array();
+
+        $result['licenses'] = $query->paginate($per_page);
+
+        //dd($result);
+        $result['filter'] = $filter;
+
+
+        return $result;
     }
 
 
@@ -135,5 +144,15 @@ class License extends Model
     public static function generatePreCode($prefix = '')
     {
         return self::generateSerialNumber(true, $prefix, 47);
+    }
+
+    public static function transferLicense($license_id, $buyer_id){
+
+        $license = License::find($license_id)->update([
+            'buyer_id' => $buyer_id
+        ]);
+
+       // dd($license);
+        return true;
     }
 }

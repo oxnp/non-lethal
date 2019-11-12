@@ -39,7 +39,7 @@ class IlokCodesController extends Controller
     public function import(Request $request){
 
 
-        dd($request->all());
+
        // $contents = Storage::get('123.csv');
         $contents = file_get_contents($request->file('import_file')->getRealPath());
 
@@ -90,11 +90,12 @@ class IlokCodesController extends Controller
             $data_insert[] = array(
                 'product_id'=>$request->product_id,
                 'ilok_code'=>$ilokCode,
-                'batchtime'=>$batchDate
+                'batchtime'=>$batchDate,
+                'used'=>0
             );
 
         }
-        dd($data_insert);
+        //dd($data_insert);
 
         try
         {
@@ -105,7 +106,7 @@ class IlokCodesController extends Controller
             return false;
         }
         //JFactory::getApplication()->enqueueMessage(JText::sprintf('Added %s iLok codes to database...', $batchSize), 'success');
-        return true;
+        return redirect(route('ilok_codes.index'));
 
 
     }

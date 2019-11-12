@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
+use App\Http\Models\Buyers\Buyers;
 use App\Http\Models\License\License;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,8 +18,21 @@ class LicenseController extends Controller
      */
     public function index(Request $request)
     {
-        $licenses = License::getLicenses($request);
-        dd($licenses);
+        $result = License::getLicenses($request);
+        $licenses = $result['licenses'];
+        $filter = $result['filter'];
+        $buyers = Buyers::all();
+
+        return view('AdminPanel.licenses.licenses_list')->with([
+            'licenses'=> $licenses,
+            'filter'=> $filter,
+            'buyers'=> $buyers
+            ]);
+    }
+
+    public function transferLicense(Request $request){
+        License::transferLicense($request->license_id, $request->buyer_id);
+        return redirect(route('licenses.index'));
     }
 
     /**

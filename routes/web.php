@@ -40,6 +40,8 @@ Route::post('import_ilok_codes','AdminPanel\IlokCodesController@import')->name('
 
 Route::resource('licenses','AdminPanel\LicenseController');
 
+Route::post('transfer_license','AdminPanel\LicenseController@transferLicense')->name('transferLicense');
+
 
 
 Route::post('feature_precode','AdminPanel\PrecodeController@generateFeaturePreCodeAJAX')->name('generateFeaturePreCodeAJAX');
