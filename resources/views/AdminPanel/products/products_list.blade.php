@@ -70,7 +70,13 @@
             @foreach($products as $product)
                 <div class="item">
                     <div class="col-md-1 idcol"><input type="checkbox" value="{{$product['id']}}" name="pre_id" />{{$product['id']}}</div>
-                    <div class="col-md-1">{{$product['published']}}</div>
+                    <div class="col-md-1">
+                        @if($product['published']==1)
+                            <i class="fas fa-check" aria-hidden="true"></i>
+                        @else
+                            <i class="far fa-times-circle"></i>
+                        @endif
+                    </div>
                     <div class="col-md-2"><a href="{{route('products.show', $product['id'])}}">{{$product['name']}}</a>
                     </div>
                     <div class="col-md-1">{{$product['access']}}</div>
