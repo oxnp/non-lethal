@@ -22,6 +22,11 @@
                         Ilok codes
                     </a>
                 </li>
+                <li class="nav-item d-inline">
+                    <a class="nav-link" href="/licenses">
+                        Licenses
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

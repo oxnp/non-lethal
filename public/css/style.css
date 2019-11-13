@@ -76,10 +76,16 @@ select option[disabled]{
     opacity:.5;
     color:#ccc;
 }
+.item .fa-times-circle,
 .item .fa-check{
     color:green;
     line-height: 28px;
     margin-left:10px;
 }
-
+.item .fa-times-circle{
+    color:red;
+}
+form[name="search"]{
+    display:inline-flex;
+}
 
