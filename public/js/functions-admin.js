@@ -79,4 +79,38 @@ $(document).ready(function () {
             return true;
         }
     });
+
+
+    /*Transfer licenses*/
+
+    $('button#transfer_lic').click(function (e) {
+        let idArray = new Array();
+        $('input[name="pre_id"]:checked').each(function () {
+            let val = $(this).val();
+            idArray.push(val);
+        });
+        if(idArray.length === 0){
+            alert('Choose one product from list!');
+        }else{
+            $('input[name="pre_id"]:checked').each(function () {
+                var val = $(this).val();
+                $('form[name="transfer"]').append('<input value="' + val + '" type="hidden" name="licenses_id[]"/>');
+            });
+            $('#transfer').modal('show');
+        }
+    });
+    $('#transfer').on('hidden.bs.modal', function () {
+        $('form[name="transfer"] input[name^="licenses_id"]').remove();
+    });
+
+
+    /*Chosen for one select with search*/
+    $('select.chosen_one_search').chosen({
+        width: "100%"
+    });
+
+    $('.hasTooltip').tooltip({
+        html:true
+    });
+
 })
