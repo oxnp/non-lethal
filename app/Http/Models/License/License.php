@@ -40,7 +40,6 @@ class License extends Model
                 $filter['sort'] = $request->sort;
                 $query->orderby($filter['orderby'],$filter['sort']);
             }
-
         }
 
         Builder::macro('whereLike', function($attributes, string $searchTerm) {
@@ -69,6 +68,15 @@ class License extends Model
 
 
         return $result;
+    }
+
+    public static function getLicense($id){
+        $license = License::select('licenses.*','s.*','b.last', 'b.first', 'b.email', 'b.company', DB::raw('b.notes AS buyer_notes'),'p.name', 'p.code', 'p.features')
+            ->leftjoin('buyers as b','b.id','licenses.buyer_id')
+            ->leftjoin('products as p','p.id','licenses.product_id')
+            ->leftjoin('seats as s','s.license_id','licenses.id')->where('licenses.id',$id)->get();
+
+        return $license;
     }
 
 
@@ -155,4 +163,6 @@ class License extends Model
        // dd($license);
         return true;
     }
+
+
 }

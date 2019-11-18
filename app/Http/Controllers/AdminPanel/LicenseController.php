@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminPanel;
 
 use App\Http\Models\Buyers\Buyers;
 use App\Http\Models\License\License;
+use App\Http\Models\Products\Products;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -64,7 +65,13 @@ class LicenseController extends Controller
      */
     public function show($id)
     {
-        //
+        $products = Products::getProductListToLicense();
+        $license =  License::getLicense($id);
+
+        return view('AdminPanel.licenses.license')->with([
+            'products'=>$products,
+            'license'=>$license,
+        ]);
     }
 
     /**

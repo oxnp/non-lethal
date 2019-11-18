@@ -46,4 +46,10 @@ class Products extends Model
         $type = Products::select('type')->whereId($id)->get()->toArray();
         return $type[0]['type'];
     }
+
+    public static function getProductListToLicense(){
+        $products = Products::select('id', 'name', 'type', 'default_majver', 'licsystem')->get();
+
+        return $products;
+    }
 }
