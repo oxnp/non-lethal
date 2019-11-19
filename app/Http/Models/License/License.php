@@ -14,7 +14,11 @@ class License extends Model
     protected $table="licenses";
     protected $fillable = ['buyer_id'];
     private static $allSerials = null;
-
+    /**
+     * Get Licenses
+     * @param   Request  $request
+     * @return collection
+     */
     public static function getLicenses($request){
 
         $per_page = 20;
@@ -69,7 +73,11 @@ class License extends Model
 
         return $result;
     }
-
+    /**
+     * Get License By ID
+     * @param   int  $id
+     * @return collection
+     */
     public static function getLicense($id){
         $license = License::select('licenses.*','s.*','b.last', 'b.first', 'b.email', 'b.company', DB::raw('b.notes AS buyer_notes'),'p.name', 'p.code', 'p.features')
             ->leftjoin('buyers as b','b.id','licenses.buyer_id')
@@ -79,7 +87,11 @@ class License extends Model
         return $license;
     }
 
-
+    /**
+     * Generate serial
+     * @param   bool $preCodeMode,  string $serialPrefix, int $checkSumModule, int $serialLen
+     * @return string
+     */
     public static function generateSerialNumber($preCodeMode = false, $serialPrefix = '', $checkSumModule = 53, $serialLen = 20)
     {
         $checkSumMultiplier = 7;
@@ -126,7 +138,11 @@ class License extends Model
 
         return $outputString;
     }
-
+    /**
+     * Test Serial
+     * @param  string $serial
+     * @return bool
+     */
     public static function testSerial($serial) {
         // Clean serial
         $serial = trim(str_replace('-','',$serial));
@@ -148,19 +164,26 @@ class License extends Model
 
         return true;
     }
-
+    /**
+     * Generate precode
+     * @param  string $prefix
+     * @return string
+     */
     public static function generatePreCode($prefix = '')
     {
         return self::generateSerialNumber(true, $prefix, 47);
     }
-
-    public static function transferLicense($license_id, $buyer_id){
-
-        $license = License::find($license_id)->update([
+    /**
+     * Transfer Licenses
+     * @param  array $licenses_ids, int $buyer_id
+     * @return bool
+     */
+    public static function transferLicense($licenses_ids, $buyer_id){
+    foreach($licenses_ids as $license_id) {
+       License::find($license_id)->update([
             'buyer_id' => $buyer_id
         ]);
-
-       // dd($license);
+    }
         return true;
     }
 

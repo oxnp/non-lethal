@@ -12,15 +12,24 @@ class Precode extends Model
 {
     protected $fillable = ['product_id','data','precode','type','used','reference'];
     private static $allPreCodes = null;
-
+    /**
+     * Get Precodes list
+     * @param  int $per_page
+     * @return collection
+     */
     public static function getListPrecodes($per_page){
         $precodes = Precode::select('products.name','products.code','products.licsystem','precodes.id','precodes.precode','precodes.type','precodes.used','precodes.reference','precodes.data')
             ->join('products','products.id','precodes.product_id')
             ->paginate($per_page);
-//dd($precodes);
+
         return $precodes;
     }
 
+    /**
+     * Generate generateFeaturePreActivationCodes
+     * @param  int $pid, string $prefix, int $licenseCount, string $featureName
+     * @return collection
+     */
     public static function generateFeaturePreActivationCodes($pid, $prefix, $licenseCount, $featureName) {
 
         // Get product
@@ -82,7 +91,11 @@ class Precode extends Model
         return true;
     }
 
-
+    /**
+     * Generate generatePreActivationCodes
+     * @param  array $pids, string $licenseType, int $licenseCount, array $codeData, string $reference
+     * @return bool
+     */
     public static function generatePreActivationCodes($pids, $licenseType, $licenseCount, $codeData = array(), $reference = '') {
 
         // Define license types
@@ -210,7 +223,11 @@ class Precode extends Model
     }
 
 
-
+    /**
+     * Test testPreActivationCode
+     * @param string $preCode,
+     * @return bool
+     */
     public static function testPreActivationCode($preCode) {
         $preCode = trim(str_replace('-','',$preCode));
         // Retrieve all serials in database
@@ -243,7 +260,11 @@ class Precode extends Model
 
         return $txtFilename;
     }
-
+    /**
+     * createTXT
+     * @param string $preCode,
+     * @return array $result['content'], $result['name']
+     */
     public static function createTXT($selectedPIDs){
 
         $precodes = Precode::whereIn('id',$selectedPIDs)->select('precode')->get();
@@ -259,7 +280,11 @@ class Precode extends Model
 
         return $result;
     }
-
+    /**
+     * Purge using Precodes
+     * @param
+     * @return bool
+     */
     public static function purgeEmpty() {
         Precode::where('used',1)->delete();
         return true;

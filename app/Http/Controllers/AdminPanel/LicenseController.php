@@ -32,7 +32,7 @@ class LicenseController extends Controller
     }
 
     public function transferLicense(Request $request){
-        License::transferLicense($request->license_id, $request->buyer_id);
+        License::transferLicense($request->licenses_id, $request->buyer_id);
         return redirect(route('licenses.index'));
     }
 
