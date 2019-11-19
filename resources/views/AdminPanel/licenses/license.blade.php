@@ -123,7 +123,7 @@
                                 <div class="col-md-3">{{$seat->system_id}}</div>
                                 <div class="col-md-3">{{$seat->activation_date}}</div>
                                 <div class="col-md-3">
-                                    <input type="checkbox" name="remove[]" value="{{$seat->system_id}}"/>
+                                    <input type="checkbox" name="remove[]" value="{{$seat->id}}"/>
                                 </div>
                             </div>
                             @endforeach
