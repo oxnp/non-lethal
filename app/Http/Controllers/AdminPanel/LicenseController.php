@@ -67,10 +67,11 @@ class LicenseController extends Controller
     {
         $products = Products::getProductListToLicense();
         $license =  License::getLicense($id);
-
+        $seats = License::getSeatsToLicense($id);
         return view('AdminPanel.licenses.license')->with([
             'products'=>$products,
             'license'=>$license,
+            'seats'=>$seats
         ]);
     }
 
@@ -94,7 +95,7 @@ class LicenseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        License::updateLicense($request,$id);
     }
 
     /**

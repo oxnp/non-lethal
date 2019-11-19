@@ -164,7 +164,13 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try  {
+            Products::updateProductById($request,$id);
+            return redirect()->back();
+        }catch(RuntimeException $e){
+
+        }
+
     }
 
     /**

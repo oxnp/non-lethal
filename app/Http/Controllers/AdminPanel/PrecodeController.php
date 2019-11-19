@@ -14,7 +14,7 @@ class PrecodeController extends Controller
         $productID = intval($request->productid);
         $prefix = $request->prefix;
         $licenseCount = intval($request->amount);
-        $featureName = $request->featurename;
+        $featureName = $request->features;
 
         // Get the model and create precodes
         $result = Precode::generateFeaturePreActivationCodes($productID, $prefix, $licenseCount, $featureName);

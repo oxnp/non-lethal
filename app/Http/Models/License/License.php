@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Http\Models\Products\Products;
 use DB;
 use Illuminate\Database\Query\Builder;
+use App\Http\Models\License\Seats;
 
 class License extends Model
 {
@@ -20,7 +21,6 @@ class License extends Model
      * @return collection
      */
     public static function getLicenses($request){
-
         $per_page = 20;
         if ($request->per_page != null){
             $per_page = $request->per_page;
@@ -35,8 +35,6 @@ class License extends Model
         $filter['sort'] = 'desc';
         $filter['orderby'] = 'licenses.id';
         $filter['search_string'] = '';
-
-
 
         if($request->orderby){
             $filter['orderby'] = $request->orderby;
@@ -62,15 +60,9 @@ class License extends Model
         foreach($filter as $f=>$value){
             $url .= $f.'&'.$value;
         }
-
         $result = array();
-
         $result['licenses'] = $query->paginate($per_page);
-
-        //dd($result);
         $result['filter'] = $filter;
-
-
         return $result;
     }
     /**
@@ -79,12 +71,21 @@ class License extends Model
      * @return collection
      */
     public static function getLicense($id){
-        $license = License::select('licenses.*','s.*','b.last', 'b.first', 'b.email', 'b.company', DB::raw('b.notes AS buyer_notes'),'p.name', 'p.code', 'p.features')
+        $license = License::select('licenses.*',DB::raw('count(s.id) as count_seats'),'b.last', 'b.first', 'b.email', 'b.company', DB::raw('b.notes AS buyer_notes'),'p.name', 'p.code', 'p.features')
             ->leftjoin('buyers as b','b.id','licenses.buyer_id')
             ->leftjoin('products as p','p.id','licenses.product_id')
-            ->leftjoin('seats as s','s.license_id','licenses.id')->where('licenses.id',$id)->get();
+            ->leftjoin('seats as s','s.license_id','licenses.id')->where('licenses.id',$id)->groupby('licenses.id')->get()->toArray();
 
         return $license;
+    }
+    /**
+     * Get seats By License ID
+     * @param   int  $id
+     * @return collection
+     */
+    public static function getSeatsToLicense($id){
+        $seats = Seats::where('license_id',$id)->get();
+        return $seats;
     }
 
     /**
