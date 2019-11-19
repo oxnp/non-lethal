@@ -25,7 +25,6 @@ class Paddle extends Model
         }
     }
 
-
     public static function getOptions($id){
 
         $paddleProductList = parent::getPaddleProductsList();

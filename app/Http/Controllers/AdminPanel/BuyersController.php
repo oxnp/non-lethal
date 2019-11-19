@@ -35,7 +35,7 @@ class BuyersController extends Controller
             ->withHeaders([
                 'Content-Type' => 'text/plain',
                 'Cache-Control' => 'no-store, no-cache',
-                'Content-Disposition' => 'attachment; filename="byuers.csv"',
+                'Content-Disposition' => 'attachment; filename="buyers.csv"',
             ]);
 
 
