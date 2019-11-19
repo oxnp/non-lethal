@@ -3,11 +3,37 @@
 @extends('layouts.app-admin-header')
 @section('content')
 
+
+    <div id="transfer" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form enctype="multipart/form-data" action="{{route('transferLicense')}}" method="POST" name="transfer">
+                        {{csrf_field()}}
+                        <div class="form-group">
+                            <select class="form-control chosen_one_search" name="buyer_id">
+                                <option>---</option>
+                                @foreach($buyers as $buyer)
+                                    <option value="{{$buyer['id']}}">{{$buyer['last']}} {{$buyer['first']}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <input class="btn btn-primary" type="submit" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <div class="pads">
         <form name="search" method="GET" action="">
             <input value="{{$filter['search_string']}}" class="form-control" type="text" name="searchstring" placeholder="Search..."/>
             <input type="submit" class="btn btn-primary" value="Search"/>
         </form>
+        <button class="btn btn-primary btn-md" data-toggle="modal" id="transfer_lic">
+            Transfer lisences
+        </button>
     </div>
 
     <div class="list">
@@ -39,8 +65,34 @@
             @foreach($licenses as $license)
                 <div class="item">
                     <div class="col-md-1 idcol"><input type="checkbox" value="{{$license['id']}}" name="pre_id"/>{{$license['id']}}</div>
-                    <div class="col-md-2"> <a href="{{route('licenses.show',$license['id'])}}">@if($license['ilok_code']) {{$license['ilok_code']}} @else{{substr(chunk_split($license['serial'],5,'-'),0,-1)}}@endif</a></div>
-                    <div class="col-md-2">{{$license['last']}} {{$license['first']}}</div>
+                    <div class="col-md-2">
+                        <a href="{{route('licenses.show',$license['id'])}}">@if($license['ilok_code']) {{$license['ilok_code']}} @else{{substr(chunk_split($license['serial'],5,'-'),0,-1)}}@endif</a>
+                        @if($license->type==env('SUBSCRIPTION_BASE') || $license->type==env('SUBSCRIPTION_EXPIRED'))
+                            <span class="icon-loop hasTooltip" style="margin-left:10px;" title="Subscription"><i class="fas fa-sync"></i></span>
+                        @elseif($license->type==env('TEMP_BASE'))
+                            <span class="icon-clock hasTooltip" style="margin-left: 10px;" title="Temporary license"><i class="fas fa-clock"></i></span>
+                        @elseif($license->type==env('SUPPORTED_BASE') || $license->type==env('SUPPORT_EXPIRED'))
+                            <span class="icon-phone-2 hasTooltip" style="margin-left: 10px;" title="Supported license"><i class="fas fa-phone"></i></span>
+                        @endif
+                        @if(!empty($license['notes']))
+                            @if(strlen($license['notes'])>400)
+                                <?php $noteText = substr($license['notes'],0,399);
+                                $noteText .= '...';?>
+                            @else
+                                <?php $noteText = $license['notes'];?>
+                            @endif
+                                <span class="icon-info-2 hasTooltip" data-toggle="tooltip" data-placement="top" style="margin-left: 10px;" data-original-title="{!! $noteText !!}">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                        @endif
+                    </div>
+                    <div class="col-md-2">{{$license['last']}} {{$license['first']}}
+                        @if(!empty($license['buyer_notes']))
+                            <span class="icon-info-2 hasTooltip" data-toggle="tooltip" data-placement="top" style="margin-left: 10px;" data-original-title="{!! $license['buyer_notes'] !!}">
+                                  <i class="fas fa-info-circle"></i>
+                            </span>
+                        @endif
+                    </div>
                     <div class="col-md-2">{{$license['name']}}
                         @if(!empty($license['prod_features']))
                         @php
