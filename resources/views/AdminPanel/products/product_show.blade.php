@@ -2,32 +2,6 @@
 @extends('layouts.app-admin-leftsidebar')
 @extends('layouts.app-admin-header')
 @section('content')
-    <div id="gencodes" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    @php $futures = explode(',',$product['features']) @endphp
-                    @php $feature_prefixes = explode(',',$product['feature_prefixes']) @endphp
-
-                    @foreach($futures as $future)
-                        <form class="form-group batches" action="{{route('generateFeaturePreCodeAJAX')}}" method="POST"
-                              name="precodegenerate-{{$loop->index}}">
-                            {{csrf_field()}}
-
-                            <input type="hidden" name="productid" value="{{$product['id']}}"/>
-                            <input class="form-control" placeholder="Name" type="text" name="featurename"
-                                   value="{{$future}}"/>
-                            <input class="form-control" placeholder="Prefix" type="text" name="prefix"
-                                   value="{{$feature_prefixes[$loop->index]}}"/>
-                            <input class="form-control" placeholder="Amount" autocomplete="off" name="amount"
-                                   type="number" step="1" min="1" value="50"/>
-                            <input type="submit" value="Generate Batch" class="btn btn-primary"/><br>
-                        </form>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
 
     <ul class="nav nav-tabs" id="toptab" role="tablist">
         <li class="nav-item active">
@@ -42,9 +16,6 @@
             <a class="nav-link" id="contact-tab" data-toggle="tab" href="#t3" role="tab" aria-controls="t3"
                aria-selected="false">Serial mailer settings</a>
         </li>
-        <button style="float:right" class="btn btn-primary btn-md" data-toggle="modal" data-target="#gencodes">
-            Feature Pre-Activation code settings
-        </button>
     </ul>
 
     <div class="row formgroup">
@@ -94,7 +65,8 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Major version</label>
-                            <input class="form-control" type="text" name="name" value="{{$product['default_majver']}}"/>
+                            <input class="form-control" type="text" name="default_majver"
+                                   value="{{$product['default_majver']}}"/>
                         </div>
                         <div class="form-group">
                             <label class="control-label">Upgreadable products</label>
@@ -142,7 +114,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Beta release</label>
-                            <select class="form-control" name="beta">
+                            <select class="form-control" name="isbeta">
                                 <option value="1" @if($product['isbeta'] == 1) selected @endif>Yes</option>
                                 <option value="0" @if($product['isbeta'] == 0) selected @endif>No</option>
                             </select>
@@ -176,13 +148,32 @@
                             <input class="form-control" type="text" name="prefix_temp"
                                    value="{{$product['prefix_temp']}}"/>
                         </div>
-                    </div>
-                    <div class="col-md-12">
                         <input class="btn btn-primary" type="submit" value="Save">
+                    </div>
+                    <div class="col-md-6">
+                        @php $futures = explode(',',$product['features']) @endphp
+                        @php $feature_prefixes = explode(',',$product['feature_prefixes']) @endphp
+                        @foreach($futures as $future)
+                            <div class="item_featured">
+                                <input type="hidden" name="productid" value="{{$product['id']}}"/>
+                                <input class="form-control" placeholder="Feature" type="text" name="features[]"
+                                       value="{{$future}}"/>
+                                <input maxlength="5" class="form-control" placeholder="Prefix" type="text"
+                                       name="feature_prefixes[]"
+                                       value="{{$feature_prefixes[$loop->index]}}"/>
+                                <input class="form-control" placeholder="Amount" autocomplete="off" name="amount[]"
+                                       type="number" step="1" min="1" value="50"/>
+                                @if(!empty($future) && !empty($feature_prefixes[$loop->index]) && strlen($feature_prefixes[$loop->index])==5)
+                                    <button class="btn btn-primary gencodes">Generate codes</button>
+                                @else
+                                    <button disabled="disabled" class="btn btn-primary">Fill all fields first</button>
+                                @endif
+                            </div>
+                        @endforeach
                     </div>
                 </div>
                 <div class="tab-pane fade" id="t3" role="t3" aria-labelledby="t3">
-                    <div class="col-lg-3 form-group">
+                    <div class="col-md-6 form-group">
                         <div class="form-group">
                             <label class="control-label">Sender name</label>
                             <input class="form-control" type="text" name="mail_from" value="{{$product['mail_from']}}"/>
@@ -201,14 +192,14 @@
                             <input class="form-control" type="text" name="mail_subject"
                                    value="{{$product['mail_subject']}}"/>
                         </div>
+                        <input class="btn btn-primary" type="submit" value="Save">
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label">Mail body</label>
-                            <textarea class="form-control" name="mail_body"
+                            <textarea class="form-control summernote" name="mail_body"
                                       value="{{$product['mail_body']}}">{{$product['mail_body']}}</textarea>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <input class="btn btn-primary" type="submit" value="Save">
                     </div>
                 </div>
             </form>
@@ -216,7 +207,27 @@
     </div>
 
 
-
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('button.gencodes').click(function (e) {
+                e.preventDefault();
+                let but = $(this);
+                let features = $(this).closest('.item_featured').find('input[name^="features"]').val();
+                let feature_prefixes = $(this).closest('.item_featured').find('input[name^="feature_prefixes"]').val();
+                let amount = $(this).closest('.item_featured').find('input[name^="amount"]').val();
+                $.ajax({
+                    url: "{{route('generateFeaturePreCodeAJAX')}}",
+                    type: "POST",
+                    data: "features=" + features + "&prefix=" + feature_prefixes + "&amount=" + amount + "&productid={{$product['id']}}&_token={{csrf_token()}}",
+                    success: function (data) {
+                        console.log(data);
+                        $(but).text('Success!');
+                        $(but).addClass('btn-success');
+                    }
+                })
+            })
+        })
+    </script>
 
 
     <!--<form action="{{route('products.update',$product['id'])}}" method="POST">

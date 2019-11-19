@@ -7,6 +7,7 @@
             crossorigin="anonymous"></script>
 
     <script src="/js/chosen.jquery.min.js"></script>
+    <script src="/js/summernote.min.js"></script>
     <script src="/js/functions-admin.js"></script>
 
 
@@ -17,6 +18,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+    <link href="/css/summernote.css" rel="stylesheet">
     <link href="/css/chosen.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/7dfad927b2.js"></script>

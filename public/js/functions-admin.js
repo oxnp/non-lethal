@@ -120,8 +120,36 @@ $(document).ready(function () {
         width: "100%"
     });
 
+    /*Icons tooltips*/
     $('.hasTooltip').tooltip({
         html:true
+    });
+
+    /*Wysiwig*/
+    $('.summernote').summernote();
+
+    /*License details scripts*/
+
+    let val = $('select[name="type"]').val();
+    $('div[data-type="'+val+'"]').show();
+    $('select[name="type"]').change(function(){
+       let val = $(this).val();
+       $('div[data-type]').hide();
+       $('div[data-type="'+val+'"]').show();
+    });
+
+    /*Feature pre-activation code settings fields check*/
+    $('.item_featured input[type="text"]').keyup(function(){
+        $(this).closest('.item_featured').find('button').attr('disabled','disabled');
+        $(this).closest('.item_featured').find('button').text('Save data first !');
+    });
+    $('.item_featured input[name^="feature_prefixes"]').keyup(function(){
+        let val = $(this).val();
+        if(val.length<5){
+            $(this).addClass('is-invalid')
+        }else{
+            $(this).removeClass('is-invalid')
+        }
     });
 
 })

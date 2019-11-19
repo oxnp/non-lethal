@@ -68,9 +68,10 @@
 #toptab{
     margin-bottom:30px;
 }
-.batches{
+.item_featured{
     display: flex;
     align-items: center;
+    margin-top:10px;
 }
 select option[disabled]{
     opacity:.5;
@@ -87,4 +88,13 @@ select option[disabled]{
 }
 form[name="search"]{
     display:inline-flex;
+}
+.soft_hide{
+    display: none;
+}
+input.is-invalid{
+    border:1px solid red!important;
+}
+.item_featured button{
+    min-width: 130px;
 }

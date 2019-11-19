@@ -70,7 +70,7 @@
             <div class="col-lg-3 col-lg-offset-1">
                 <div class="form-group">
                     <label class="control-label">Notes</label>
-                    <textarea rows="15" class="form-control" type="text" value="{{$buyer['notes']}}" name="notes">{{$buyer['notes']}}</textarea>
+                    <textarea rows="15" class="form-control summernote" type="text" value="{{$buyer['notes']}}" name="notes">{{$buyer['notes']}}</textarea>
                 </div>
             </div>
             <div class="col-md-12">
