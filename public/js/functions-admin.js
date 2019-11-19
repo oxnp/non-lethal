@@ -138,4 +138,18 @@ $(document).ready(function () {
        $('div[data-type="'+val+'"]').show();
     });
 
+    /*Feature pre-activation code settings fields check*/
+    $('.item_featured input[type="text"]').keyup(function(){
+        $(this).closest('.item_featured').find('button').attr('disabled','disabled');
+        $(this).closest('.item_featured').find('button').text('Save data first !');
+    });
+    $('.item_featured input[name^="feature_prefixes"]').keyup(function(){
+        let val = $(this).val();
+        if(val.length<5){
+            $(this).addClass('is-invalid')
+        }else{
+            $(this).removeClass('is-invalid')
+        }
+    });
+
 })
