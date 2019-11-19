@@ -182,7 +182,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="t3" role="t3" aria-labelledby="t3">
-                    <div class="col-lg-3 form-group">
+                    <div class="col-md-6 form-group">
                         <div class="form-group">
                             <label class="control-label">Sender name</label>
                             <input class="form-control" type="text" name="mail_from" value="{{$product['mail_from']}}"/>
@@ -201,14 +201,14 @@
                             <input class="form-control" type="text" name="mail_subject"
                                    value="{{$product['mail_subject']}}"/>
                         </div>
+                        <input class="btn btn-primary" type="submit" value="Save">
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label">Mail body</label>
-                            <textarea class="form-control" name="mail_body"
+                            <textarea class="form-control summernote" name="mail_body"
                                       value="{{$product['mail_body']}}">{{$product['mail_body']}}</textarea>
                         </div>
-                    </div>
-                    <div class="col-md-12">
-                        <input class="btn btn-primary" type="submit" value="Save">
                     </div>
                 </div>
             </form>

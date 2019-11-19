@@ -120,8 +120,22 @@ $(document).ready(function () {
         width: "100%"
     });
 
+    /*Icons tooltips*/
     $('.hasTooltip').tooltip({
         html:true
+    });
+
+    /*Wysiwig*/
+    $('.summernote').summernote();
+
+    /*License details scripts*/
+
+    let val = $('select[name="type"]').val();
+    $('div[data-type="'+val+'"]').show();
+    $('select[name="type"]').change(function(){
+       let val = $(this).val();
+       $('div[data-type]').hide();
+       $('div[data-type="'+val+'"]').show();
     });
 
 })

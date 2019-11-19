@@ -88,3 +88,6 @@ select option[disabled]{
 form[name="search"]{
     display:inline-flex;
 }
+.soft_hide{
+    display: none;
+}
