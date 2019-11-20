@@ -96,6 +96,7 @@ class LicenseController extends Controller
     public function update(Request $request, $id)
     {
         License::updateLicense($request,$id);
+        return redirect()->back();
     }
 
     /**
