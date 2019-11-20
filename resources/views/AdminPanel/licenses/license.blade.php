@@ -30,20 +30,25 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Purchase date</label>
-                    <input class="form-control" type="date"
+                    <input class="form-control" name="date_purchase" type="date"
                            value="{{date('Y-m-d',strtotime($license[0]['date_purchase']))}}"/>
                 </div>
                 @if(!empty($license[0]['serial']))
-                    <div class="form-group">
+                    <div class="form-group"
+                         @if(!empty($license[0]['ilok_code']))
+                         style="display:none"
+                        @endif
+                    >
                         <label class="control-label">Serial number</label>
-                        <input class="form-control" name="serial" type="text"
+                        <input
+                            class="form-control" name="serial" type="text"
                                value="{{substr(chunk_split($license[0]['serial'],5,'-'),0,-1)}}"/>
                     </div>
                 @endif
                 @if(!empty($license[0]['ilok_code']))
                     <div class="form-group">
                         <label class="control-label">iLok code</label>
-                        <input class="form-control" name="ilok_code" type="text" value="{{$license[0]['ilok_code']}}"/>
+                        <input readonly="readonly" class="form-control" name="ilok_code" type="text" value="{{$license[0]['ilok_code']}}"/>
                     </div>
                 @endif
                 <div class="form-group">
@@ -63,7 +68,7 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">License type</label>
-                    <select class="form-control" name="type" @if($license[0]['type']==40) disabled="disabled" @endif>
+                    <select class="form-control" name="license_type" @if($license[0]['type']==40) disabled="disabled" @endif>
                         <option @if($license[0]['type']==31) selected="selected" @endif value="31">Permanent license
                         </option>
                         <option @if($license[0]['type']==40) selected="selected" @else disabled="disabled"
@@ -87,11 +92,13 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Feature options</label>
+                    @if(empty($license[0]['ilok_code']))
                     <div>
                         <input id="prod_features" type="checkbox" name="prod_features"
-                               @if($license[0]['prod_features']==1) checked="checked" @endif value="0"/>
+                               @if($license[0]['prod_features']==1) checked="checked" @endif />
                         <label for="prod_features">Pro</label>
                     </div>
+                    @endif
                 </div>
                 <div class="form-group">
                     <label class="control-label">Paddle checkout order id</label>
@@ -119,7 +126,7 @@
                         <div class="list_body">
                             @foreach($seats as $seat)
                             <div class="item">
-                                <div class="col-md-3">{{$seat->mac}}</div>
+                                <div class="col-md-3">{{substr(chunk_split($seat->mac,2,':'),0,-1)}}</div>
                                 <div class="col-md-3">{{$seat->system_id}}</div>
                                 <div class="col-md-3">{{$seat->activation_date}}</div>
                                 <div class="col-md-3">
