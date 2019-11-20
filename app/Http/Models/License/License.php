@@ -13,8 +13,9 @@ use App\Http\Models\License\Seats;
 class License extends Model
 {
     protected $table="licenses";
-    protected $fillable = ['buyer_id'];
+    protected $fillable = ['buyer_id','serial','product_id','ilok_code','date_activate','max_majver','seats','prod_features','paddle_oid','notes','support_days','license_days','date_purchase','type'];
     private static $allSerials = null;
+
     /**
      * Get Licenses
      * @param   Request  $request
@@ -78,7 +79,37 @@ class License extends Model
 
         return $license;
     }
+    /**
+     * Update License By ID
+     * @param   Request $request, int $id
+     * @return bool
+     */
+    public static function updateLicense($request,$id){
 
+        if (isset($request->remove)){
+            foreach($request->remove as $seat){
+                Seats::find($seat)->delete();
+            }
+        }
+
+        License::find($id)->update([
+            'product_id'=>$request->product_id,
+            'serial'=> isset($request->serial) ? str_replace('-','',$request->serial) : '',
+            'ilok_code'=> isset($request->ilok_code) ? $request->ilok_code : '',
+            'date_activate'=>$request->date_activate,
+            'max_majver'=>$request->max_majver,
+            'seats'=>$request->seats,
+            'prod_features'=> isset($request->prod_features) && $request->prod_features == 'on' ? 1 : 0,
+            'paddle_oid'=>$request->paddle_oid,
+            'notes'=>$request->notes,
+            'support_days'=>$request->support_days,
+            'license_days'=>$request->license_days,
+            'date_purchase'=>$request->date_purchase,
+            'type'=>$request->license_type,
+        ]);
+
+        return true;
+    }
 
 
     /**
