@@ -78,6 +78,9 @@ class License extends Model
 
         return $license;
     }
+
+
+
     /**
      * Get seats By License ID
      * @param   int  $id
