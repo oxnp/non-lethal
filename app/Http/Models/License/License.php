@@ -55,7 +55,7 @@ class License extends Model
 
         if($request->searchstring){
             $filter['search_string'] = $request->searchstring;
-            $query->whereLike(['b.last','b.first','licenses.serial',DB::raw("CONCAT(b.last,' ',b.first)")],str_replace('-','',$filter['search_string']));
+            $query->whereLike(['b.last','b.first','licenses.serial','licenses.ilok_code',DB::raw("CONCAT(b.last,' ',b.first)")],str_replace('-','',$filter['search_string']));
         }
         $url = '';
         foreach($filter as $f=>$value){
@@ -111,6 +111,24 @@ class License extends Model
         return true;
     }
 
+
+    public static  function addLicense($request){
+        License::insert([
+            'product_id'=>$request->product_id,
+            'serial'=> isset($request->serial) ? str_replace('-','',$request->serial) : '',
+            'ilok_code'=> isset($request->ilok_code) ? $request->ilok_code : '',
+            'date_activate'=>$request->date_activate,
+            'max_majver'=>$request->max_majver,
+            'seats'=>$request->seats,
+            'prod_features'=> isset($request->prod_features) && $request->prod_features == 'on' ? 1 : 0,
+            'paddle_oid'=>$request->paddle_oid,
+            'notes'=>$request->notes,
+            'support_days'=>$request->support_days,
+            'license_days'=>$request->license_days,
+            'date_purchase'=>$request->date_purchase,
+            'type'=>$request->license_type,
+        ]);
+    }
 
     /**
      * Get seats By License ID

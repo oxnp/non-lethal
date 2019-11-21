@@ -41,9 +41,12 @@ class LicenseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $products = Products::getProductListToLicense();
+        $buyer = Buyers::getBuyerById($request->buyer_id);
+       // dd($buyer);
+        return view('AdminPanel.licenses.license_add')->with(['buyer' => $buyer,'products'=>$products]);
     }
 
     /**
@@ -54,7 +57,8 @@ class LicenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $license = License::addLicense($request);
+        return redirect(route('licenses.show',$license['id']));
     }
 
     /**

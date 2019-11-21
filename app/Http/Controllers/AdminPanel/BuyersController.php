@@ -48,7 +48,7 @@ class BuyersController extends Controller
      */
     public function create()
     {
-        //
+        return view('AdminPanel.buyers.buyer_add');
     }
 
     /**
@@ -59,7 +59,8 @@ class BuyersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Buyers::addBuyer($request);
+        return redirect('buyers');
     }
 
     /**
