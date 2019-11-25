@@ -37,11 +37,13 @@ class Products extends Model
     public static function getAssignedPaddlePIDs($id){
         $paddle_pid = Products::select('paddle_pid')
             ->where('paddle_pid','!=','')
-            ->where('paddle_pid','!=',DB::raw("(select paddle_pid from products where id = ".$id.")"));
+            ->where('paddle_pid','!=',($id == 0) ? '' : DB::raw("(select paddle_pid from products where id = ".$id.")"));
+
+        //dd($paddle_pid->get());
 
         $paddle_upgrade_pid = Products::select('paddle_upgrade_pid as pid')
             ->where('paddle_upgrade_pid','!=','')
-            ->where('paddle_upgrade_pid','!=',DB::raw("(select paddle_upgrade_pid from products where id = ".$id.")"))
+            ->where('paddle_upgrade_pid','!=', ($id == 0) ? '' : DB::raw("(select paddle_upgrade_pid from products where id = ".$id.")"))
             ->union($paddle_pid)
             ->get()
             ->toArray();
@@ -92,4 +94,35 @@ class Products extends Model
         ]);
         return true;
     }
+
+    public static function addProduct($request){
+        //dd(json_encode($request->upgradeable_products));
+        $product = Products::create([
+            'published'=>$request->published,
+            'access'=>$request->access,
+            'type'=>$request->type,
+            'licsystem'=>$request->licsystem,
+            'name'=>$request->name,
+            'code'=>$request->code,
+            'default_majver'=>$request->default_majver,
+            'prefix_full'=>$request->prefix_full,
+            'prefix_upgrade'=>$request->prefix_upgrade,
+            'prefix_temp'=>$request->prefix_temp,
+            'features'=>implode(',',$request->features),
+            'debug_mode'=>$request->debug_mode,
+            'feature_prefixes'=>implode(',',$request->feature_prefixes),
+            'isbeta'=>$request->isbeta,
+            'mail_address'=>$request->mail_address,
+            'mail_from'=>$request->mail_from,
+            'mail_bcc'=>$request->mail_bcc,
+            'mail_subject'=>$request->mail_subject,
+            'mail_body'=>$request->mail_body,
+            'upgradeable_products'=>json_encode($request->upgradeable_products),
+            'paddle_pid'=>$request->paddle_pid,
+            'paddle_upgrade_pid'=>$request->paddle_upgrade_pid,
+            'notes'=>$request->notes
+        ]);
+        return $product;
+    }
+
 }

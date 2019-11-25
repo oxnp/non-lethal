@@ -107,7 +107,17 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        //
+        $accesses = UserRole::all()->toArray();
+        $upgradeable_products = Products::getUpgradeableProduct();
+
+        $options_paddle_list = Paddle::getOptions();
+
+
+        return view('AdminPanel.products.product_add')->with([
+            'accesses' => $accesses,
+            'options_paddle_list'=>$options_paddle_list,
+            'upgradeable_products' => $upgradeable_products
+        ]);
     }
 
     /**
@@ -118,7 +128,8 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = Products::addProduct($request);
+        return redirect(route('products.show',$product['id']));
     }
 
     /**
