@@ -4,7 +4,7 @@
 @section('content')
 
     <div class="row formgroup">
-        <form action="{{route('licenses.store')}}" method="POST">
+        <form action="{{route('licenses.store',['buyer_id'=>$buyer['id']])}}" method="POST">
             {{csrf_field()}}
             <div class="col-lg-4 form-group">
                 <div class="form-group">
@@ -64,6 +64,7 @@
                     <input class="form-control" type="number" min="1" step="1" name="license_days"
                            value="365"/>
                 </div>
+                Cannot calculate expiry date: The license has not been saved yet...
                 <div class="form-group">
                     <label class="control-label">Feature options</label>
                     Please save this license first to apply the supported features

@@ -113,21 +113,21 @@ class License extends Model
 
 
     public static  function addLicense($request){
-        License::insert([
+
+
+        $license_for_buyer = License::create([
             'product_id'=>$request->product_id,
-            'serial'=> isset($request->serial) ? str_replace('-','',$request->serial) : '',
-            'ilok_code'=> isset($request->ilok_code) ? $request->ilok_code : '',
-            'date_activate'=>$request->date_activate,
+            'buyer_id'=>$request->buyer_id,
+            'serial'=> ($request->serial == null) ? str_replace('-','',License::generateSerialNumber()) : str_replace('-','',$request->serial),
             'max_majver'=>$request->max_majver,
             'seats'=>$request->seats,
-            'prod_features'=> isset($request->prod_features) && $request->prod_features == 'on' ? 1 : 0,
-            'paddle_oid'=>$request->paddle_oid,
             'notes'=>$request->notes,
             'support_days'=>$request->support_days,
             'license_days'=>$request->license_days,
             'date_purchase'=>$request->date_purchase,
-            'type'=>$request->license_type,
+            'type'=>$request->license_type
         ]);
+        return $license_for_buyer;
     }
 
     /**

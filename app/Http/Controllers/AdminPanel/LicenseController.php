@@ -58,6 +58,7 @@ class LicenseController extends Controller
     public function store(Request $request)
     {
         $license = License::addLicense($request);
+
         return redirect(route('licenses.show',$license['id']));
     }
 
