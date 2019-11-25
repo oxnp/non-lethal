@@ -8,6 +8,12 @@
             {{csrf_field()}}
             <input type="submit" class="btn btn-primary btn-md" value="Export Buyers" />
         </form>
+        <a class="btn btn-primary btn-md" href="/buyers/create">
+            Add buyer
+        </a>
+        <a class="btn btn-primary btn-md" id="add_license">
+            Add license
+        </a>
     </div>
     <div class="list">
         <div class="list_head">

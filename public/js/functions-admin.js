@@ -130,9 +130,9 @@ $(document).ready(function () {
 
     /*License details scripts*/
 
-    let val = $('select[name="type"]').val();
+    let val = $('select[name="license_type"]').val();
     $('div[data-type="'+val+'"]').show();
-    $('select[name="type"]').change(function(){
+    $('select[name="license_type"]').change(function(){
        let val = $(this).val();
        $('div[data-type]').hide();
        $('div[data-type="'+val+'"]').show();
@@ -151,5 +151,20 @@ $(document).ready(function () {
             $(this).removeClass('is-invalid')
         }
     });
+
+    /*Add license check*/
+
+    $('a#add_license').click(function(){
+        let idArray = new Array();
+        $('input[name="precode_id"]:checked').each(function () {
+            let val = $(this).val();
+            idArray.push(val);
+        });
+        if(idArray.length === 1){
+            window.location.href = '/licenses/create?buyer_id='+$('input[name="precode_id"]:checked').val()+'';
+        }else{
+            alert('Choose one product from list!');
+        }
+    })
 
 })

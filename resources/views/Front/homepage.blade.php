@@ -21,6 +21,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="social">
+                    <a href="#" target="_blank" rel="nofollow">
+                        <svg width="26" height="24" viewBox="0 0 26 24">
+                            <use xlink:href="#youtube" x="0" y="0" />
+                        </svg>
+                    </a>
+                    <a href="#" target="_blank" rel="nofollow">
+                        <svg width="24" height="24" viewBox="0 0 24 24">
+                            <use xlink:href="#instagram" x="0" y="0" />
+                        </svg>
+                    </a>
+                    <a href="#" target="_blank" rel="nofollow">
+                        <svg width="24" height="24" viewBox="0 0 24 24">
+                            <use xlink:href="#facebook" x="0" y="0" />
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -57,12 +74,138 @@
             <div class="heading">
                 Latest news
             </div>
+            <div class="owl-carousel news_slider">
+                <div class="item col-12">
+                    <div class="inner">
+                        <div class="pad">
+                            <div class="addpad">
+                                <div class="cat">
+                                    <span class="num">01</span>
+                                    New release
+                                </div>
+                                <div class="title">
+                                    Adr Master 1.3 released
+                                </div>
+                                <div class="desc">
+                                    We have just released ADR Master 1.3 containing great new features, many improvments
+                                    as
+                                    well as bug fixes.
+                                </div>
+                            </div>
+                            <img src="/images/news_thumb.jpg">
+                        </div>
+                        <a href="#" class="readmore">More Detailed <img src="/images/readmore_arr.png"></a>
+                    </div>
+                </div>
+                <div class="item col-12">
+                    <div class="inner">
+                        <div class="pad">
+                            <div class="addpad">
+                                <div class="cat">
+                                    <span class="num">02</span>
+                                    New release
+                                </div>
+                                <div class="title">
+                                    Adr Master 1.3 released
+                                </div>
+                                <div class="desc">
+                                    We have just released ADR Master 1.3 containing great new features, many improvments
+                                    as
+                                    well as bug fixes.
+                                </div>
+                            </div>
+                            <img src="/images/news_thumb.jpg">
+                        </div>
+                        <a href="#" class="readmore">More Detailed <img src="/images/readmore_arr.png"></a>
+                    </div>
+                </div>
+                <div class="item col-12">
+                    <div class="inner">
+                        <div class="pad">
+                            <div class="addpad">
+                                <div class="cat">
+                                    <span class="num">03</span>
+                                    New release
+                                </div>
+                                <div class="title">
+                                    Adr Master 1.3 released
+                                </div>
+                                <div class="desc">
+                                    We have just released ADR Master 1.3 containing great new features, many improvments
+                                    as
+                                    well as bug fixes.
+                                </div>
+                            </div>
+                            <img src="/images/news_thumb.jpg">
+                        </div>
+                        <a href="#" class="readmore">More Detailed <img src="/images/readmore_arr.png"></a>
+                    </div>
+                </div>
+                <div class="item col-12">
+                    <div class="inner">
+                        <div class="pad">
+                            <div class="addpad">
+                                <div class="cat">
+                                    <span class="num">04</span>
+                                    New release
+                                </div>
+                                <div class="title">
+                                    Adr Master 1.3 released
+                                </div>
+                                <div class="desc">
+                                    We have just released ADR Master 1.3 containing great new features, many improvments
+                                    as
+                                    well as bug fixes.
+                                </div>
+                            </div>
+                            <img src="/images/news_thumb.jpg">
+                        </div>
+                        <a href="#" class="readmore">More Detailed <img src="/images/readmore_arr.png"></a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <section id="user_stories">
         <div class="container">
             <div class="heading">
                 User stories
+            </div>
+            <div class="owl-carousel user_stories">
+                <div class="item row align-items-center">
+                    <div class="col-md-5">
+                        <div class="title">
+                            Keegan DeWitt
+                        </div>
+                        <div class="subtitle">
+                            The most normal guy in the room
+                        </div>
+                        <div class="desc">
+                            Keegan DeWitt didn’t set out in life to be a prodigious film composer, but since making his name at the South by Southwest Festival in the 2000s and establishing himself as a firm favourite at the Sundance Festival, he has scored for movies scooping an Academy Award, three Sundance Audience Awards, several New York Times awards and an Independent Spirit Award between them, not to mention working on top TV shows such as Divorce for HBO.
+                        </div>
+                        <a class="readmore">See More <img src="/images/blue_arr.png"></a>
+                    </div>
+                    <div class="col-md-7">
+                        <img src="/images/story1.jpg" class="shad ml-auto">
+                    </div>
+                </div>
+                <div class="item row justify-content-between align-content-center">
+                    <div class="col-md-5">
+                        <div class="title">
+                            Keegan DeWitt
+                        </div>
+                        <div class="subtitle">
+                            The most normal guy in the room
+                        </div>
+                        <div class="desc">
+                            Keegan DeWitt didn’t set out in life to be a prodigious film composer, but since making his name at the South by Southwest Festival in the 2000s and establishing himself as a firm favourite at the Sundance Festival, he has scored for movies scooping an Academy Award, three Sundance Audience Awards, several New York Times awards and an Independent Spirit Award between them, not to mention working on top TV shows such as Divorce for HBO.
+                        </div>
+                        <a class="readmore">See More <img src="/images/blue_arr.png"></a>
+                    </div>
+                    <div class="col-md-7">
+                        <img src="/images/story1.jpg" class="shad">
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -76,10 +219,10 @@
             </div>
             <div class="col-lg-6 m-auto">
                 <form name="newsletter" method="POST" action="javascript:void(0)">
-                    <input type="email" name="email" required="required" placeholder="Enter email address" />
+                    <input type="email" name="email" required="required" placeholder="Enter email address"/>
                     <button type="submit">
                         <svg width="20" height="20" viewBox="0 0 20 20">
-                            <use xlink:href="#mail-envelope" x="0" y="0" />
+                            <use xlink:href="#mail-envelope" x="0" y="0"/>
                         </svg>
                         Send
                     </button>
