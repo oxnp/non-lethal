@@ -60,9 +60,7 @@ class Paddle extends Model
             return false;
         }
 
-
         $cachedData = json_decode(Cache::get('CACHE_PADDLE_PRODUCTS_LIST'));
-
 
          if(($cachedData !== false) && !empty($cachedData)) {
            return $cachedData;
@@ -71,7 +69,6 @@ class Paddle extends Model
         // Send product list request to Paddle
         $completeList = (object)array();
         $productsList = self::askPaddle(env('JAA_PADDLE_API_GET_PRODUCTS_LIST'), array(), false);
-
 
         if(boolval($productsList->success) == true) {
             $completeList->products = $productsList->response->products;
@@ -85,7 +82,7 @@ class Paddle extends Model
 
         if(!empty($completeList)) {
 
-            Cache::put('CACHE_PADDLE_PRODUCTS_LIST',json_encode($completeList));
+            Cache::put('CACHE_PADDLE_PRODUCTS_LIST',json_encode($completeList),120);
 
             return $completeList;
         }
