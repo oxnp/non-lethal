@@ -32,6 +32,7 @@
     svg
         z-index: 2
         margin-right: 4px
+        fill: #72A1FB
     span
         position: absolute
         width: 100%
@@ -125,11 +126,22 @@ footer
                 text-transform: capitalize
         .social
             margin-top: 55px
+            svg
+                fill: #838383
 #slider
     height: 100vh
     background: url("/images/slider_bg.png")no-repeat center center
     background-size: cover
     color: #fff
+    .social
+        position: absolute
+        bottom: 75px
+        left: 0
+        a
+            display: inline-block
+            margin-right: 35px
+            svg
+                fill: #fff
     .row
         position: relative
     .text
@@ -179,3 +191,102 @@ footer
             top: 0
             right: 0
             text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.6)
+#latest_news
+    .heading
+        margin-bottom: 45px
+    .container
+        position: relative
+        padding-bottom: 90px
+    .owl-nav
+        bottom: 0
+        right: 30px
+    .inner
+        background: #fff
+        border-radius: 25px
+        .cat
+            font-size: 18px
+            text-transform: uppercase
+            letter-spacing: 0.1em
+            padding-bottom: 45px
+            font-family: Montserrat
+            span
+                margin-right: 18px
+                color: #73A5FC
+                font-weight: bold
+                text-shadow: 3px 3px 7px rgba(115, 165, 252, 0.6);
+                display: inline-block
+                +transform(rotate(-90deg))
+        .title
+            font-weight: bold
+            font-size: 21px
+            color: #232323
+            font-family: Montserrat
+            margin-bottom: 30px
+        .desc
+            font-size: 15px
+            line-height: 21px
+            color: #767676
+            margin-bottom: 30px
+        .pad
+            padding: 30px 15px
+            .addpad
+                padding: 0 15px
+        a.readmore
+            display: flex
+            align-items: center
+            justify-content: center
+            background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+            border-radius: 0 0 25px 25px
+            color: #fff
+            font-weight: 600
+            font-size: 21px
+            line-height: 68px
+            font-family: Montserrat
+            text-decoration: none
+            img
+                width: auto
+                margin-left: 18px
+#user_stories
+    .heading
+        margin-bottom: 70px
+    .container
+        position: relative
+        padding-bottom: 90px
+        .title
+            font-weight: bold
+            font-size: 29px
+            line-height: 35px
+            color: #1f1f1f
+            font-family: Montserrat
+            margin-bottom: 15px
+        .subtitle
+            font-size: 20px
+            line-height: 24px
+            color: #474747
+            margin-bottom: 25px
+        .desc
+            font-size: 15px
+            line-height: 24px
+            color: #838383
+            margin-bottom: 20px
+        a.readmore
+            display: flex
+            align-items: center
+            font-size: 18px
+            color: #4282ff
+            font-weight: bold
+            img
+                margin-left: 20px
+        .owl-carousel
+            .owl-nav
+                right: 30px
+                bottom: 0
+                .owl-next span, .owl-prev span
+                    background: #141414
+                svg
+                   fill: #fff
+            .item
+                img
+                    max-width: 100%
+                    width: auto
+
