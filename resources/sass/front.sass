@@ -329,6 +329,7 @@ section.login-section
                 letter-spacing: 0
                 display: flex
                 align-items: center
+                position: relative
                 &:before
                     content: ''
                     display: inline-block
@@ -337,8 +338,14 @@ section.login-section
                     width: 16px
                     height: 16px
                     margin-right: 12px
-            input[type="checkbox"]:checked+label:before
-                background: #587CFF
+            input[type="checkbox"]:checked+label:after
+                position: absolute
+                content: ''
+                background: url('/images/checkbox.png')no-repeat center
+                width: 20px
+                height: 20px
+                left: 2px
+                top: 0
             button[type="submit"]
                 font-weight: 600
                 font-size: 21px
@@ -394,4 +401,37 @@ section.login-section
         display: inline-flex
         align-items: center
         padding: 0 10px
+section.register
+    background: #E5E5E5
+    padding: 100px 0 120px
+    form
+        background: #fff
+        padding: 35px 40px 80px
+        border-radius: 15px
+        box-shadow: 5px 5px 30px rgba(188, 188, 188, 0.25)
+        .formhead
+            font-weight: 500
+            font-size: 20px
+            line-height: 24px
+            letter-spacing: 0.08em
+            padding-bottom: 30px
+            border-bottom: 1px solid #E1E1E1
+            margin-bottom: 45px
+        .req
+            margin-left: 30px
+            margin-bottom: 35px
+            font-weight: 500
+            font-size: 17px
+            line-height: 20px
+        label
+            font-weight: 500
+            font-size: 17px
+            line-height: 20px
+            width: 205px
+        .form-group
+            margin-bottom: 30px
+            button[type="submit"]
+                margin-top: 30px;
+                letter-spacing: 0.1em;
+                font-weight: bold;
 

@@ -356,7 +356,8 @@ section.login-section {
         color: #838383;
         letter-spacing: 0;
         display: flex;
-        align-items: center; }
+        align-items: center;
+        position: relative; }
         section.login-section form .group input[type="checkbox"] + label:before {
           content: '';
           display: inline-block;
@@ -365,8 +366,14 @@ section.login-section {
           width: 16px;
           height: 16px;
           margin-right: 12px; }
-      section.login-section form .group input[type="checkbox"]:checked + label:before {
-        background: #587CFF; }
+      section.login-section form .group input[type="checkbox"]:checked + label:after {
+        position: absolute;
+        content: '';
+        background: url("/images/checkbox.png") no-repeat center;
+        width: 20px;
+        height: 20px;
+        left: 2px;
+        top: 0; }
       section.login-section form .group button[type="submit"] {
         font-weight: 600;
         font-size: 21px;
@@ -430,3 +437,37 @@ section.login-section {
     display: inline-flex;
     align-items: center;
     padding: 0 10px; }
+
+section.register {
+  background: #E5E5E5;
+  padding: 100px 0 120px; }
+  section.register form {
+    background: #fff;
+    padding: 35px 40px 80px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 30px rgba(188, 188, 188, 0.25); }
+    section.register form .formhead {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 0.08em;
+      padding-bottom: 30px;
+      border-bottom: 1px solid #E1E1E1;
+      margin-bottom: 45px; }
+    section.register form .req {
+      margin-left: 30px;
+      margin-bottom: 35px;
+      font-weight: 500;
+      font-size: 17px;
+      line-height: 20px; }
+    section.register form label {
+      font-weight: 500;
+      font-size: 17px;
+      line-height: 20px;
+      width: 205px; }
+    section.register form .form-group {
+      margin-bottom: 30px; }
+      section.register form .form-group button[type="submit"] {
+        margin-top: 30px;
+        letter-spacing: 0.1em;
+        font-weight: bold; }
