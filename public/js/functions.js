@@ -21,4 +21,8 @@ $(document).ready(function () {
         "<use xlink:href=\"#arrow\" x=\"0\" y=\"0\" />\n" +
         "</svg>"]
     })
+    $('a.problems').click(function(){
+        $(this).toggleClass('opened');
+        $(this).next('.other').slideToggle();
+    })
 });

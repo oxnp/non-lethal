@@ -1,6 +1,17 @@
-@extends('layouts.app')
+@extends('layouts.app-front')
+@section('app-front-content')
 
-@section('content')
+    <section class="intro login">
+        <h1>My account</h1>
+    </section>
+    <section class="register">
+        <form method="POST" action="{{ route('register') }}">
+            @csrf
+            
+        </form>
+    </section>
+
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
