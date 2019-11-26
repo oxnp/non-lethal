@@ -319,6 +319,9 @@ footer .about_nla {
     max-width: 100%;
     width: auto; }
 
+.intro.partners {
+  background: url("/images/partners_top.jpg") no-repeat center; }
+
 .intro.login {
   background: url("/images/login_top.jpg") no-repeat center; }
 
@@ -333,7 +336,8 @@ section.intro {
     margin-bottom: 95px;
     font-weight: bold;
     font-size: 42px;
-    line-height: 54px; }
+    line-height: 54px;
+    font-family: Montserrat; }
 
 section.login-section {
   background: #E5E5E5;
@@ -471,3 +475,27 @@ section.register {
         margin-top: 30px;
         letter-spacing: 0.1em;
         font-weight: bold; }
+
+section#partners {
+  padding: 90px 0 60px; }
+  section#partners .pretext {
+    font-size: 17px;
+    margin-bottom: 60px; }
+  section#partners .partner {
+    padding-bottom: 55px;
+    padding-top: 15px;
+    border-bottom: 1px solid #E1E1E1;
+    border-right: 1px solid #E1E1E1; }
+    section#partners .partner:nth-child(even) {
+      border-right: 0; }
+    section#partners .partner:nth-last-child(-n+2) {
+      border-bottom: 0; }
+    section#partners .partner .row {
+      height: 110px; }
+    section#partners .partner .title {
+      font-size: 30px;
+      line-height: 54px;
+      font-family: Montserrat; }
+    section#partners .partner .desc {
+      font-size: 17px;
+      color: #474747; }
