@@ -22,7 +22,7 @@
                             <a href="/partners">Partners</a>
                         </li>
                         <li>
-                            <a href="/account">My account</a>
+                            <a href="{{ route('login') }}">My account</a>
                         </li>
                     </ul>
                 </div>

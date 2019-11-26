@@ -50,13 +50,17 @@
     margin-left: 4px;
     margin-left: 0; }
 
-input[type="text"], input[type="email"] {
+input[type="text"], input[type="email"], input[type="password"] {
   border: 1px solid #CDCDCD;
   box-sizing: border-box;
   border-radius: 10px;
   font-size: 17px;
   padding: 14px 24px;
   color: #838383; }
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+  border: 1px solid #4282FF;
+  box-shadow: none !important; }
 
 button[type="submit"] {
   background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%);
@@ -300,7 +304,8 @@ footer .about_nla {
     align-items: center;
     font-size: 18px;
     color: #4282ff;
-    font-weight: bold; }
+    font-weight: bold;
+    text-decoration: none; }
     #user_stories .container a.readmore img {
       margin-left: 20px; }
   #user_stories .container .owl-carousel .owl-nav {
@@ -313,3 +318,115 @@ footer .about_nla {
   #user_stories .container .owl-carousel .item img {
     max-width: 100%;
     width: auto; }
+
+.intro.login {
+  background: url("/images/login_top.jpg") no-repeat center; }
+
+section.intro {
+  height: 340px;
+  background-size: cover;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center; }
+  section.intro h1 {
+    color: #fff;
+    margin-bottom: 95px;
+    font-weight: bold;
+    font-size: 42px;
+    line-height: 54px; }
+
+section.login-section {
+  background: #E5E5E5;
+  padding: 80px 0 120px; }
+  section.login-section form {
+    max-width: 470px;
+    background: #fff;
+    padding: 35px 30px 10px 30px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 30px rgba(188, 188, 188, 0.25); }
+    section.login-section form .group {
+      margin-bottom: 30px; }
+      section.login-section form .group input.form-control {
+        height: 50px; }
+      section.login-section form .group input[type="checkbox"] {
+        display: none; }
+      section.login-section form .group input[type="checkbox"] + label {
+        font-size: 15px;
+        line-height: 24px;
+        color: #838383;
+        letter-spacing: 0;
+        display: flex;
+        align-items: center; }
+        section.login-section form .group input[type="checkbox"] + label:before {
+          content: '';
+          display: inline-block;
+          border: 1px solid #587CFF;
+          border-radius: 4px;
+          width: 16px;
+          height: 16px;
+          margin-right: 12px; }
+      section.login-section form .group input[type="checkbox"]:checked + label:before {
+        background: #587CFF; }
+      section.login-section form .group button[type="submit"] {
+        font-weight: 600;
+        font-size: 21px;
+        font-family: Montserrat;
+        width: 100%;
+        height: 50px; }
+      section.login-section form .group a.problems {
+        font-size: 15px;
+        line-height: 24px;
+        color: #474747;
+        display: flex;
+        cursor: pointer;
+        padding-bottom: 10px;
+        align-items: center; }
+        section.login-section form .group a.problems img {
+          margin-left: 10px;
+          -webkit-transition: all 0.3s ease;
+          -moz-transition: all 0.3s ease;
+          -ms-transition: all 0.3s ease;
+          -o-transition: all 0.3s ease;
+          transition: all 0.3s ease; }
+      section.login-section form .group a.problems.opened img {
+        -webkit-transform: rotate(180deg);
+        -moz-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg); }
+      section.login-section form .group .other {
+        display: none; }
+        section.login-section form .group .other a {
+          font-size: 15px;
+          line-height: 24px;
+          color: #4282FF;
+          border-bottom: 1px solid rgba(188, 188, 188, 0.25);
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+          height: 40px; }
+    section.login-section form label {
+      margin-left: 10px;
+      font-weight: 500;
+      font-size: 20px;
+      margin-bottom: 30px;
+      line-height: 24px;
+      letter-spacing: 0.08em; }
+
+#breadcrumbs {
+  background: #f7f7f7;
+  border-top: 1px solid #e1e1e1;
+  height: 50px;
+  align-items: center;
+  display: flex;
+  font-family: Montserrat;
+  color: #1f1f1f;
+  font-size: 13px;
+  line-height: 16px; }
+  #breadcrumbs .container {
+    display: flex;
+    align-items: center; }
+  #breadcrumbs span.divider {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 10px; }

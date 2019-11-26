@@ -183,7 +183,7 @@
                         <div class="desc">
                             Keegan DeWitt didn’t set out in life to be a prodigious film composer, but since making his name at the South by Southwest Festival in the 2000s and establishing himself as a firm favourite at the Sundance Festival, he has scored for movies scooping an Academy Award, three Sundance Audience Awards, several New York Times awards and an Independent Spirit Award between them, not to mention working on top TV shows such as Divorce for HBO.
                         </div>
-                        <a class="readmore">See More <img src="/images/blue_arr.png"></a>
+                        <a class="readmore" href="#">See More <img src="/images/blue_arr.png"></a>
                     </div>
                     <div class="col-md-7">
                         <img src="/images/story1.jpg" class="shad ml-auto">
@@ -200,7 +200,7 @@
                         <div class="desc">
                             Keegan DeWitt didn’t set out in life to be a prodigious film composer, but since making his name at the South by Southwest Festival in the 2000s and establishing himself as a firm favourite at the Sundance Festival, he has scored for movies scooping an Academy Award, three Sundance Audience Awards, several New York Times awards and an Independent Spirit Award between them, not to mention working on top TV shows such as Divorce for HBO.
                         </div>
-                        <a class="readmore">See More <img src="/images/blue_arr.png"></a>
+                        <a class="readmore" href="#">See More <img src="/images/blue_arr.png"></a>
                     </div>
                     <div class="col-md-7">
                         <img src="/images/story1.jpg" class="shad">
