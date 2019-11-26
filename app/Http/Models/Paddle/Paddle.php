@@ -25,16 +25,23 @@ class Paddle extends Model
         }
     }
 
-    public static function getOptions($id){
+    public static function getOptions($id = 0){
 
         $paddleProductList = parent::getPaddleProductsList();
 
         $assigned_paddle_pids = Products::getAssignedPaddlePIDs($id);
+
+
+
         $pid_result = array();
         foreach($assigned_paddle_pids as $paddle_pids){
             $pid_result[] = $paddle_pids['pid'];
         }
-        $type_product = Products::getProductTypeById($id);
+        try {
+            $type_product = Products::getProductTypeById($id);
+        }catch (\Exception $e){
+            $type_product = env('LICENSE_TYPE_BASE');
+        }
 
         $productTypeGroup = ($type_product == env('LICENSE_TYPE_BASE')) ? 'products' : 'subscriptions';
         $products = array();
@@ -43,6 +50,7 @@ class Paddle extends Model
             foreach($paddleProductList->$productTypeGroup as $product) {
 
                 $inUse = in_array($product->id, $pid_result);
+
                 $products[] = array(
                     'text' => $product->name . ($inUse ? ' (in use)' : ''),
                     'value' => $product->id,
