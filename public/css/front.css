@@ -50,6 +50,10 @@
     margin-left: 4px;
     margin-left: 0; }
 
+.desc {
+  color: #474747;
+  font-size: 17px; }
+
 input[type="text"], input[type="email"], input[type="password"] {
   border: 1px solid #CDCDCD;
   box-sizing: border-box;
@@ -319,6 +323,9 @@ footer .about_nla {
     max-width: 100%;
     width: auto; }
 
+.intro.impressum {
+  background: url("/images/impressum_top.jpg") no-repeat center; }
+
 .intro.partners {
   background: url("/images/partners_top.jpg") no-repeat center; }
 
@@ -496,6 +503,8 @@ section#partners {
       font-size: 30px;
       line-height: 54px;
       font-family: Montserrat; }
-    section#partners .partner .desc {
-      font-size: 17px;
-      color: #474747; }
+
+section#impressum {
+  padding: 70px 0 100px; }
+  section#impressum .desc {
+    line-height: 26px; }
