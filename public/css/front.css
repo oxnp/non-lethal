@@ -533,3 +533,38 @@ section#pp {
   section#pp .desc p {
     font-size: 15px;
     color: #838383; }
+
+section#company {
+  padding: 20px 0 120px; }
+  section#company .cv {
+    box-shadow: 5px 5px 30px rgba(188, 188, 188, 0.25);
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 80px; }
+    section#company .cv .title {
+      font-size: 21px;
+      color: #1f1f1f;
+      letter-spacing: 0.08em;
+      font-weight: bold;
+      font-family: 'Montserrat',sans-serif;
+      text-transform: uppercase;
+      margin-bottom: 15px; }
+    section#company .cv .position {
+      font-size: 20px;
+      margin-bottom: 25px; }
+  section#company p {
+    color: #838383;
+    font-size: 15px; }
+  section#company iframe {
+    border: 0;
+    border-radius: 15px; }
+  section#company .addr_list > div {
+    padding: 25px 0 25px 70px;
+    font-size: 20px;
+    line-height: 28px; }
+  section#company .addr_list .addr {
+    background: url("/images/home_icon.png") no-repeat left; }
+  section#company .addr_list .phone {
+    background: url("/images/phone_icon.png") no-repeat left; }
+  section#company .addr_list .mail {
+    background: url("/images/mail_icon.png") no-repeat left; }
