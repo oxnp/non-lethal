@@ -10,17 +10,32 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Auth::routes();
 //Front
 Route::get('/','Front\HomeController@index')->name('index');
-Route::get('/partners',function(){return view('Front.partners');})->name('partners');
+//Route::get('/partners',function(){return view('Front.partners');})->name('partners');
 Route::get('/company',function(){return view('Front.company');})->name('company');
 Route::get('/impressum',function(){return view('Front.impressum');})->name('impressum');
 Route::get('/disclaimer',function(){return view('Front.privacy_policy');})->name('privacy_policy');
 Route::get('/support',function(){return view('Front.support');})->name('support');
 
 
+Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
+    Route::get('/test',function(){
 
-Auth::routes();
+    });
+
+Route::get('/{page}','Front\PageController@page');
+//Route::get('/{category}/{subcategory}','');
+//Route::get('/{category}/{subcategory}/{item}','');
+
+
+});
+
+
+
+
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 
