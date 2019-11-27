@@ -11,11 +11,12 @@
 |
 */
 //Front
-Route::get('/','Front\HomeController@index')->name('homepage');
-Route::get('/partners',function(){return view('Front.partners');})->name('homepage');
-Route::get('/company',function(){return view('Front.company');})->name('homepage');
-Route::get('/impressum',function(){return view('Front.impressum');})->name('homepage');
-Route::get('/disclaimer',function(){return view('Front.privacy_policy');})->name('homepage');
+Route::get('/','Front\HomeController@index')->name('index');
+Route::get('/partners',function(){return view('Front.partners');})->name('partners');
+Route::get('/company',function(){return view('Front.company');})->name('company');
+Route::get('/impressum',function(){return view('Front.impressum');})->name('impressum');
+Route::get('/disclaimer',function(){return view('Front.privacy_policy');})->name('privacy_policy');
+Route::get('/support',function(){return view('Front.support');})->name('support');
 
 
 
