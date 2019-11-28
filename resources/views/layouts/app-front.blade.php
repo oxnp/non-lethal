@@ -14,6 +14,7 @@
     <?php echo file_get_contents($_SERVER["DOCUMENT_ROOT"].'/public/images/svgs.svg');?>
     <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="/js/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/js/functions.js"></script>
 </body>
 </html>

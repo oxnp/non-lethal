@@ -25,4 +25,8 @@ $(document).ready(function () {
         $(this).toggleClass('opened');
         $(this).next('.other').slideToggle();
     })
+    $('form[name="support"] input[type="file"]').change(function () {
+        $('.file_val').text('');
+        $('.file_val').append($(this).val());
+    })
 });
