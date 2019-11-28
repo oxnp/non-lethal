@@ -13,4 +13,11 @@ class PageController extends Controller
         $content = Pages::getPage($slug);
         return view('Front.page')->with(['content'=>$content]);
     }
+
+    public function category($category,$subcategory){
+        $data= Pages::getCatgoryPage($category,$subcategory);
+
+
+        return view('Front.page_category')->with(['data'=>$data]);
+    }
 }

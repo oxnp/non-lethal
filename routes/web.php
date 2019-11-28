@@ -26,7 +26,8 @@ Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
     });
 
 Route::get('/{page}','Front\PageController@page');
-//Route::get('/{category}/{subcategory}','');
+Route::get('/{category}/{subcategory}','Front\PageController@category');
+
 //Route::get('/{category}/{subcategory}/{item}','');
 
 
