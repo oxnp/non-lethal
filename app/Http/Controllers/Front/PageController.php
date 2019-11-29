@@ -14,10 +14,19 @@ class PageController extends Controller
         return view('Front.page')->with(['content'=>$content]);
     }
 
-    public function category($category,$subcategory){
-        $data= Pages::getCatgoryPage($category,$subcategory);
-
-
+    public function category($headcategory,$category){
+        $data= Pages::getCategoryPage($headcategory,$category);
         return view('Front.page_category')->with(['data'=>$data]);
+    }
+
+    public function subcategory($headcategory,$category,$subcategory){
+            $data = Pages::getCategoryPage($headcategory,$category,$subcategory);
+             return view('Front.page_category')->with(['data'=>$data]);
+    }
+    public function item($headcategory,$category,$subcategory,$item){
+            $data = Pages::getItem($headcategory,$category,$subcategory,$item);
+            dd($data);
+
+             return view('Front.page_item')->with(['data'=>$data]);
     }
 }

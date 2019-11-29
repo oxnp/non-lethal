@@ -11,6 +11,40 @@
 |
 */
 Auth::routes();
+
+Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
+
+    Route::get('admin','AdminPanel\AdminPanelController@index');
+
+    Route::resource('buyers','AdminPanel\BuyersController');
+    Route::post('export_buyers','AdminPanel\BuyersController@export')->name('exportBuyers');
+
+    Route::resource('products','AdminPanel\ProductsController');
+
+
+    Route::resource('precodes','AdminPanel\PrecodeController');
+    Route::resource('ilok_codes','AdminPanel\IlokCodesController');
+    Route::post('remove_ilok_codes','AdminPanel\IlokCodesController@remove')->name('removeIlokCodes');
+    Route::post('import_ilok_codes','AdminPanel\IlokCodesController@import')->name('importIlokCodes');
+
+
+    Route::resource('licenses','AdminPanel\LicenseController');
+
+    Route::post('transfer_license','AdminPanel\LicenseController@transferLicense')->name('transferLicense');
+
+
+
+    Route::post('feature_precode','AdminPanel\PrecodeController@generateFeaturePreCodeAJAX')->name('generateFeaturePreCodeAJAX');
+    Route::post('pre_activation_code','AdminPanel\PrecodeController@generate')->name('generatePreActivationCodes');
+    Route::get('export_precodes','AdminPanel\PrecodeController@exportPrecodes')->name('exportPrecodes');
+    Route::get('purge_precodes','AdminPanel\PrecodeController@purgeEmpty')->name('purgeEmpty');
+
+
+
+});
+
+
+
 //Front
 Route::get('/','Front\HomeController@index')->name('index');
 //Route::get('/partners',function(){return view('Front.partners');})->name('partners');
@@ -21,56 +55,21 @@ Route::get('/support',function(){return view('Front.support');})->name('support'
 
 
 Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
-    Route::get('/test',function(){
-
-    });
 
 Route::get('/{page}','Front\PageController@page');
-Route::get('/{category}/{subcategory}','Front\PageController@category');
-
-//Route::get('/{category}/{subcategory}/{item}','');
-
-
-});
-
-
-
-
-
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-
-Route::group(['middleware' => ['admin']], function () {
-
-Route::get('admin','AdminPanel\AdminPanelController@index');
-
-Route::resource('buyers','AdminPanel\BuyersController');
-Route::post('export_buyers','AdminPanel\BuyersController@export')->name('exportBuyers');
-
-Route::resource('products','AdminPanel\ProductsController');
-
-
-Route::resource('precodes','AdminPanel\PrecodeController');
-Route::resource('ilok_codes','AdminPanel\IlokCodesController');
-Route::post('remove_ilok_codes','AdminPanel\IlokCodesController@remove')->name('removeIlokCodes');
-Route::post('import_ilok_codes','AdminPanel\IlokCodesController@import')->name('importIlokCodes');
-
-
-Route::resource('licenses','AdminPanel\LicenseController');
-
-Route::post('transfer_license','AdminPanel\LicenseController@transferLicense')->name('transferLicense');
-
-
-
-Route::post('feature_precode','AdminPanel\PrecodeController@generateFeaturePreCodeAJAX')->name('generateFeaturePreCodeAJAX');
-Route::post('pre_activation_code','AdminPanel\PrecodeController@generate')->name('generatePreActivationCodes');
-Route::get('export_precodes','AdminPanel\PrecodeController@exportPrecodes')->name('exportPrecodes');
-Route::get('purge_precodes','AdminPanel\PrecodeController@purgeEmpty')->name('purgeEmpty');
-
-
-
-
+Route::get('/{headcategory}/{category}','Front\PageController@category');
+Route::get('/{headcategory}/{category}/{subcategory}','Front\PageController@subcategory');
+Route::get('/{headcategory}/{category}/{subcategory}/{item}','Front\PageController@item');
 
 
 });
+
+
+
+
+
+
+//Route::get('/home', 'HomeController@index')->name('home');
+
+
+
