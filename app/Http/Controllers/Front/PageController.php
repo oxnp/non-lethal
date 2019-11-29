@@ -24,9 +24,7 @@ class PageController extends Controller
              return view('Front.page_category')->with(['data'=>$data]);
     }
     public function item($headcategory,$category,$subcategory,$item){
-            $data = Pages::getItem($headcategory,$category,$subcategory,$item);
-            dd($data);
-
-             return view('Front.page_item')->with(['data'=>$data]);
+            $content = Pages::getItem($headcategory,$category,$subcategory,$item);
+             return view('Front.page_item')->with(['content'=>$content[0]]);
     }
 }

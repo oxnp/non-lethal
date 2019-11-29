@@ -14,9 +14,7 @@ class Pages extends Model
 
         $content = Pages::whereSlug("$slug")->where('lang_id',DB::raw('(select id from languages where locale = "'.App::getLocale().'")'))->select('content')->get()->toArray();
 
-       // dd($content);
-
-       return $content[0]['content'];
+         return $content[0]['content'];
     }
 
     public static function getCategoryPage($headcategory,$category,$subcategory = ''){
@@ -48,7 +46,7 @@ class Pages extends Model
                     if ($slug['category_id'] == $cat_slug['id']) {
                         $data['list'][$slug['category_id']]['url'] = '/' . $array_cats_head[0]['slug'] . '/' . $array_cats_head[1]['slug'] . '/' . $cat_slug['slug'] . '/' . $slug['slug'];
                         $data['list'][$slug['category_id']]['title'] = $slug['title'];
-                        $data['list'][$slug['category_id']]['content'] = $slug['content'];
+                        $data['list'][$slug['category_id']]['content'] = self::cut_by_words(400,strip_tags($slug['content']));
                         //$data['list'][$slug['category_id']]['cat_name'] = $cat_slug['title'];
                         $data['list'][$slug['category_id']]['image'] = 'https://non-lethal-applications.com/images/nla/kb/genlocked-playback/genlocked-playback-poster.jpg';
                     }
@@ -62,7 +60,7 @@ class Pages extends Model
                             $data['sub_title_page'] = ucfirst($cat_slug['title']);
                             $data['list'][$slug['category_id']]['url'] = '/' . $array_cats_head[0]['slug'] . '/' . $array_cats_head[1]['slug'] . '/' . $cat_slug['slug'] . '/' . $slug['slug'];
                             $data['list'][$slug['category_id']]['title'] = $slug['title'];
-                            $data['list'][$slug['category_id']]['content'] = $slug['content'];
+                            $data['list'][$slug['category_id']]['content'] = self::cut_by_words(400,strip_tags($slug['content']));
                             //$data['list'][$slug['category_id']]['cat_name'] = $cat_slug['title'];
                             $data['list'][$slug['category_id']]['image'] = 'https://non-lethal-applications.com/images/nla/kb/genlocked-playback/genlocked-playback-poster.jpg';
                         }
@@ -82,9 +80,18 @@ class Pages extends Model
     }
 
     public static function getItem($headcategory,$category,$subcategory,$item){
-        $pages = Pages::whereSlug($item)->whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get();
+        $page = Pages::whereSlug($item)->whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get()->pluck('content')->toArray();
 
-        return $pages;
+        return $page;
     }
+
+    //crop text by word
+    public static  function cut_by_words($maxlen, $text) {
+        $len = (mb_strlen($text) > $maxlen)? mb_strripos(mb_substr($text, 0, $maxlen), ' ') : $maxlen;
+        $cutStr = mb_substr($text, 0, $len);
+        $temp = (mb_strlen($text) > $maxlen)? $cutStr. '...' : $cutStr;
+        return $temp;
+    }
+    //crop text by word
 
 }
