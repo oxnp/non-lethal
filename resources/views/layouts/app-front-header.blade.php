@@ -15,8 +15,16 @@
                         <li>
                             <a href="/stories">User Stories</a>
                         </li>
-                        <li>
-                            <a href="/support">Support</a>
+                        <li class="parent">
+                            <a href="#">Support</a>
+                            <ul class="child">
+                                <li>
+                                    <a href="/support/knowledge-base">Knowledge base</a>
+                                </li>
+                                <li>
+                                    <a href="/support">Get in touch</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="/partners">Partners</a>

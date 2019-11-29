@@ -129,6 +129,31 @@ header
                     line-height: 20px
                     color: #fff
                     +transition(all .3s ease)
+                &.parent
+                    position: relative
+                    ul
+                        position: absolute
+                        left: -20px
+                        top: 60px
+                        width: 280px
+                        border-radius: 10px
+                        background: rgba(10, 10, 10, 0.95)
+                        padding: 0 20px
+                        display: none
+                        li
+                            &:last-child
+                                a
+                                    border: 0
+                        a
+                            display: block
+                            text-align: left
+                            border-bottom: 1px solid #555555
+                            color: #EAEAEA
+                            padding: 25px 0
+                            text-decoration: none
+                            &:hover
+                                color: #4282FF
+                                border-bottom: 1px solid #4282FF
 footer
     .copyright
         padding: 22px 0
@@ -332,15 +357,20 @@ section.intro
     height: 340px
     background-size: cover
     display: flex
-    align-items: flex-end
-    justify-content: center
+    justify-content: flex-end
+    align-items: center
+    padding-bottom: 95px
+    flex-direction: column
     h1
         color: #fff
-        margin-bottom: 95px
         font-weight: bold
         font-size: 42px
         line-height: 54px
         font-family: 'Montserrat',sans-serif
+    .subtitle
+        color: #fff
+        letter-spacing: 0.08em
+        font-size: 20px
 section.login-section
     background: #E5E5E5
     padding: 80px 0 120px

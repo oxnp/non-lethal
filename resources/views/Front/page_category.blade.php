@@ -2,14 +2,24 @@
 @section('app-front-content')
     <section class="intro kb">
         <h1>Knowledge base</h1>
+        @if(isset($data['sub_title_page']))
+            <div class="subtitle">
+                {{$data['sub_title_page']}}
+            </div>
+        @endif
     </section>
     <section id="kb">
         <div class="container">
             <div class="desc">
                 <h2 class="text-center">Articles</h2>
                 <div class="cats row justify-content-around">
+                    <div class="col text-center">
+                        <a href="{{$data['all_item_url']}}">All</a>
+                    </div>
                     @foreach($data['categories'] as $cat)
-                        <a href="{{$cat['url']}}">{{$cat['name']}}</a>
+                        <div class="col text-center">
+                            <a href="{{$cat['url']}}">{{$cat['name']}}</a>
+                        </div>
                     @endforeach
                 </div>
                 <div class="items">
