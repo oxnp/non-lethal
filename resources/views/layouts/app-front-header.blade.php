@@ -13,7 +13,7 @@
                             <a href="/products">Products</a>
                         </li>
                         <li>
-                            <a href="/stories">User Stories</a>
+                            <a href="/user-stories">User Stories</a>
                         </li>
                         <li class="parent">
                             <a href="#">Support</a>

@@ -1,12 +1,12 @@
 @extends('layouts.app-front')
 @section('app-front-content')
-    <section class="intro kb">
-        <h1>Knowledge base</h1>
+    <section class="intro pcat">
+        <h1>{{$product_data[0]['title']}}</h1>
     </section>
-    <section id="kb_item">
+    <section id="prod_page">
         <div class="container">
             <div class="desc">
-                {!!$content!!}
+                {!! $product_data[0]['content'] !!}
             </div>
         </div>
     </section>

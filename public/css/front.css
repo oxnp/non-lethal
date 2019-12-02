@@ -366,6 +366,9 @@ footer .about_nla {
     max-width: 100%;
     width: auto; }
 
+.intro.stories {
+  background: url("/images/stories_top.jpg") no-repeat center; }
+
 .intro.kb {
   background: url("/images/kb_top.jpg") no-repeat center; }
 
@@ -384,7 +387,7 @@ footer .about_nla {
 .intro.partners {
   background: url("/images/partners_top.jpg") no-repeat center; }
 
-.intro.login {
+.intro.login, .intro.pcat {
   background: url("/images/login_top.jpg") no-repeat center; }
 
 section.intro {
@@ -702,3 +705,66 @@ section#support {
       text-decoration: none; }
       #kb .item a.readmore img {
         margin-left: 20px; }
+
+section#stories {
+  padding: 100px 0;
+  background: #F3F3F3; }
+  section#stories .stories_vid {
+    padding-bottom: 45px;
+    border-bottom: 1px solid #E1E1E1;
+    margin-bottom: 45px; }
+  section#stories iframe {
+    border: #0b2e13;
+    width: 100%;
+    height: 630px;
+    border-radius: 15px; }
+  section#stories .item {
+    margin-bottom: 45px; }
+    section#stories .item img {
+      border-radius: 15px; }
+    section#stories .item .title {
+      margin-top: 20px; }
+    section#stories .item a {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 24px;
+      letter-spacing: 0.08em;
+      color: #1F1F1F;
+      text-decoration: none; }
+
+section#pcat {
+  padding: 50px 0; }
+  section#pcat .item {
+    padding: 50px 0;
+    border-bottom: 1px solid #E1E1E1; }
+    section#pcat .item:last-child {
+      border-bottom: 0; }
+    section#pcat .item img {
+      border-radius: 15px; }
+  section#pcat .title {
+    font-weight: 600;
+    font-size: 29px;
+    line-height: 35px;
+    color: #4282FF;
+    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif; }
+  section#pcat .subtitle {
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.08em;
+    color: #474747;
+    margin-bottom: 25px; }
+  section#pcat .minidesc {
+    font-size: 15px;
+    line-height: 24px;
+    color: #838383;
+    margin-bottom: 20px; }
+  section#pcat a.readmore {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    color: #4282ff;
+    font-weight: bold;
+    text-decoration: none; }
+    section#pcat a.readmore img {
+      margin-left: 20px; }

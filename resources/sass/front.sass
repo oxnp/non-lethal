@@ -339,6 +339,8 @@ footer
                 img
                     max-width: 100%
                     width: auto
+.intro.stories
+    background: url('/images/stories_top.jpg')no-repeat center
 .intro.kb
     background: url('/images/kb_top.jpg')no-repeat center
 .intro.support
@@ -351,7 +353,7 @@ footer
     background: url('/images/impressum_top.jpg')no-repeat center
 .intro.partners
     background: url('/images/partners_top.jpg')no-repeat center
-.intro.login
+.intro.login,.intro.pcat
     background: url('/images/login_top.jpg')no-repeat center
 section.intro
     height: 340px
@@ -651,3 +653,64 @@ section#support
             text-decoration: none
             img
                 margin-left: 20px
+section#stories
+    padding: 100px 0
+    background: #F3F3F3
+    .stories_vid
+        padding-bottom: 45px
+        border-bottom: 1px solid #E1E1E1
+        margin-bottom: 45px
+    iframe
+        border: #0b2e13
+        width: 100%
+        height: 630px
+        border-radius: 15px
+    .item
+        margin-bottom: 45px
+        img
+            border-radius: 15px
+        .title
+            margin-top: 20px
+        a
+            font-weight: 500
+            font-size: 20px
+            line-height: 24px
+            letter-spacing: 0.08em
+            color: #1F1F1F
+            text-decoration: none
+section#pcat
+    padding: 50px 0
+    .item
+        padding: 50px 0
+        border-bottom: 1px solid #E1E1E1
+        &:last-child
+            border-bottom: 0
+        img
+            border-radius: 15px
+    .title
+        font-weight: 600
+        font-size: 29px
+        line-height: 35px
+        color: #4282FF
+        margin-bottom: 15px
+        font-family: 'Montserrat', sans-serif
+    .subtitle
+        font-size: 20px
+        line-height: 24px
+        letter-spacing: 0.08em
+        color: #474747
+        margin-bottom: 25px
+    .minidesc
+        font-size: 15px
+        line-height: 24px
+        color: #838383
+        margin-bottom: 20px
+    a.readmore
+        display: flex
+        align-items: center
+        font-size: 18px
+        color: #4282ff
+        font-weight: bold
+        text-decoration: none
+        img
+            margin-left: 20px
