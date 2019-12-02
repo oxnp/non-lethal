@@ -23,13 +23,13 @@ class CreateUsersTable extends Migration
             $table->addColumn('tinyInteger', 'sendEmail', ['length' => 4])->default(0);
             $table->dateTime('registerDate')->nullable();
             $table->dateTime('lastvisitDate')->nullable();
-            $table->string('activation',100);
+            $table->string('activation',100)->nullable();
             $table->mediumText('params')->nullable();
             $table->dateTime('lastResetTime')->nullable();
             $table->integer('resetCount')->default(0);
-            $table->string('otpKey',1000);
-            $table->string('otep',1000);
-            $table->addColumn('tinyInteger', 'requireReset', ['length' => 4]);
+            $table->string('otpKey',1000)->nullable();
+            $table->string('otep',1000)->nullable();
+            $table->addColumn('tinyInteger', 'requireReset', ['length' => 4])->default(0);
             $table->integer('role_id')->default(0);
             $table->rememberToken()->nullable();
             $table->timestamps();

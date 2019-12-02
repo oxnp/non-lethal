@@ -46,6 +46,9 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
 
 
 //Front
+
+
+
 Route::get('/','Front\HomeController@index')->name('index');
 //Route::get('/partners',function(){return view('Front.partners');})->name('partners');
 Route::get('/company',function(){return view('Front.company');})->name('company');
@@ -54,12 +57,32 @@ Route::get('/disclaimer',function(){return view('Front.privacy_policy');})->name
 Route::get('/support',function(){return view('Front.support');})->name('support');
 
 
+
+
+
 Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
 
+//products
+Route::get('/'.env('PRODUCTS_URL').'/{category}','Front\ProductController@category');
+Route::get('/'.env('PRODUCTS_URL').'/{category}/{page}','Front\ProductController@page');
+//products
+
+
+//user stories
+Route::get('/'.env('USER_STORIES_URL'),'Front\UserStoriesController@index');
+Route::get('/'.env('USER_STORIES_URL').'/{stories}','Front\UserStoriesController@show');
+//user stories
+
+//static
 Route::get('/{page}','Front\PageController@page');
+//static
+
+//knowledge base
 Route::get('/{headcategory}/{category}','Front\PageController@category');
 Route::get('/{headcategory}/{category}/{subcategory}','Front\PageController@subcategory');
 Route::get('/{headcategory}/{category}/{subcategory}/{item}','Front\PageController@item');
+//knowledge base
+
 
 
 });
