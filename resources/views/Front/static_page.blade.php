@@ -1,11 +1,11 @@
 @extends('layouts.app-front')
 @section('app-front-content')
-    <section class="intro partners">
-        <h1>Partners</h1>
+    <section class="intro {{$content[0]['slug']}}">
+        <h1>{{$content[0]['title']}}</h1>
     </section>
-    <section id="partners">
+    <section id="{{$content[0]['slug']}}">
         <div class="container">
-            {!!$content!!}
+            {!!$content[0]['content']!!}
         </div>
     </section>
 @endsection

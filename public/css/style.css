@@ -98,3 +98,14 @@ input.is-invalid{
 .item_featured button{
     min-width: 130px;
 }
+.sidebar .nav{
+    margin-top: 45px;
+}
+.sidebar .nav li{
+    margin-bottom: 30px;
+}
+.sidebar .nav li a{
+    background: #fff;
+    border-radius: 7px;
+    font-weight: 600;
+}
