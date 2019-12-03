@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
-use App\Http\Models\Contents\StaticPages;
-use App\Http\Models\Front\Contents\Languages;
+use App\Http\Models\Contents\ProductsPage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-
-
-class StaticPagesController extends Controller
+class ProductsPageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +15,9 @@ class StaticPagesController extends Controller
      */
     public function index()
     {
-        $static_pages = StaticPages::getStaticPages();
+       $products_pages = ProductsPage::getPages();
 
-        return view('AdminPanel.contents.static_page_list')->with(['static_pages'=>$static_pages]);
+       return view('AdminPanel.contents.products_page_list');
     }
 
     /**
@@ -52,9 +49,9 @@ class StaticPagesController extends Controller
      */
     public function show($id)
     {
-        $static_page = StaticPages::getPage($id);
-        $langs = Languages::all();
-        return view('AdminPanel.contents.static_page_show')->with(['static_page'=>$static_page,'langs'=>$langs]);
+        $products_page = ProductsPage::getPage($id);
+
+        return view('AdminPanel.contents.products_page_list')->with(['products_page'=>$products_page]);
     }
 
     /**
@@ -77,9 +74,7 @@ class StaticPagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        StaticPages::updatePage($request);
-
-        return redirect()->back();
+        //
     }
 
     /**

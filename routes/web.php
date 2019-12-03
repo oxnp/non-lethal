@@ -40,6 +40,11 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
     Route::get('purge_precodes','AdminPanel\PrecodeController@purgeEmpty')->name('purgeEmpty');
 
 
+    //contents
+    Route::resource('static-pages','AdminPanel\StaticPagesController');
+
+    Route::resource('products-pages','AdminPanel\ProductsPageController');
+
 
 });
 
@@ -74,13 +79,13 @@ Route::get('/'.env('USER_STORIES_URL').'/{stories}','Front\UserStoriesController
 //user stories
 
 //static
-Route::get('/{page}','Front\PageController@page');
+Route::get('/{page}','Front\StaticPageController@page');
 //static
 
 //knowledge base
-Route::get('/{headcategory}/{category}','Front\PageController@category');
-Route::get('/{headcategory}/{category}/{subcategory}','Front\PageController@subcategory');
-Route::get('/{headcategory}/{category}/{subcategory}/{item}','Front\PageController@item');
+Route::get('/{headcategory}/{category}','Front\KnowledgeBaseController@category');
+Route::get('/{headcategory}/{category}/{subcategory}','Front\KnowledgeBaseController@subcategory');
+Route::get('/{headcategory}/{category}/{subcategory}/{item}','Front\KnowledgeBaseController@item');
 //knowledge base
 
 

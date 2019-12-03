@@ -10,7 +10,7 @@ class StaticPageController extends Controller
 {
     public function page($slug){
         $content = StaticPages::getPage($slug);
-        return view('Front.page')->with(['content'=>$content]);
+        return view('Front.static_page')->with(['content'=>$content]);
     }
     /**
      * Display a listing of the resource.

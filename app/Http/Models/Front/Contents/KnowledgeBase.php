@@ -6,22 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Session;
-use App\Http\Models\Front\Contents\Categories;
+use App\Http\Models\Front\Contents\KnowledgeBaseCategories;
 
 class KnowledgeBase extends Model
 {
-    public static function getPage($slug){
+    protected $table = 'knowledge_base';
 
-        $content = Pages::whereSlug("$slug")->where('lang_id',DB::raw('(select id from languages where locale = "'.App::getLocale().'")'))->select('content')->get()->toArray();
-
-         return $content[0]['content'];
-    }
 
     public static function getCategoryPage($headcategory,$category,$subcategory = ''){
 
         $data = [];
 
-        $cats_head = Categories::whereId(DB::raw('(select main_category from categories where slug = "' . $category . '" and lang_id = (select id from languages where locale = "' . App::getLocale() . '"))'))
+        $cats_head = KnowledgeBaseCategories::whereId(DB::raw('(select main_category from knowledge_base_categories where slug = "' . $category . '" and lang_id = (select id from languages where locale = "' . App::getLocale() . '"))'))
             ->orWhere('slug', $category)
             ->where('lang_id', DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))
             ->get();
@@ -34,9 +30,9 @@ class KnowledgeBase extends Model
 
         $data['title_page'] = $filtered[1]->title;
 
-        $cats = Categories::whereMainCategory($filtered[1]->id)->get();
+        $cats = KnowledgeBaseCategories::whereMainCategory($filtered[1]->id)->get();
         $merge = $cats_head->merge($cats)->toArray();
-        $pages = Pages::whereIn('category_id',$cats->pluck('id')->toArray())->get()->toArray();
+        $pages = KnowledgeBase::whereIn('category_id',$cats->pluck('id')->toArray())->get()->toArray();
 
         $array_cats_head = $cats_head->toArray();
 
@@ -80,7 +76,7 @@ class KnowledgeBase extends Model
     }
 
     public static function getItem($headcategory,$category,$subcategory,$item){
-        $page = Pages::whereSlug($item)->whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get()->pluck('content')->toArray();
+        $page = KnowledgeBase::whereSlug($item)->whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get()->pluck('content')->toArray();
 
         return $page;
     }
