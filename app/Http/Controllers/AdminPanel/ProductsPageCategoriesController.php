@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
-use App\Http\Models\Contents\ProductsPage;
-use App\Http\Models\Contents\ProductsPageCategories;
-use App\Http\Models\Front\Contents\Languages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ProductsPageController extends Controller
+class ProductsPageCategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +14,7 @@ class ProductsPageController extends Controller
      */
     public function index()
     {
-       $products_pages = ProductsPage::getPages();
-
-       return view('AdminPanel.contents.products_page_list')->with(['products_pages'=>$products_pages]);;
+        //
     }
 
     /**
@@ -51,10 +46,7 @@ class ProductsPageController extends Controller
      */
     public function show($id)
     {
-        $products_page = ProductsPage::getPage($id);
-        $langs = Languages::all();
-        $categories = ProductsPageCategories::getCategories();
-        return view('AdminPanel.contents.products_page_show')->with(['product_page'=>$products_page,'langs'=>$langs,'categories'=>$categories]);
+        //
     }
 
     /**
@@ -77,8 +69,7 @@ class ProductsPageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        ProductsPage::updatePage($request);
-        return redirect()->back();
+        //
     }
 
     /**

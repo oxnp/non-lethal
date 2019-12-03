@@ -11,7 +11,8 @@ class ProductsPage extends Model
     protected $table = 'products_page';
 
     public static function getPageByCategoryId($category_id){
-        $data = ProductsPage::whereCategoryId($category_id)->get();
+        $data = ProductsPage::whereCategoryId($category_id)->whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get();
+      //  dd($data);
         return $data;
     }
 
