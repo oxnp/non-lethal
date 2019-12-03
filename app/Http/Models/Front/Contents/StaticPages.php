@@ -11,8 +11,8 @@ class StaticPages extends Model
     protected $table = "static_page";
     public static function getPage($slug){
 
-        $content = StaticPages::whereSlug("$slug")->where('lang_id',DB::raw('(select id from languages where locale = "'.App::getLocale().'")'))->select('content')->get()->toArray();
+        $content = StaticPages::whereSlug("$slug")->where('lang_id',DB::raw('(select id from languages where locale = "'.App::getLocale().'")'))->get()->toArray();
 
-        return $content[0]['content'];
+        return $content;
     }
 }
