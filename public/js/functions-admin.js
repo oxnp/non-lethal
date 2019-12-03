@@ -167,4 +167,12 @@ $(document).ready(function () {
         }
     })
 
+    /*Prod category select*/
+    $('select[name^="category_id"]').change(function () {
+        let val = $(this).find('option:selected').attr('data-group');
+        $('select[name^="category_id"]').each(function () {
+            $(this).val($(this).find('option[data-group="'+val+'"]').val());
+        })
+    })
+
 })
