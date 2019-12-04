@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 class ProductsPage extends Model
 {
+    protected $fillable = ['title','slug','sub_title','short_text','category_id'];
+    public $timestamps = false;
     protected $table = 'products_page';
     public static function getPages(){
         $products_pages = ProductsPage::whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get();
@@ -15,8 +17,30 @@ class ProductsPage extends Model
     }
 
     public static function getPage($id){
-        $product_page = StaticPages::find($id);
-        $page = StaticPages::whereSlug($product_page->slug)->get();
+        $product_page = ProductsPage::find($id);
+        $page = ProductsPage::whereSlug($product_page->slug)->get();
         return $page;
+    }
+
+    public static function updatePage($request){
+
+        $data = array();
+        $page_ids=  array();
+        foreach($request->all() as $key=>$value){
+            if (is_array($value)){
+                foreach($value as $lang_id=>$val){
+                    $data[$lang_id][$key] = $request->$key[$lang_id][array_key_first($val)];
+
+
+                    $page_ids[array_key_first($val)] = array_key_first($val);
+                }
+            }
+        }
+
+        foreach($page_ids as $id){
+            ProductsPage::find($id)->update($data[$id]);
+        }
+
+        return true;
     }
 }
