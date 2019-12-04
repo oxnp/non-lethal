@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProductsPage extends Model
 {
-    protected $fillable = ['title','slug','sub_title','short_text','category_id'];
+    protected $fillable = ['title','slug','sub_title','short_text','category_id','image'];
     public $timestamps = false;
     protected $table = 'products_page';
     public static function getPages(){
@@ -22,16 +22,15 @@ class ProductsPage extends Model
         return $page;
     }
 
-    public static function updatePage($request){
+    public static function updatePage($request,$storage_image){
+
 
         $data = array();
         $page_ids=  array();
         foreach($request->all() as $key=>$value){
             if (is_array($value)){
                 foreach($value as $lang_id=>$val){
-                    $data[$lang_id][$key] = $request->$key[$lang_id][array_key_first($val)];
-
-
+                    $data[array_key_first($val)][$key] = $request->$key[$lang_id][array_key_first($val)];
                     $page_ids[array_key_first($val)] = array_key_first($val);
                 }
             }
@@ -39,6 +38,10 @@ class ProductsPage extends Model
 
         foreach($page_ids as $id){
             ProductsPage::find($id)->update($data[$id]);
+            if($storage_image != ''){
+
+                ProductsPage::find($id)->update(['image'=>$storage_image]);
+            }
         }
 
         return true;

@@ -12,6 +12,8 @@
 */
 Auth::routes();
 
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
 Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
 
     Route::get('admin','AdminPanel\AdminPanelController@index');
@@ -44,6 +46,7 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
     Route::resource('static-pages','AdminPanel\StaticPagesController');
 
     Route::resource('products-pages','AdminPanel\ProductsPageController');
+    Route::resource('products-pages-categories','AdminPanel\ProductsPageCategoriesController');
 
 
 });
