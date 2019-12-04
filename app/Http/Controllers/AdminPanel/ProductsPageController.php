@@ -77,7 +77,16 @@ class ProductsPageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        ProductsPage::updatePage($request);
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $storage = $file->store('image/product-page/' . $id);
+            $name_file = explode('/', $storage);
+            $storage_image = '/storage/app/image/product-page/' . $id . '/' . $name_file[3];
+        }else{
+            $storage_image = '';
+        }
+
+        ProductsPage::updatePage($request,$storage_image);
         return redirect()->back();
     }
 
