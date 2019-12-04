@@ -1,35 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\AdminPanel;
 
-use App\Http\Models\Front\Contents\ProductsPage;
-use App\Http\Models\Front\Contents\ProductsPageCategory;
+use App\Http\Models\Contents\News;
+use App\Http\Models\Front\Contents\Languages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ProductController extends Controller
+class NewsController extends Controller
 {
-    public function page($category,$page)
-    {
-        $page = ProductsPage::getPage($page);
-        $categories = ProductsPageCategory::getCategoriesTolist();
-        return view('Front.product_page')->with([
-            'product_data'=>$page,
-            'categories'=>$categories
-        ]);
-    }
-
-    public function category($category)
-    {
-        $category_data = ProductsPageCategory::getCategory($category);
-        $categories = ProductsPageCategory::getCategoriesTolist();
-        return view('Front.product_category')->with([
-            'category_data'=>$category_data,
-            'category'=>$category,
-            'categories'=>$categories
-        ]);
-
-    }
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +16,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $news = News::getNews();
+        return view('AdminPanel.contents.news_list')->with([
+            'news' => $news
+        ]);
     }
 
     /**
@@ -58,7 +40,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $next_id = News::getLastid();
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $storage = $file->store('image/news/' . $next_id);
+            $name_file = explode('/', $storage);
+            $storage_image = '/storage/app/image/news/' . $next_id . '/' . $name_file[3];
+        }else{
+            $storage_image = '';
+        }
+
+        News::addNews($request,$storage_image);
+        return redirect()->back();
     }
 
     /**
@@ -69,7 +62,12 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $news = News::getNewsById($id);
+        $langs = Languages::all();
+        return view('AdminPanel.contents.news_show')->with([
+            'news' => $news,
+            'langs' => $langs,
+        ]);
     }
 
     /**
@@ -92,7 +90,17 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $storage = $file->store('image/news/' . $id);
+            $name_file = explode('/', $storage);
+            $storage_image = '/storage/app/image/news/' . $id . '/' . $name_file[3];
+        }else{
+            $storage_image = '';
+        }
+
+        News::updateNews($request,$storage_image);
+        return redirect()->back();
     }
 
     /**
