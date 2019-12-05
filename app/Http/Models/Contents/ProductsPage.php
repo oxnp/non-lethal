@@ -23,8 +23,6 @@ class ProductsPage extends Model
     }
 
     public static function updatePage($request,$storage_image){
-
-
         $data = array();
         $page_ids=  array();
         foreach($request->all() as $key=>$value){
@@ -39,7 +37,6 @@ class ProductsPage extends Model
         foreach($page_ids as $id){
             ProductsPage::find($id)->update($data[$id]);
             if($storage_image != ''){
-
                 ProductsPage::find($id)->update(['image'=>$storage_image]);
             }
         }

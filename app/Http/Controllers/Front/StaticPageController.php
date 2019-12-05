@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Http\Models\Front\Contents\ProductsPageCategory;
 use App\Http\Models\Front\Contents\StaticPages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,7 +11,11 @@ class StaticPageController extends Controller
 {
     public function page($slug){
         $content = StaticPages::getPage($slug);
-        return view('Front.static_page')->with(['content'=>$content]);
+        $categories = ProductsPageCategory::getCategoriesTolist();
+        return view('Front.static_page')->with([
+            'content'=>$content,
+            'categories'=>$categories
+        ]);
     }
     /**
      * Display a listing of the resource.

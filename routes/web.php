@@ -44,9 +44,10 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
 
     //contents
     Route::resource('static-pages','AdminPanel\StaticPagesController');
-
     Route::resource('products-pages','AdminPanel\ProductsPageController');
     Route::resource('products-pages-categories','AdminPanel\ProductsPageCategoriesController');
+    Route::resource('news','AdminPanel\NewsController');
+    Route::resource('user-stories','AdminPanel\UserStoriesController');
 
 
 });
@@ -57,7 +58,7 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
 
 
 
-Route::get('/','Front\HomeController@index')->name('index');
+
 //Route::get('/partners',function(){return view('Front.partners');})->name('partners');
 Route::get('/company',function(){return view('Front.company');})->name('company');
 Route::get('/impressum',function(){return view('Front.impressum');})->name('impressum');
@@ -70,6 +71,10 @@ Route::get('/support',function(){return view('Front.support');})->name('support'
 
 Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
 
+//mainpage
+Route::get('/','Front\HomeController@index')->name('index');
+//mainpage
+
 //products
 Route::get('/'.env('PRODUCTS_URL').'/{category}','Front\ProductController@category');
 Route::get('/'.env('PRODUCTS_URL').'/{category}/{page}','Front\ProductController@page');
@@ -80,6 +85,11 @@ Route::get('/'.env('PRODUCTS_URL').'/{category}/{page}','Front\ProductController
 Route::get('/'.env('USER_STORIES_URL'),'Front\UserStoriesController@index');
 Route::get('/'.env('USER_STORIES_URL').'/{stories}','Front\UserStoriesController@show');
 //user stories
+
+//news
+Route::get('/'.env('NEWS_URL'),'Front\NewsController@index');
+Route::get('/'.env('NEWS_URL').'/{news}','Front\NewsController@show');
+//news
 
 //static
 Route::get('/{page}','Front\StaticPageController@page');

@@ -14,12 +14,19 @@ class ProductsPageCategory extends Model
         $category_data = ProductsPageCategory::whereSlug($category)->whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get();
         $result = array();
         $pages = collect();
-        if ($category_data->toArray()[0]['content_flag'] == 0){
+      //  if ($category_data->toArray()[0]['content_flag'] == 0){
             $pages = ProductsPage::getPageByCategoryId($category_data[0]['id']);
-        }
+      //  }
         $result['pages'] = $pages;
         $result['category'] = $category_data;
 
         return $result;
     }
+
+    public static function getCategoriesTolist(){
+        $products_pages_categories = ProductsPageCategory::where('lang_id',DB::raw('(select id from languages where locale = "'.App::getLocale().'")'))->get();
+        return $products_pages_categories;
+    }
+
+
 }

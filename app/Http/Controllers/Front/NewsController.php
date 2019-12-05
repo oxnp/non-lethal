@@ -2,34 +2,13 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Http\Models\Front\Contents\ProductsPage;
+use App\Http\Models\Front\Contents\News;
 use App\Http\Models\Front\Contents\ProductsPageCategory;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ProductController extends Controller
+class NewsController extends Controller
 {
-    public function page($category,$page)
-    {
-        $page = ProductsPage::getPage($page);
-        $categories = ProductsPageCategory::getCategoriesTolist();
-        return view('Front.product_page')->with([
-            'product_data'=>$page,
-            'categories'=>$categories
-        ]);
-    }
-
-    public function category($category)
-    {
-        $category_data = ProductsPageCategory::getCategory($category);
-        $categories = ProductsPageCategory::getCategoriesTolist();
-        return view('Front.product_category')->with([
-            'category_data'=>$category_data,
-            'category'=>$category,
-            'categories'=>$categories
-        ]);
-
-    }
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +16,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $news = News::getNews();
+        $categories = ProductsPageCategory::getCategoriesTolist();
+
+        return view('Front.news_list')->with([
+            'news' => $news,
+            'categories'=>$categories
+        ]);
     }
 
     /**
@@ -67,9 +52,14 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $news = News::getNewsBySlug($slug);
+        $categories = ProductsPageCategory::getCategoriesTolist();
+        return view('Front.news_show')->with([
+            'news' => $news,
+            'categories'=>$categories
+        ]);
     }
 
     /**
