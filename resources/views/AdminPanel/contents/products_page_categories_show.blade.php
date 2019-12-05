@@ -27,11 +27,8 @@
                                         <br/><br/>
                                     </div>
                                     <div class="col-md-6">
-                                        <label>Is content page?</label>
-                                        <select class="form-control" name="content_flag[{{$page->lang_id}}][{{$page->id}}]">
-                                            <option @if($page->content_flag==0) selected @endif value="0">No</option>
-                                            <option @if($page->content_flag==1) selected @endif value="1">Yes</option>
-                                        </select>
+                                        <label>Subtitle</label>
+                                        <input type="text" value="{{$page->sub_name}}" class="form-control" name="sub_name[{{$page->lang_id}}][{{$page->id}}]"/>
                                     </div>
                                 <!--<div class="col-md-6">
                                     <label>Image</label>

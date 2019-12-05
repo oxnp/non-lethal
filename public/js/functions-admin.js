@@ -174,11 +174,5 @@ $(document).ready(function () {
             $(this).val($(this).find('option[data-group="'+val+'"]').val());
         })
     })
-    $('select[name^="content_flag"]').change(function () {
-        let val = $(this).val();
-        $('select[name^="content_flag"]').each(function () {
-            $(this).val(val);
-        })
-    })
 
 })
