@@ -175,4 +175,10 @@ $(document).ready(function () {
         })
     })
 
+    $('input[name^="slug"]').keyup(function () {
+        let val = $(this).val();
+        $('input[name^="slug"]').each(function () {
+            $(this).val(val);
+        })
+    })
 })

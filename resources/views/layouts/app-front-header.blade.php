@@ -13,10 +13,10 @@
                             <a href="#">Products</a>
                             <ul class="child">
                                 @foreach($categories as $cat)
-                                <li>
-                                    <a href="/{{env('PRODUCTS_URL')}}/{{$cat['slug']}}">{{$cat['name']}}</a>
-                                </li>
-                                    @endforeach
+                                    <li>
+                                        <a href="/{{env('PRODUCTS_URL')}}/{{$cat['slug']}}">{{$cat['name']}}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </li>
                         <li>
