@@ -14,6 +14,7 @@ class KnowledgeBaseController extends Controller
     public function category($headcategory,$category){
         $data= KnowledgeBase::getCategoryPage($headcategory,$category);
         $categories = ProductsPageCategory::getCategoriesTolist();
+
         return view('Front.knowledge_base_category')->with([
             'data'=>$data,
             'categories'=>$categories
@@ -23,6 +24,7 @@ class KnowledgeBaseController extends Controller
     public function subcategory($headcategory,$category,$subcategory){
         $data = KnowledgeBase::getCategoryPage($headcategory,$category,$subcategory);
         $categories = ProductsPageCategory::getCategoriesTolist();
+       // dd($data);
          return view('Front.knowledge_base_category')->with([
              'data'=>$data,
              'categories'=>$categories

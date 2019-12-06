@@ -30,7 +30,7 @@ class StaticPagesController extends Controller
      */
     public function create()
     {
-        //
+        return view('AdminPanel.contents.static_page_add');
     }
 
     /**
@@ -41,7 +41,8 @@ class StaticPagesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        StaticPages::addPage($request);
+        return redirect()->back();
     }
 
     /**
@@ -54,7 +55,10 @@ class StaticPagesController extends Controller
     {
         $static_page = StaticPages::getPage($id);
         $langs = Languages::all();
-        return view('AdminPanel.contents.static_page_show')->with(['static_page'=>$static_page,'langs'=>$langs]);
+        return view('AdminPanel.contents.static_page_show')->with([
+            'static_page'=>$static_page,
+            'langs'=>$langs
+        ]);
     }
 
     /**

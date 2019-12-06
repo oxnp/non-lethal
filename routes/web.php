@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+use App\Http\Models\Front\Contents\ProductsPageCategory;
+
 Auth::routes();
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
@@ -49,6 +52,7 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
     Route::resource('news','AdminPanel\NewsController');
     Route::resource('user-stories','AdminPanel\UserStoriesController');
     Route::resource('knowledge-base','AdminPanel\KnowledgeBaseController');
+    Route::resource('knowledge-base-categories','AdminPanel\KnowledgeBaseCategoriesController');
 
 
 });
@@ -61,10 +65,35 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
 
 
 //Route::get('/partners',function(){return view('Front.partners');})->name('partners');
-Route::get('/company',function(){return view('Front.company');})->name('company');
-Route::get('/impressum',function(){return view('Front.impressum');})->name('impressum');
-Route::get('/disclaimer',function(){return view('Front.privacy_policy');})->name('privacy_policy');
-Route::get('/support',function(){return view('Front.support');})->name('support');
+Route::get('/company',function(){
+    $categories = ProductsPageCategory::getCategoriesTolist();
+    return view('Front.company')->with([
+        'categories'=>$categories
+    ]);
+
+})->name('company');
+Route::get('/impressum',function(){
+    $categories = ProductsPageCategory::getCategoriesTolist();
+    return view('Front.impressum')->with([
+        'categories'=>$categories
+    ]);
+})->name('impressum');
+Route::get('/disclaimer',function(){
+    $categories = ProductsPageCategory::getCategoriesTolist();
+    return view('Front.privacy_policy')->with([
+        'categories'=>$categories
+    ]);
+
+})->name('privacy_policy');
+
+
+Route::get('/support',function(){
+    $categories = ProductsPageCategory::getCategoriesTolist();
+    return view('Front.support')->with([
+        'categories'=>$categories
+    ]);
+
+})->name('support');
 
 
 

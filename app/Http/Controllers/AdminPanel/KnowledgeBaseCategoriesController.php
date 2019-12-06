@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
+use App\Http\Models\Contents\KnowledgeBaseCategories;
+use App\Http\Models\Front\Contents\Languages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +16,8 @@ class KnowledgeBaseCategoriesController extends Controller
      */
     public function index()
     {
-        //
+        $knowledge_categories = KnowledgeBaseCategories::getKnowledgeBaseCategoriesTolist();
+        return view('AdminPanel.contents.knowledge_base_categories_list')->with(['knowledge_categories'=>$knowledge_categories]);
     }
 
     /**
@@ -24,7 +27,7 @@ class KnowledgeBaseCategoriesController extends Controller
      */
     public function create()
     {
-        //
+        return view('AdminPanel.contents.knowledge_base_categories_add');
     }
 
     /**
@@ -35,7 +38,9 @@ class KnowledgeBaseCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        KnowledgeBaseCategories::addKnowledgeBaseCategory($request);
+        return redirect()->back();
     }
 
     /**
@@ -46,7 +51,12 @@ class KnowledgeBaseCategoriesController extends Controller
      */
     public function show($id)
     {
-        //
+        $knowledge_category = KnowledgeBaseCategories::getKnowledgeBaseCategory($id);
+        $langs = Languages::all();
+        return view('AdminPanel.contents.knowledge_base_categories_show')->with([
+            'knowledge_category'=>$knowledge_category,
+            'langs'=>$langs
+        ]);
     }
 
     /**
@@ -69,7 +79,8 @@ class KnowledgeBaseCategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        KnowledgeBaseCategories::updateKnowledgeBaseCategory($request);
+        return redirect()->back();
     }
 
     /**

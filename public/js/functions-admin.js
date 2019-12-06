@@ -161,7 +161,7 @@ $(document).ready(function () {
             idArray.push(val);
         });
         if(idArray.length === 1){
-            window.location.href = '/licenses/create?buyer_id='+$('input[name="precode_id"]:checked').val()+'';
+            window.location.href = '/admin/licenses/create?buyer_id='+$('input[name="precode_id"]:checked').val()+'';
         }else{
             alert('Choose one product from list!');
         }
