@@ -17,10 +17,10 @@ class KnowledgeBaseController extends Controller
      */
     public function index()
     {
-        $knowledge_bases = KnowledgeBase::getKnowledgeBases();
+        $knowledge_base = KnowledgeBase::getKnowledgeBases();
 
         return view('AdminPanel.contents.knowledge_base_list')->with([
-            'knowledge_bases' => $knowledge_bases
+            'knowledge_base' => $knowledge_base
         ]);
     }
 
@@ -31,7 +31,12 @@ class KnowledgeBaseController extends Controller
      */
     public function create()
     {
-        return view('AdminPanel.contents.knowledge_base_add');
+        $langs = Languages::all();
+        $knowledge_base_categories = KnowledgeBaseCategories::getKnowledgeBaseCategories();
+        return view('AdminPanel.contents.knowledge_base_add')->with([
+            'knowledge_base_categories' => $knowledge_base_categories,
+            'langs'=>$langs
+        ]);
     }
 
     /**
@@ -52,6 +57,7 @@ class KnowledgeBaseController extends Controller
             $storage_image = '';
         }
         KnowledgeBase::addKnowledgeBase($request,$storage_image);
+        return redirect()->back();
     }
 
     /**
@@ -63,12 +69,13 @@ class KnowledgeBaseController extends Controller
     public function show($id)
     {
         $knowledge_base_categories = KnowledgeBaseCategories::getKnowledgeBaseCategories();
-        dd($knowledge_base_categories);
         $knowledge_base = KnowledgeBase::getKnowledgeBase($id);
         $langs = Languages::all();
+
         return view('AdminPanel.contents.knowledge_base_show')->with([
-            'knowledge_bases' => $knowledge_base,
+            'knowledge_base' => $knowledge_base,
             'langs'=>$langs,
+            'knowledge_base_categories'=>$knowledge_base_categories
         ]);
     }
 

@@ -43,4 +43,23 @@ class StaticPages extends Model
 
         return true;
     }
+
+
+    public static function addPage($request){
+
+        $data = array();
+        foreach($request->all() as $key=>$value){
+            if (is_array($value)){
+                foreach($value as $lang_id=>$val){
+                    $data[$lang_id][$key] = $val;
+                    $data[$lang_id]['lang_id'] = $lang_id;
+
+                }
+            }
+        }
+
+        StaticPages::insert($data);
+        return true;
+    }
+
 }

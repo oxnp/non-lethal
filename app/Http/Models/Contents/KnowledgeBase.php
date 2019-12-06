@@ -10,9 +10,13 @@ class KnowledgeBase extends Model
 {
     public $timestamps = false;
     protected $table = 'knowledge_base';
+    protected $fillable = ['category_id','lang_id','content','title','slug','image','short_text'];
 
     public static function getKnowledgeBases(){
-        $knowledge_bases= KnowledgeBase::whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get();
+        $knowledge_bases= KnowledgeBase::where('knowledge_base.lang_id',DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))
+            ->leftjoin('knowledge_base_categories','knowledge_base_categories.id','knowledge_base.category_id')
+            ->select(DB::raw('knowledge_base_categories.title as name_category'),'knowledge_base.title','knowledge_base.id')
+            ->get();
         return $knowledge_bases;
     }
 
@@ -23,6 +27,7 @@ class KnowledgeBase extends Model
     }
 
     public static function updateKnowledgeBase($request,$storage_image){
+
         $data = array();
         $page_ids=  array();
         foreach($request->all() as $key=>$value){
@@ -35,32 +40,30 @@ class KnowledgeBase extends Model
         }
 
         foreach($page_ids as $id){
-            ProductsPage::find($id)->update($data[$id]);
+            KnowledgeBase::find($id)->update($data[$id]);
             if($storage_image != ''){
-                ProductsPage::find($id)->update(['image'=>$storage_image]);
+                KnowledgeBase::find($id)->update(['image'=>$storage_image]);
             }
         }
         return true;
     }
 
     public static function addKnowledgeBase($request,$storage_image){
+
         $data = array();
-        $page_ids=  array();
         foreach($request->all() as $key=>$value){
             if (is_array($value)){
                 foreach($value as $lang_id=>$val){
-                    $data[array_key_first($val)][$key] = $request->$key[$lang_id][array_key_first($val)];
-                    $page_ids[array_key_first($val)] = array_key_first($val);
+                    $data[$lang_id][$key] = $val;
+                    $data[$lang_id]['lang_id'] = $lang_id;
+                    if($storage_image != ''){
+                        $data[$lang_id]['image'] = $storage_image;
+                    }
                 }
             }
         }
 
-        foreach($page_ids as $id){
-            ProductsPage::find($id)->update($data[$id]);
-            if($storage_image != ''){
-                ProductsPage::find($id)->update(['image'=>$storage_image]);
-            }
-        }
+        KnowledgeBase::insert($data);
         return true;
     }
 

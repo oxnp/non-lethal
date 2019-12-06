@@ -16,7 +16,7 @@ class KnowledgeBase extends Model
     public static function getCategoryPage($headcategory,$category,$subcategory = ''){
 
         $data = [];
-
+        $data['list'] = [];
         $cats_head = KnowledgeBaseCategories::whereId(DB::raw('(select main_category from knowledge_base_categories where slug = "' . $category . '" and lang_id = (select id from languages where locale = "' . App::getLocale() . '"))'))
             ->orWhere('slug', $category)
             ->where('lang_id', DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))
@@ -32,38 +32,46 @@ class KnowledgeBase extends Model
 
         $cats = KnowledgeBaseCategories::whereMainCategory($filtered[1]->id)->get();
         $merge = $cats_head->merge($cats)->toArray();
+
+
+
+
         $pages = KnowledgeBase::whereIn('category_id',$cats->pluck('id')->toArray())->get()->toArray();
+
+
 
         $array_cats_head = $cats_head->toArray();
 
         if ($subcategory == '') {
-            foreach ($pages as $slug) {
+            foreach ($pages as $page) {
+
                 foreach ($merge as $cat_slug) {
-                    if ($slug['category_id'] == $cat_slug['id']) {
-                        $data['list'][$slug['category_id']]['url'] = '/' . $array_cats_head[0]['slug'] . '/' . $array_cats_head[1]['slug'] . '/' . $cat_slug['slug'] . '/' . $slug['slug'];
-                        $data['list'][$slug['category_id']]['title'] = $slug['title'];
-                        $data['list'][$slug['category_id']]['content'] = self::cut_by_words(400,strip_tags($slug['content']));
+                    if ($page['category_id'] == $cat_slug['id']) {
+                        $data['list'][$page['id']]['url'] = '/' . $array_cats_head[0]['slug'] . '/' . $array_cats_head[1]['slug'] . '/' . $cat_slug['slug'] . '/' . $page['slug'];
+                        $data['list'][$page['id']]['title'] = $page['title'];
+                        $data['list'][$page['id']]['content'] = self::cut_by_words(400,strip_tags( $page['short_text'] ? $page['short_text'] : $page['content']));
                         //$data['list'][$slug['category_id']]['cat_name'] = $cat_slug['title'];
-                        $data['list'][$slug['category_id']]['image'] = 'https://non-lethal-applications.com/images/nla/kb/genlocked-playback/genlocked-playback-poster.jpg';
+                        $data['list'][$page['id']]['image'] = $page['image'];
                     }
                 }
             }
         }else{
-            foreach($pages as $slug){
+            foreach($pages as $page){
                 foreach ($merge as $cat_slug){
-                    if($slug['category_id'] == $cat_slug['id']) {
+                    if($page['category_id'] == $cat_slug['id']) {
                         if( $cat_slug['slug'] == $subcategory) {
+                       //     var_dump($page['title']." - ".$page['category_id'].' - '.$cat_slug['id']."\n");
                             $data['sub_title_page'] = ucfirst($cat_slug['title']);
-                            $data['list'][$slug['category_id']]['url'] = '/' . $array_cats_head[0]['slug'] . '/' . $array_cats_head[1]['slug'] . '/' . $cat_slug['slug'] . '/' . $slug['slug'];
-                            $data['list'][$slug['category_id']]['title'] = $slug['title'];
-                            $data['list'][$slug['category_id']]['content'] = self::cut_by_words(400,strip_tags($slug['content']));
+                            $data['list'][$page['id']]['url'] = '/' . $array_cats_head[0]['slug'] . '/' . $array_cats_head[1]['slug'] . '/' . $cat_slug['slug'] . '/' . $page['slug'];
+                            $data['list'][$page['id']]['title'] = $page['title'];
+                            $data['list'][$page['id']]['content'] = self::cut_by_words(400,strip_tags( $page['short_text'] ? $page['short_text'] : $page['content']));
                             //$data['list'][$slug['category_id']]['cat_name'] = $cat_slug['title'];
-                            $data['list'][$slug['category_id']]['image'] = 'https://non-lethal-applications.com/images/nla/kb/genlocked-playback/genlocked-playback-poster.jpg';
+                            $data['list'][$page['id']]['image'] = $page['image'];
                         }
                     }
                 }
             }
-
+//dd($data);
         }
         $data['all_item_url'] = '/'.$array_cats_head[0]['slug'].'/'.$array_cats_head[1]['slug'];
 
