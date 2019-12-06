@@ -35,9 +35,8 @@
                                 <br/><br/>
                             </div>
                             <div class="col-md-12">
-                                <label>Short text</label>
-                                <textarea rows="7" class="form-control"
-                                          name="short_text[{{$lang->id}}]"></textarea>
+                                <label>Subtitle</label>
+                                <input class="form-control" name="sub_title[{{$lang->id}}]" type="text" />
                                 <br/><br/>
                             </div>
                         </div>
