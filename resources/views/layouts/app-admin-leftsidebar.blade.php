@@ -4,6 +4,8 @@
             <li><a href="{{route('licenses.index')}}">Licenses</a></li>
             <li><a href="{{route('static-pages.index')}}">Static pages</a></li>
             <li><a href="{{route('products-pages.index')}}">Products pages</a></li>
+            <li><a href="{{route('news.index')}}">News</a></li>
+            <li><a href="{{route('user-stories.index')}}">User stories</a></li>
         </ul>
     </nav>
 @stop

@@ -2,6 +2,9 @@
 @section('app-front-content')
     <section class="intro pcat">
         <h1>{{$category_data['category'][0]['name']}}</h1>
+        <div class="subtitle">
+            {{$category_data['category'][0]['sub_name']}}
+        </div>
     </section>
     <section id="pcat">
         <div class="container">
@@ -32,7 +35,9 @@
                 @endforeach
                 </div>
             @else
-                {{dd($category_data)}}
+                <div class="desc">
+                    {{$category_data['category'][0]['content']}}
+                </div>
             @endif
         </div>
     </section>

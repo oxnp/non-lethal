@@ -9,8 +9,15 @@
             <div class="col-lg-7 align-self-center">
                 <div class="topmenu text-right">
                     <ul class="row justify-content-between">
-                        <li>
-                            <a href="/products">Products</a>
+                        <li class="parent">
+                            <a href="#">Products</a>
+                            <ul class="child">
+                                @foreach($categories as $cat)
+                                    <li>
+                                        <a href="/{{env('PRODUCTS_URL')}}/{{$cat['slug']}}">{{$cat['name']}}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
                         </li>
                         <li>
                             <a href="/user-stories">User Stories</a>
