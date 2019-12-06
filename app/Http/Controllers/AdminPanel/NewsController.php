@@ -29,7 +29,10 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //
+        $langs = Languages::all();
+        return view('AdminPanel.contents.news_add')->with([
+            'langs' => $langs
+        ]);;
     }
 
     /**
@@ -90,6 +93,8 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+
         if ($request->file('image')) {
             $file = $request->file('image');
             $storage = $file->store('image/news/' . $id);

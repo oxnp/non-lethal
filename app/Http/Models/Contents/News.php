@@ -39,9 +39,26 @@ class News extends Model
             }
         }
     }
-    public static function addNews($request){
 
+    public static function addNews($request,$storage_image){
+
+        $data = array();
+        foreach($request->all() as $key=>$value){
+            if (is_array($value)){
+                foreach($value as $lang_id=>$val){
+                    $data[$lang_id][$key] = $val;
+                    $data[$lang_id]['lang_id'] = $lang_id;
+                    if($storage_image != ''){
+                        $data[$lang_id]['image'] = $storage_image;
+                    }
+                }
+            }
+
+        }
+        News::insert($data);
+        return true;
     }
+
     public static function getLastid(){
         $last_id = News::select(DB::raw('max(id) as last_id'))->pluck('last_id')->toArray();
         return $last_id[0] + 1;

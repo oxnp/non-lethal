@@ -48,6 +48,7 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
     Route::resource('products-pages-categories','AdminPanel\ProductsPageCategoriesController');
     Route::resource('news','AdminPanel\NewsController');
     Route::resource('user-stories','AdminPanel\UserStoriesController');
+    Route::resource('knowledge-base','AdminPanel\KnowledgeBaseController');
 
 
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Models\Front\Contents\ProductsPageCategory;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Request;
@@ -42,5 +43,13 @@ class LoginController extends Controller
     public function logout(Request $request) {
         Auth::logout();
         return redirect('/');
+    }
+
+    public function showLoginForm ()
+    {
+        $categories = ProductsPageCategory::getCategoriesTolist();
+        return view('auth.login')->with([
+            'categories'=>$categories
+        ]);
     }
 }

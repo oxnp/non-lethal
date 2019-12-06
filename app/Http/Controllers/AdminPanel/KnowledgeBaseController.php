@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
+use App\Http\Models\Contents\KnowledgeBase;
+use App\Http\Models\Contents\KnowledgeBaseCategories;
+use App\Http\Models\Front\Contents\Languages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -14,7 +17,11 @@ class KnowledgeBaseController extends Controller
      */
     public function index()
     {
-        //
+        $knowledge_bases = KnowledgeBase::getKnowledgeBases();
+
+        return view('AdminPanel.contents.knowledge_base_list')->with([
+            'knowledge_bases' => $knowledge_bases
+        ]);
     }
 
     /**
@@ -24,7 +31,7 @@ class KnowledgeBaseController extends Controller
      */
     public function create()
     {
-        //
+        return view('AdminPanel.contents.knowledge_base_add');
     }
 
     /**
@@ -35,7 +42,16 @@ class KnowledgeBaseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $next_id = KnowledgeBase::getLastid();
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $storage = $file->store('image/knowledge/' . $next_id);
+            $name_file = explode('/', $storage);
+            $storage_image = '/storage/app/image/knowledge/' . $next_id . '/' . $name_file[3];
+        }else{
+            $storage_image = '';
+        }
+        KnowledgeBase::addKnowledgeBase($request,$storage_image);
     }
 
     /**
@@ -46,7 +62,14 @@ class KnowledgeBaseController extends Controller
      */
     public function show($id)
     {
-        //
+        $knowledge_base_categories = KnowledgeBaseCategories::getKnowledgeBaseCategories();
+        dd($knowledge_base_categories);
+        $knowledge_base = KnowledgeBase::getKnowledgeBase($id);
+        $langs = Languages::all();
+        return view('AdminPanel.contents.knowledge_base_show')->with([
+            'knowledge_bases' => $knowledge_base,
+            'langs'=>$langs,
+        ]);
     }
 
     /**
@@ -69,7 +92,17 @@ class KnowledgeBaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $storage = $file->store('image/knowledge/' . $id);
+            $name_file = explode('/', $storage);
+            $storage_image = '/storage/app/image/knowledge/' . $id . '/' . $name_file[3];
+        }else{
+            $storage_image = '';
+        }
+
+        KnowledgeBase::updateKnowledgeBase($request,$storage_image);
+        return redirect()->back();
     }
 
     /**

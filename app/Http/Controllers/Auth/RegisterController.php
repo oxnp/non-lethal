@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Models\Front\Contents\ProductsPageCategory;
 use App\User;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -74,4 +75,13 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    public function showRegistrationForm ()
+    {
+        $categories = ProductsPageCategory::getCategoriesTolist();
+        return view('auth.register')->with([
+            'categories'=>$categories
+        ]);
+    }
+
 }

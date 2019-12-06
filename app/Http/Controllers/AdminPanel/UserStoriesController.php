@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AdminPanel;
 
 use App\Http\Models\Contents\UserStories;
+use App\Http\Models\Front\Contents\Languages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -29,7 +30,10 @@ class UserStoriesController extends Controller
      */
     public function create()
     {
-        //
+        $langs = Languages::all();
+        return view('AdminPanel.contents.user_stories_add')->with([
+            'langs'=>$langs
+        ]);
     }
 
     /**
@@ -43,9 +47,9 @@ class UserStoriesController extends Controller
         $next_id = UserStories::getLastid();
         if ($request->file('image')) {
             $file = $request->file('image');
-            $storage = $file->store('image/news/' . $next_id);
+            $storage = $file->store('image/user-stories/' . $next_id);
             $name_file = explode('/', $storage);
-            $storage_image = '/storage/app/image/news/' . $next_id . '/' . $name_file[3];
+            $storage_image = '/storage/app/image/user-stories/' . $next_id . '/' . $name_file[3];
         }else{
             $storage_image = '';
         }
@@ -62,10 +66,10 @@ class UserStoriesController extends Controller
      */
     public function show($id)
     {
-        $user_stories = UserStories::getUserStoriesById($id);
-
+        $user_story = UserStories::getUserStoriesById($id);
+        $langs = Languages::all();
         return view('AdminPanel.contents.user_stories_show')->with([
-            'user_stories' => $user_stories,
+            'user_story' => $user_story,'langs'=>$langs
         ]);
     }
 

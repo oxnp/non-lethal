@@ -39,8 +39,22 @@ class UserStories extends Model
             }
         }
     }
-    public static function addUserStory($request){
+    public static function addUserStory($request,$storage_image){
+        $data = array();
+        foreach($request->all() as $key=>$value){
+            if (is_array($value)){
+                foreach($value as $lang_id=>$val){
+                    $data[$lang_id][$key] = $val;
+                    $data[$lang_id]['lang_id'] = $lang_id;
+                    if($storage_image != ''){
+                        $data[$lang_id]['image'] = $storage_image;
+                    }
+                }
+            }
 
+        }
+        UserStories::insert($data);
+        return true;
     }
     public static function getLastid(){
         $last_id = UserStories::select(DB::raw('max(id) as last_id'))->pluck('last_id')->toArray();
