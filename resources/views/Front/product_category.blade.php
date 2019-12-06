@@ -6,11 +6,11 @@
             {{$category_data['category'][0]['sub_name']}}
         </div>
     </section>
-    <section id="pcat">
-        <div class="container">
-            @if(count($category_data['pages'])>0)
+    <section id="pcat" class="cat_{{$category_data['category'][0]['id']}}">
+        @if(count($category_data['pages'])>0)
+            <div class="container">
                 <div class="items">
-                @foreach($category_data['pages'] as $page)
+                    @foreach($category_data['pages'] as $page)
                         <div class="item row align-items-center">
                             <div class="col-md-4">
                                 <a href="/{{env('PRODUCTS_URL')}}/{{$category}}/{{$page['slug']}}">
@@ -32,13 +32,11 @@
                                 </a>
                             </div>
                         </div>
-                @endforeach
+                    @endforeach
                 </div>
-            @else
-                <div class="desc">
-                    {{$category_data['category'][0]['content']}}
-                </div>
-            @endif
-        </div>
+            </div>
+        @else
+            {!! $category_data['category'][0]['content'] !!}
+        @endif
     </section>
 @endsection
