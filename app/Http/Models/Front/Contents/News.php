@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class News extends Model
 {
     public static function getNews(){
-        $news = News::whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->paginate(9);
+        $news = News::whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->paginate(1);
         return $news;
     }
 

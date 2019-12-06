@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
-use App\Http\Models\Contents\ProductsPageCategories;
-use App\Http\Models\Front\Contents\Languages;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ProductsPageCategoriesController extends Controller
+class KnowledgeBaseCategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +14,7 @@ class ProductsPageCategoriesController extends Controller
      */
     public function index()
     {
-        $categories_list = ProductsPageCategories::getCategoriesTolist();
-        return view('AdminPanel.contents.products_page_categories_list')->with(['categories_list'=>$categories_list]);
+        //
     }
 
     /**
@@ -49,9 +46,7 @@ class ProductsPageCategoriesController extends Controller
      */
     public function show($id)
     {
-        $category = ProductsPageCategories::getCategory($id);
-        $langs = Languages::all();
-        return view('AdminPanel.contents.products_page_categories_show')->with(['category'=>$category,'langs'=>$langs]);
+        //
     }
 
     /**
@@ -74,8 +69,7 @@ class ProductsPageCategoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        ProductsPageCategories::updateCategory($request);
-        return redirect()->back();
+        //
     }
 
     /**

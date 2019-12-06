@@ -20,7 +20,8 @@ class UserStoriesController extends Controller
         $categories = ProductsPageCategory::getCategoriesTolist();
         return view('Front.user_stories')->with([
             'user_stories'=>$user_stories,
-            'categories'=>$categories]);
+            'categories'=>$categories
+        ]);
     }
 
     /**
@@ -53,7 +54,8 @@ class UserStoriesController extends Controller
     public function show($slug)
     {
         $user_story = UserStories::getStory($slug);
-        return view('Front.story')->with(['user_story'=>$user_story]);
+        $categories = ProductsPageCategory::getCategoriesTolist();
+        return view('Front.story')->with(['user_story'=>$user_story,'categories'=>$categories]);
     }
 
     /**

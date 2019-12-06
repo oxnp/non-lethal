@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Models\Front\Contents\ProductsPageCategory;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
 class ForgotPasswordController extends Controller
@@ -28,5 +29,13 @@ class ForgotPasswordController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function showLinkRequestForm ()
+    {
+        $categories = ProductsPageCategory::getCategoriesTolist();
+        return view('auth.passwords.email')->with([
+            'categories'=>$categories
+        ]);
     }
 }
