@@ -10,6 +10,7 @@ class KnowledgeBaseCategories extends Model
 {
     public $timestamps = false;
     protected $table = 'knowledge_base_categories';
+    protected $fillable = ['title','content','slug','relation','main_category'];
 
     public static function getKnowledgeBaseCategories(){
         $knowledge_list = KnowledgeBaseCategories::where('main_category','<>','null')->where('relation','<>','null')->get();
@@ -55,9 +56,13 @@ class KnowledgeBaseCategories extends Model
                     $data[$lang_id][$key] = $val;
                     $data[$lang_id]['lang_id'] = $lang_id;
                     $data[$lang_id]['relation'] = $relation;
+                    if ($lang_id == 1) {
+                        $data[$lang_id]['main_category'] = 3;
+                    }else{
+                        $data[$lang_id]['main_category'] = 4;
+                    }
                 }
             }
-
         }
         KnowledgeBaseCategories::insert($data);
         return true;

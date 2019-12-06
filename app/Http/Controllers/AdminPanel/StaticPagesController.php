@@ -30,7 +30,8 @@ class StaticPagesController extends Controller
      */
     public function create()
     {
-        return view('AdminPanel.contents.static_page_add');
+        $langs = Languages::all();
+        return view('AdminPanel.contents.static_page_add')->with(['langs'=>$langs]);
     }
 
     /**
@@ -41,7 +42,17 @@ class StaticPagesController extends Controller
      */
     public function store(Request $request)
     {
-        StaticPages::addPage($request);
+        $next_id = StaticPages::getLastid();
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $storage = $file->store('image/static-pages/' . $next_id);
+            $name_file = explode('/', $storage);
+            $storage_image = '/storage/app/image/static-pages/' . $next_id . '/' . $name_file[3];
+        }else{
+            $storage_image = '';
+        }
+
+        StaticPages::addPage($request,$storage_image);
         return redirect()->back();
     }
 
@@ -81,7 +92,15 @@ class StaticPagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        StaticPages::updatePage($request);
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $storage = $file->store('image/static-pages/' . $id);
+            $name_file = explode('/', $storage);
+            $storage_image = '/storage/app/image/static-pages/' . $id . '/' . $name_file[3];
+        }else{
+            $storage_image = '';
+        }
+        StaticPages::updatePage($request,$storage_image);
 
         return redirect()->back();
     }

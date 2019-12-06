@@ -16,8 +16,8 @@ class KnowledgeBaseCategoriesController extends Controller
      */
     public function index()
     {
-        $knowledge_categories = KnowledgeBaseCategories::getKnowledgeBaseCategoriesTolist();
-        return view('AdminPanel.contents.knowledge_base_categories_list')->with(['knowledge_categories'=>$knowledge_categories]);
+        $knowledge_base_categories = KnowledgeBaseCategories::getKnowledgeBaseCategoriesTolist();
+        return view('AdminPanel.contents.knowledge_base_categories_list')->with(['knowledge_base_categories'=>$knowledge_base_categories]);
     }
 
     /**
@@ -27,7 +27,10 @@ class KnowledgeBaseCategoriesController extends Controller
      */
     public function create()
     {
-        return view('AdminPanel.contents.knowledge_base_categories_add');
+        $langs = Languages::all();
+        return view('AdminPanel.contents.knowledge_base_categories_add')->with([
+            'langs'=>$langs
+        ]);;
     }
 
     /**
@@ -38,7 +41,6 @@ class KnowledgeBaseCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-
         KnowledgeBaseCategories::addKnowledgeBaseCategory($request);
         return redirect()->back();
     }
