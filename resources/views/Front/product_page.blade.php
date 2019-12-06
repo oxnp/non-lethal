@@ -6,7 +6,7 @@
     <section id="prod_page">
         <div class="container">
             <div class="desc">
-                {!! $product_data[0]['content'] !!}
+
             </div>
         </div>
     </section>
