@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class ProductsPage extends Model
 {
-    protected $fillable = ['title','slug','sub_title','short_text','category_id','image'];
+    protected $fillable = ['title','slug','sub_title','short_text','category_id','image','content'];
     public $timestamps = false;
     protected $table = 'products_page';
     public static function getPages(){

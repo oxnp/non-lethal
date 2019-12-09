@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Models\Front\Contents\News;
 use App\Http\Models\Front\Contents\ProductsPageCategory;
+use App\Http\Models\Front\Contents\UserStories;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -17,10 +18,12 @@ class HomeController extends Controller
     public function index()
     {
         $news = News::getNews();
+        $user_stories = UserStories::getStories();
         $categories = ProductsPageCategory::getCategoriesTolist();
         return view('Front.homepage')->with([
             'categories'=>$categories,
-            'news'=>$news
+            'news'=>$news,
+            'user_stories'=>$user_stories
         ]);
     }
 

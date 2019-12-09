@@ -65,19 +65,23 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
 
 
 //Route::get('/partners',function(){return view('Front.partners');})->name('partners');
+/*
 Route::get('/company',function(){
     $categories = ProductsPageCategory::getCategoriesTolist();
     return view('Front.company')->with([
         'categories'=>$categories
     ]);
-
 })->name('company');
+*/
+/*
 Route::get('/impressum',function(){
     $categories = ProductsPageCategory::getCategoriesTolist();
     return view('Front.impressum')->with([
         'categories'=>$categories
     ]);
 })->name('impressum');
+*/
+/*
 Route::get('/disclaimer',function(){
     $categories = ProductsPageCategory::getCategoriesTolist();
     return view('Front.privacy_policy')->with([
@@ -85,7 +89,7 @@ Route::get('/disclaimer',function(){
     ]);
 
 })->name('privacy_policy');
-
+*/
 
 Route::get('/support',function(){
     $categories = ProductsPageCategory::getCategoriesTolist();
