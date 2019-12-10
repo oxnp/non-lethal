@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,500,600,700,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600 ,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />

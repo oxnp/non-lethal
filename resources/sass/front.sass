@@ -106,6 +106,7 @@ button:focus,input:focus
     outline: none
 img
     max-width: 100%
+    max-height: 100%
 body
     font-family: 'Lato', sans-serif
     color: #000
@@ -426,6 +427,7 @@ section.intro
         color: #fff
         letter-spacing: 0.08em
         font-size: 20px
+        text-align: center
 section.login-section
     background: #E5E5E5
     padding: 80px 0 120px
@@ -698,6 +700,7 @@ section#support
             line-height: 24px
             color: #838383
             margin-bottom: 20px
+            word-break: break-word
         a.readmore
             display: flex
             align-items: center
@@ -850,6 +853,7 @@ section#pcat
             &.vis
                 display: block
     .full_list
+        display: none
         .versions
             margin-bottom: 20px
             .vs
@@ -1250,4 +1254,270 @@ section.profile
         padding: 5px 24px;
     .row
         margin-bottom: 30px
+.mobmenu
+    display: none
+@media (max-width: 992px)
+    header
+        display: flex
+        align-items: center
+        height: 80px
+        .row
+            flex-wrap: nowrap
+            justify-content: space-between
+        .mobmenu
+            background: url("/images/mobmenu.png")no-repeat left center
+            display: flex
+            align-items: center
+            padding-left: 45px
+            color: #fff
+            font-weight: bold
+            font-size: 14px
+            line-height: 17px
+            font-family: 'Montserrat', sans-serif
+            &.toggled
+                background: url("/images/close.png")no-repeat left 7px center
+        .mmenu
+            position: fixed
+            top: 80px
+            left: 0
+            height: calc(100% - 80px)
+            overflow: auto
+            background: #fff
+            display: none
+            .topmenu
+                ul
+                    display: block
+                    li
+                        a
+                            display: block
+                            font-weight: bold
+                            font-size: 18px
+                            line-height: 22px
+                            text-align: left
+                            color: #1F1F1F
+                            padding: 24px 15px
+                            border-bottom: 1px solid #D8D8D8
+                            &:before
+                                display: none
+                        &.parent
+                            ul.child
+                                position: static
+                                background: none
+                                width: 100%
+                                li
+                                    a
+                                        display: block
+                                        font-weight: bold
+                                        font-size: 18px
+                                        line-height: 22px
+                                        text-align: left
+                                        color: #1F1F1F
+                                        padding: 24px 15px
+                                        border-bottom: 1px solid #D8D8D8
+        .mlogo
+            width: auto
+            text-align: right
+    .owl-nav
+        right: 30px
+        bottom: 30px
+    #slider
+        .text
+            font-size: 32px
+            line-height: 46px
+            margin-bottom: 30px
+        .subtext
+            font-size: 16px
+        .social
+            bottom: 45px
+            left: 30px
+            a
+                margin-right: 25px
+    .heading
+        font-size: 28px
+        line-height: 36px
+    #create
+        padding: 45px 0
+        .row
+            display: block
+            .col
+                margin-bottom: 45px
+            .desc
+                margin-top: 15px
+    #user_stories
+        padding: 45px 0
+        .heading
+            margin-bottom: 30px
+        .item
+            flex-direction: column-reverse
+            img.shad
+                margin-bottom: 30px
+    #newsletter
+        padding: 45px 0
+        .subtext
+            margin: 15px 0 45px
+            letter-spacing: 0.44em
+        form
+            button
+                position: static
+                margin: 0 auto
+                margin-top: 30px
+    footer
+        .about_nla
+            .footmenu
+                display: block
+                margin-top: 30px
+                .col
+                    width: 100%
+                    margin-bottom: 15px
+            .social
+                .row
+                    justify-content: space-around!important
+    section.intro
+        height: 220px
+        padding-bottom: 50px
+        .subtitle
+            font-size: 16px
+        h1
+            font-size: 30px
+            line-height: 40px
+    section#pcat
+        .item
+            img
+                margin-bottom: 30px
+        a.readmore
+            img
+                margin-bottom: 0
+        .gbg
+            padding: 60px 0
+        .whbg
+            padding: 60px 0
+        .bl_but
+            margin-bottom: 30px
+        .story
+            img
+                margin-bottom: 15px
+        h2
+            margin-bottom: 15px
+            font-size: 36px
+        .full_list
+            .versions
+                .vs
+                    height: 75px
+                    display: flex
+                    align-items: center
+                    justify-content: center
+                .col-md-3
+                    width: 50%
+                    margin-left: 0
+            .fl_group
+                .fl_item
+                    .col-md-3
+                        width: 50%
+                        padding: 15px 0
+        .get_start
+            a
+                padding: 30px 0
+                display: block
+        .pricing
+            .bgpanel
+                display: block
+                line-height: 28px
+                h4
+                    line-height: 36px
+                    margin-bottom: 15px
+                .text
+                    margin-bottom: 30px
+            .price
+                margin-top: 75px
+    section#stories
+        padding: 60px 0
+        iframe
+            height: auto
+            min-height: 220px
+        .item
+            img
+                height: auto
+    section#story_item
+        padding: 60px 0
+    #kb
+        .cats
+            display: block
+            a
+                padding: 5px 0
+                display: block
+        .item
+            a.readmore
+                img
+                    margin-bottom: 0
+            img
+                margin-bottom: 15px
+    section#kb_item
+        padding: 60px 0
+        h1
+            font-size: 30px !important
+            line-height: 40px !important
+        iframe
+            width: 100%!important
+            height: auto!important
+            position: static!important
+            min-height: 220px
+        div[style^="width"]
+            max-width: 100%
+        .su-vimeo,.su-youtube
+            padding-bottom: 15px!important
+            height: auto!important
+    section#support
+        padding: 60px 0
+        .alert-primary
+            margin-bottom: 30px
+        label
+            max-width: 33%
+        .attach
+            display: block
+            label
+                max-width: 100%
+                margin-bottom: 5px
+            span
+                display: block
+    section#partners
+        padding: 60px 0
+        .partner
+            .row
+                height: auto
+                .text-center
+                    text-align: left!important
+                img
+                    margin: 15px 0
+    section.login-section
+        padding: 0
+        form
+            border-radius: 0
+    section.register
+        padding: 0
+        .container
+            padding: 0
+            form
+                border-radius: 0
+                .form-group
+                    button[type="submit"]
+                        margin-top: 0
+                        width: 100%
+                label
+                    width: 33%
+                .formhead
+                    margin-left: -15px
+                    margin-right: -15px
+                .req
+                    margin-left: -15px
+                    margin-right: -15px
+    section.profile
+        padding: 60px 0
+        .col-md-3
+            width: 33%
+            label
+                text-align: left
+        .col-md-4
+            width: 66%
+        input
+            max-width: 100%
 

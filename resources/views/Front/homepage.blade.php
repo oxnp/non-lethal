@@ -111,7 +111,7 @@
 
                 @foreach($user_stories as $story)
                 <div class="item row align-items-center">
-                    <div class="col-md-5">
+                    <div class="col-lg-5">
                         <div class="title">
                             {{$story->title}}
                         </div>
@@ -123,7 +123,7 @@
                         </div>
                         <a class="readmore" href="{{env('USER_STORIES_URL')}}/{{$story->slug}}">See More <img src="/images/blue_arr.png"></a>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-lg-7">
                         <img src="{{$story->image}}" class="shad ml-auto">
                     </div>
                 </div>

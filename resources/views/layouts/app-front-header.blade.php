@@ -1,12 +1,13 @@
 <header>
     <div class="container">
         <div class="row no-gutters">
-            <div class="col-lg-5">
+            <div class="mobmenu">MENU</div>
+            <div class="col-lg-5 mlogo">
                 <a class="logo" href="/">
                     <img src="/images/logo.png">
                 </a>
             </div>
-            <div class="col-lg-7 align-self-center">
+            <div class="col-lg-7 align-self-center mmenu">
                 <div class="topmenu text-right">
                     <ul class="row justify-content-between">
                         <li class="parent">
