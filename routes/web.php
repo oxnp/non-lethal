@@ -107,10 +107,9 @@ Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
     Auth::routes();
 //profile
     Route::get('/profile','Front\ProfileController@profile')->name('profile');
-
     Route::put('/profile','Front\ProfileController@updateProfile')->name('profile-update');
 
-    Route::get('/my-licenses','Front\ProfileController@mylicenses')->name('my-licenses');
+    Route::get('/my-licenses','Front\MyLicensesController@index')->name('my-licenses');
 //profile
 
 
