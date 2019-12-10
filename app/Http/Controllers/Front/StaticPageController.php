@@ -11,6 +11,11 @@ class StaticPageController extends Controller
 {
     public function page($slug){
         $content = StaticPages::getPage($slug);
+
+        if(empty($content)){
+            return abort(404);
+        }
+
         $categories = ProductsPageCategory::getCategoriesTolist();
         return view('Front.static_page')->with([
             'content'=>$content,

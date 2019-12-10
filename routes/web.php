@@ -13,9 +13,9 @@
 
 use App\Http\Models\Front\Contents\ProductsPageCategory;
 
-Auth::routes();
 
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 
 Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
 
@@ -104,6 +104,15 @@ Route::get('/support',function(){
 
 
 Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
+    Auth::routes();
+//profile
+    Route::get('/profile','Front\ProfileController@profile')->name('profile');
+
+    Route::put('/profile','Front\ProfileController@updateProfile')->name('profile-update');
+
+    Route::get('/my-licenses','Front\ProfileController@mylicenses')->name('my-licenses');
+//profile
+
 
 //mainpage
 Route::get('/','Front\HomeController@index')->name('index');
@@ -139,12 +148,4 @@ Route::get('/{headcategory}/{category}/{subcategory}/{item}','Front\KnowledgeBas
 
 });
 
-
-
-
-
-
 //Route::get('/home', 'HomeController@index')->name('home');
-
-
-
