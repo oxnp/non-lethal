@@ -20,6 +20,10 @@
   align-items: center;
   justify-content: center;
   position: relative; }
+  .owl-next:hover span, .owl-prev:hover span {
+    background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%); }
+  .owl-next:hover svg, .owl-prev:hover svg {
+    fill: #fff; }
   .owl-next svg, .owl-prev svg {
     z-index: 2;
     margin-right: 4px;
@@ -137,14 +141,37 @@ header {
       list-style: none; }
       header .topmenu ul li a {
         font-weight: bold;
+        text-decoration: none;
         font-size: 16px;
         line-height: 20px;
+        position: relative;
         color: #fff;
         -webkit-transition: all 0.3s ease;
         -moz-transition: all 0.3s ease;
         -ms-transition: all 0.3s ease;
         -o-transition: all 0.3s ease;
         transition: all 0.3s ease; }
+        header .topmenu ul li a:before {
+          position: absolute;
+          left: 0;
+          bottom: -8px;
+          content: '';
+          height: 1px;
+          width: 0;
+          background: #4282FF;
+          -webkit-transition: all 0.3s ease;
+          -moz-transition: all 0.3s ease;
+          -ms-transition: all 0.3s ease;
+          -o-transition: all 0.3s ease;
+          transition: all 0.3s ease; }
+        header .topmenu ul li a:hover {
+          color: #4282FF; }
+          header .topmenu ul li a:hover:before {
+            width: 100%; }
+      header .topmenu ul li.parent.rt ul {
+        left: auto;
+        width: 140px;
+        right: -20px; }
       header .topmenu ul li.parent {
         position: relative; }
         header .topmenu ul li.parent ul {
@@ -168,6 +195,8 @@ header {
             header .topmenu ul li.parent ul a:hover {
               color: #4282FF;
               border-bottom: 1px solid #4282FF; }
+            header .topmenu ul li.parent ul a:before {
+              display: none; }
 
 footer .copyright {
   padding: 22px 0;
@@ -190,8 +219,15 @@ footer .about_nla {
       text-transform: capitalize; }
   footer .about_nla .social {
     margin-top: 55px; }
+    footer .about_nla .social a:hover svg {
+      fill: #426BFF; }
     footer .about_nla .social svg {
-      fill: #838383; }
+      fill: #838383;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -ms-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+      transition: all 0.3s ease; }
 
 #slider {
   height: 100vh;
@@ -205,8 +241,15 @@ footer .about_nla {
     #slider .social a {
       display: inline-block;
       margin-right: 35px; }
+      #slider .social a:hover svg {
+        fill: #7392FF; }
       #slider .social a svg {
-        fill: #fff; }
+        fill: #fff;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease; }
   #slider .row {
     position: relative; }
   #slider .text {
@@ -297,7 +340,8 @@ footer .about_nla {
     font-size: 21px;
     color: #232323;
     font-family: 'Montserrat',sans-serif;
-    margin-bottom: 30px; }
+    margin-bottom: 30px;
+    min-height: 48px; }
   #latest_news .inner .desc {
     font-size: 15px;
     line-height: 21px;
@@ -319,9 +363,16 @@ footer .about_nla {
     line-height: 68px;
     font-family: 'Montserrat',sans-serif;
     text-decoration: none; }
+    #latest_news .inner a.readmore:hover img {
+      margin-left: 25px; }
     #latest_news .inner a.readmore img {
       width: auto;
-      margin-left: 18px; }
+      margin-left: 18px;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -ms-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+      transition: all 0.3s ease; }
 
 #user_stories .heading {
   margin-bottom: 70px; }
@@ -353,18 +404,33 @@ footer .about_nla {
     color: #4282ff;
     font-weight: bold;
     text-decoration: none; }
+    #user_stories .container a.readmore:hover img {
+      margin-left: 30px; }
     #user_stories .container a.readmore img {
-      margin-left: 20px; }
+      margin-left: 20px;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -ms-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+      transition: all 0.3s ease; }
   #user_stories .container .owl-carousel .owl-nav {
     right: 30px;
     bottom: 0; }
     #user_stories .container .owl-carousel .owl-nav .owl-next span, #user_stories .container .owl-carousel .owl-nav .owl-prev span {
-      background: #141414; }
+      background: #141414;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      -ms-transition: all 0.3s ease;
+      -o-transition: all 0.3s ease;
+      transition: all 0.3s ease; }
+    #user_stories .container .owl-carousel .owl-nav .owl-next:hover span, #user_stories .container .owl-carousel .owl-nav .owl-prev:hover span {
+      background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%); }
     #user_stories .container .owl-carousel .owl-nav svg {
       fill: #fff; }
   #user_stories .container .owl-carousel .item img {
     max-width: 100%;
-    width: auto; }
+    width: auto;
+    border-radius: 15px; }
 
 .intro.statpage {
   background: url("/images/pp_top.jpg") no-repeat center; }
@@ -390,7 +456,7 @@ footer .about_nla {
 .intro.partners {
   background: url("/images/partners_top.jpg") no-repeat center; }
 
-.intro.login, .intro.pcat {
+.intro.login, .intro.pcat, .intro.lic, .intro.prof {
   background: url("/images/login_top.jpg") no-repeat center; }
 
 section.intro {
@@ -707,8 +773,15 @@ section#support {
       color: #4282ff;
       font-weight: bold;
       text-decoration: none; }
+      #kb .item a.readmore:hover img {
+        margin-left: 30px; }
       #kb .item a.readmore img {
-        margin-left: 20px; }
+        margin-left: 20px;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease; }
 
 section#stories {
   padding: 100px 0;
@@ -774,8 +847,15 @@ section#pcat a.readmore {
   color: #4282ff;
   font-weight: bold;
   text-decoration: none; }
+  section#pcat a.readmore:hover img {
+    margin-left: 30px; }
   section#pcat a.readmore img {
-    margin-left: 20px; }
+    margin-left: 20px;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease; }
 
 section#pcat .bl_but {
   background: linear-gradient(180deg, #252525 0%, #0D0D0D 100%);
@@ -788,7 +868,14 @@ section#pcat .bl_but {
   font-size: 18px;
   line-height: 22px;
   text-decoration: none;
-  margin: 0 15px; }
+  margin: 0 15px;
+  margin--webkit-transition: all 0.3s ease;
+  margin--moz-transition: all 0.3s ease;
+  margin--ms-transition: all 0.3s ease;
+  margin--o-transition: all 0.3s ease;
+  margin-transition: all 0.3s ease; }
+  section#pcat .bl_but:hover {
+    background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%); }
 
 section#pcat .buy_but {
   margin: 0 15px;
@@ -801,7 +888,14 @@ section#pcat .buy_but {
   font-size: 18px;
   line-height: 22px;
   text-decoration: none;
-  background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%); }
+  background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%);
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease; }
+  section#pcat .buy_but:hover {
+    background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%); }
 
 section#pcat .features .f_img {
   justify-content: center;
@@ -839,6 +933,8 @@ section#pcat a.feature_list_but {
   text-align: center;
   cursor: pointer;
   margin-bottom: 40px; }
+  section#pcat a.feature_list_but:hover {
+    background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%); }
   section#pcat a.feature_list_but .tog {
     display: none; }
     section#pcat a.feature_list_but .tog.vis {
@@ -964,7 +1060,10 @@ section#pcat .pricing .price {
     font-size: 18px;
     line-height: 22px;
     text-decoration: none;
+    cursor: pointer;
     background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%); }
+    section#pcat .pricing .price .buybut a:hover {
+      background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%); }
 
 section#pcat .pricing .bgpanel {
   margin-top: 100px;
@@ -996,6 +1095,8 @@ section#pcat .pricing .bgpanel {
     line-height: 22px;
     text-decoration: none;
     background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%); }
+    section#pcat .pricing .bgpanel a.download_but:hover {
+      background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%); }
 
 section#pcat .get_start {
   text-align: center; }
@@ -1084,7 +1185,14 @@ section#pcat a.black_load {
   line-height: 22px;
   text-decoration: none;
   display: inline-block;
-  margin-bottom: 50px; }
+  margin-bottom: 50px;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease; }
+  section#pcat a.black_load:hover {
+    background: url("/images/blackload_ar.png") no-repeat left 25px center, linear-gradient(180deg, #7492FF 0%, #426BFF 100%); }
 
 section#pcat h2 {
   color: #1F1F1F;
@@ -1218,3 +1326,40 @@ section#kb_item {
     line-height: 24px !important;
     color: #838383;
     font-family: "Lato", sans-serif !important; }
+
+.pagination {
+  justify-content: center; }
+  .pagination li {
+    padding-left: 0; }
+    .pagination li:before {
+      display: none; }
+
+section.profile {
+  padding: 80px 0; }
+  section.profile .group_title {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: 0.08em;
+    color: #1F1F1F;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #E1E1E1;
+    margin-bottom: 45px; }
+  section.profile label {
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 20px;
+    text-align: right;
+    color: #1F1F1F;
+    display: block;
+    margin-bottom: 0; }
+  section.profile .prof_group {
+    margin-bottom: 60px; }
+  section.profile input {
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 20px;
+    color: #838383;
+    padding: 5px 24px; }
+  section.profile .row {
+    margin-bottom: 30px; }

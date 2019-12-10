@@ -74,95 +74,31 @@
             <div class="heading">
                 Latest news
             </div>
+
+
+
             <div class="owl-carousel news_slider">
+                @foreach($news as $item)
                 <div class="item col-12">
                     <div class="inner">
                         <div class="pad">
                             <div class="addpad">
-                                <div class="cat">
+                                <!--<div class="cat">
                                     <span class="num">01</span>
-                                    New release
-                                </div>
+                                </div>-->
                                 <div class="title">
-                                    Adr Master 1.3 released
+                                    {{$item->title}}
                                 </div>
                                 <div class="desc">
-                                    We have just released ADR Master 1.3 containing great new features, many improvments
-                                    as
-                                    well as bug fixes.
+                                    {{substr(strip_tags($item->content),0,100)}}
                                 </div>
                             </div>
-                            <img src="/images/news_thumb.jpg">
+                            <img src="{{$item->image}}">
                         </div>
-                        <a href="#" class="readmore">More Detailed <img src="/images/readmore_arr.png"></a>
+                        <a href="{{env('NEWS_URL')}}/{{$item->slug}}" class="readmore">More Detailed <img src="/images/readmore_arr.png"></a>
                     </div>
                 </div>
-                <div class="item col-12">
-                    <div class="inner">
-                        <div class="pad">
-                            <div class="addpad">
-                                <div class="cat">
-                                    <span class="num">02</span>
-                                    New release
-                                </div>
-                                <div class="title">
-                                    Adr Master 1.3 released
-                                </div>
-                                <div class="desc">
-                                    We have just released ADR Master 1.3 containing great new features, many improvments
-                                    as
-                                    well as bug fixes.
-                                </div>
-                            </div>
-                            <img src="/images/news_thumb.jpg">
-                        </div>
-                        <a href="#" class="readmore">More Detailed <img src="/images/readmore_arr.png"></a>
-                    </div>
-                </div>
-                <div class="item col-12">
-                    <div class="inner">
-                        <div class="pad">
-                            <div class="addpad">
-                                <div class="cat">
-                                    <span class="num">03</span>
-                                    New release
-                                </div>
-                                <div class="title">
-                                    Adr Master 1.3 released
-                                </div>
-                                <div class="desc">
-                                    We have just released ADR Master 1.3 containing great new features, many improvments
-                                    as
-                                    well as bug fixes.
-                                </div>
-                            </div>
-                            <img src="/images/news_thumb.jpg">
-                        </div>
-                        <a href="#" class="readmore">More Detailed <img src="/images/readmore_arr.png"></a>
-                    </div>
-                </div>
-                <div class="item col-12">
-                    <div class="inner">
-                        <div class="pad">
-                            <div class="addpad">
-                                <div class="cat">
-                                    <span class="num">04</span>
-                                    New release
-                                </div>
-                                <div class="title">
-                                    Adr Master 1.3 released
-                                </div>
-                                <div class="desc">
-                                    We have just released ADR Master 1.3 containing great new features, many improvments
-                                    as
-                                    well as bug fixes.
-                                </div>
-                            </div>
-                            <img src="/images/news_thumb.jpg">
-                        </div>
-                        <a href="#" class="readmore">More Detailed <img src="/images/readmore_arr.png"></a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -172,40 +108,26 @@
                 User stories
             </div>
             <div class="owl-carousel user_stories">
+
+                @foreach($user_stories as $story)
                 <div class="item row align-items-center">
                     <div class="col-md-5">
                         <div class="title">
-                            Keegan DeWitt
+                            {{$story->title}}
                         </div>
                         <div class="subtitle">
-                            The most normal guy in the room
+                            {{$story->sub_title}}
                         </div>
                         <div class="desc">
-                            Keegan DeWitt didn’t set out in life to be a prodigious film composer, but since making his name at the South by Southwest Festival in the 2000s and establishing himself as a firm favourite at the Sundance Festival, he has scored for movies scooping an Academy Award, three Sundance Audience Awards, several New York Times awards and an Independent Spirit Award between them, not to mention working on top TV shows such as Divorce for HBO.
+                            {{substr(strip_tags($story->content),0,300)}}
                         </div>
-                        <a class="readmore" href="#">See More <img src="/images/blue_arr.png"></a>
+                        <a class="readmore" href="{{env('USER_STORIES_URL')}}/{{$story->slug}}">See More <img src="/images/blue_arr.png"></a>
                     </div>
                     <div class="col-md-7">
-                        <img src="/images/story1.jpg" class="shad ml-auto">
+                        <img src="{{$story->image}}" class="shad ml-auto">
                     </div>
                 </div>
-                <div class="item row justify-content-between align-content-center">
-                    <div class="col-md-5">
-                        <div class="title">
-                            Keegan DeWitt
-                        </div>
-                        <div class="subtitle">
-                            The most normal guy in the room
-                        </div>
-                        <div class="desc">
-                            Keegan DeWitt didn’t set out in life to be a prodigious film composer, but since making his name at the South by Southwest Festival in the 2000s and establishing himself as a firm favourite at the Sundance Festival, he has scored for movies scooping an Academy Award, three Sundance Audience Awards, several New York Times awards and an Independent Spirit Award between them, not to mention working on top TV shows such as Divorce for HBO.
-                        </div>
-                        <a class="readmore" href="#">See More <img src="/images/blue_arr.png"></a>
-                    </div>
-                    <div class="col-md-7">
-                        <img src="/images/story1.jpg" class="shad">
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>

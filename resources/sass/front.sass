@@ -29,6 +29,11 @@
     align-items: center
     justify-content: center
     position: relative
+    &:hover
+        span
+            background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+        svg
+            fill: #fff
     svg
         z-index: 2
         margin-right: 4px
@@ -125,10 +130,30 @@ header
                 list-style: none
                 a
                     font-weight: bold
+                    text-decoration: none
                     font-size: 16px
                     line-height: 20px
+                    position: relative
                     color: #fff
                     +transition(all .3s ease)
+                    &:before
+                        position: absolute
+                        left: 0
+                        bottom: -8px
+                        content: ''
+                        height: 1px
+                        width: 0
+                        background: #4282FF
+                        +transition(all .3s ease)
+                    &:hover
+                        color: #4282FF
+                        &:before
+                            width: 100%
+                &.parent.rt
+                    ul
+                        left: auto
+                        width: 140px
+                        right: -20px
                 &.parent
                     position: relative
                     ul
@@ -154,6 +179,8 @@ header
                             &:hover
                                 color: #4282FF
                                 border-bottom: 1px solid #4282FF
+                            &:before
+                                display: none
 footer
     .copyright
         padding: 22px 0
@@ -175,8 +202,13 @@ footer
                 text-transform: capitalize
         .social
             margin-top: 55px
+            a
+                &:hover
+                    svg
+                        fill: #426BFF
             svg
                 fill: #838383
+                +transition(all .3s ease)
 #slider
     height: 100vh
     background: url("/images/slider_bg.png")no-repeat center center
@@ -189,8 +221,12 @@ footer
         a
             display: inline-block
             margin-right: 35px
+            &:hover
+                svg
+                    fill: #7392FF
             svg
                 fill: #fff
+                +transition(all .3s ease)
     .row
         position: relative
     .text
@@ -271,6 +307,7 @@ footer
             color: #232323
             font-family: 'Montserrat',sans-serif
             margin-bottom: 30px
+            min-height: 48px
         .desc
             font-size: 15px
             line-height: 21px
@@ -292,9 +329,13 @@ footer
             line-height: 68px
             font-family: 'Montserrat',sans-serif
             text-decoration: none
+            &:hover
+                img
+                    margin-left: 25px
             img
                 width: auto
                 margin-left: 18px
+                +transition(all .3s ease)
 #user_stories
     .heading
         margin-bottom: 70px
@@ -325,20 +366,30 @@ footer
             color: #4282ff
             font-weight: bold
             text-decoration: none
+            &:hover
+                img
+                    margin-left: 30px
             img
                 margin-left: 20px
+                +transition(all .3s ease)
         .owl-carousel
             .owl-nav
                 right: 30px
                 bottom: 0
                 .owl-next span, .owl-prev span
                     background: #141414
+                    +transition(all .3s ease)
+                .owl-next, .owl-prev
+                    &:hover
+                        span
+                            background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
                 svg
                    fill: #fff
             .item
                 img
                     max-width: 100%
                     width: auto
+                    border-radius: 15px
 .intro.statpage
     background: url('/images/pp_top.jpg')no-repeat center
 .intro.stories
@@ -355,7 +406,7 @@ footer
     background: url('/images/impressum_top.jpg')no-repeat center
 .intro.partners
     background: url('/images/partners_top.jpg')no-repeat center
-.intro.login,.intro.pcat
+.intro.login,.intro.pcat,.intro.lic,.intro.prof
     background: url('/images/login_top.jpg')no-repeat center
 section.intro
     height: 340px
@@ -654,8 +705,12 @@ section#support
             color: #4282ff
             font-weight: bold
             text-decoration: none
+            &:hover
+                img
+                    margin-left: 30px
             img
                 margin-left: 20px
+                +transition(all .3s ease)
 section#stories
     padding: 100px 0
     background: #F3F3F3
@@ -716,8 +771,12 @@ section#pcat
         color: #4282ff
         font-weight: bold
         text-decoration: none
+        &:hover
+            img
+                margin-left: 30px
         img
             margin-left: 20px
+            +transition(all .3s ease)
 section#pcat
     .bl_but
         background: linear-gradient(180deg, #252525 0%, #0D0D0D 100%)
@@ -731,6 +790,9 @@ section#pcat
         line-height: 22px
         text-decoration: none
         margin: 0 15px
+            +transition(all .3s ease)
+        &:hover
+            background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
     .buy_but
         margin: 0 15px
         border-radius: 10px
@@ -743,6 +805,9 @@ section#pcat
         line-height: 22px
         text-decoration: none
         background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+        +transition(all .3s ease)
+        &:hover
+            background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%)
     .features
         .f_img
             justify-content: center
@@ -778,6 +843,8 @@ section#pcat
         text-align: center
         cursor: pointer
         margin-bottom: 40px
+        &:hover
+            background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%)
         .tog
             display: none
             &.vis
@@ -903,7 +970,10 @@ section#pcat
                     font-size: 18px
                     line-height: 22px
                     text-decoration: none
+                    cursor: pointer
                     background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+                    &:hover
+                        background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%)
         .bgpanel
             margin-top: 100px
             background: url('/images/bgpanel.png')no-repeat center
@@ -934,6 +1004,8 @@ section#pcat
                 line-height: 22px
                 text-decoration: none
                 background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+                &:hover
+                    background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%)
     .get_start
         text-align: center
         img
@@ -1013,8 +1085,11 @@ section#pcat
         text-decoration: none
         display: inline-block
         margin-bottom: 50px
+        +transition(all .3s ease)
+        &:hover
+            background: url('/images/blackload_ar.png')no-repeat left 25px center, linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
     h2
-        color: #1F1F1F;
+        color: #1F1F1F
         font-weight: bold
         font-family: 'Montserrat', sans-serif
         font-size: 42px
@@ -1140,3 +1215,39 @@ section#kb_item
         line-height: 24px!important
         color: #838383
         font-family: 'Lato', sans-serif!important
+.pagination
+    justify-content: center
+    li
+        padding-left: 0
+        &:before
+            display: none
+section.profile
+    padding: 80px 0
+    .group_title
+        font-weight: 500
+        font-size: 20px
+        line-height: 24px
+        letter-spacing: 0.08em
+        color: #1F1F1F
+        padding-bottom: 30px
+        border-bottom: 1px solid #E1E1E1
+        margin-bottom: 45px
+    label
+        font-weight: 600
+        font-size: 17px
+        line-height: 20px
+        text-align: right
+        color: #1F1F1F
+        display: block
+        margin-bottom: 0
+    .prof_group
+        margin-bottom: 60px
+    input
+        font-weight: 500
+        font-size: 17px
+        line-height: 20px
+        color: #838383
+        padding: 5px 24px;
+    .row
+        margin-bottom: 30px
+
