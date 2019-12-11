@@ -9,7 +9,7 @@
         <div class="row no-gutters">
             <div class="mobmenu">MENU</div>
             <div class="col-lg-5 mlogo">
-                <a class="logo" href="{{localeMiddleware::getLocaleFront()}}">
+                <a class="logo" href="/{{localeMiddleware::getLocale()}}">
                     <img src="/images/logo.png">
                 </a>
             </div>
