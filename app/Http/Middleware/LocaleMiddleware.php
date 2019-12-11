@@ -49,5 +49,22 @@ class LocaleMiddleware
         }
     }
 
+    public static function getLocaleFront()
+    {
+        $uri = Request::path();
+        $segmentsURI = explode('/',$uri);
+
+        if (!empty($segmentsURI[0]) && in_array($segmentsURI[0], self::$languages)) {
+
+            Session::put('locale',$segmentsURI[0]);
+            return '/'.$segmentsURI[0];
+        }else{
+            Session::put('locale','en');
+            return '';
+        }
+    }
+
+
+
 
 }

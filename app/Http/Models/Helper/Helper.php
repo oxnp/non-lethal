@@ -69,4 +69,74 @@ class Helper extends Model
 
         return $startDate->add('P'.$expireDays.'D');
     }
+
+    public static function isExpired($start, $expireDays = 0) {
+
+        $expireDate = self::getExpirationDate($start, $expireDays);
+        $today = Carbon::now();
+        $dateDiff = $today->diff($expireDate);
+        return (intval($dateDiff->format('%r1')) < 0);   // Returns +1 or -1, depending if time left or not
+    }
+
+    /**
+     * Converts the license type ID of the main types to the corresponding (string) name
+     * @param  int      $licenseType    The license type ID to lookup
+     * @return string   The license type name
+     */
+    public static function licenseTypeIDtoString($licenseTypeID) {
+
+        $licenseTypeString = '';
+        switch ($licenseTypeID) {
+
+            case env('LICENSE_TYPE_BASE') :
+                $licenseTypeString = 'Permanent license';
+                break;
+
+            case env('SUBSCRIPTION_BASE') :
+                $licenseTypeString = 'Subscription';
+                break;
+
+            case env('SUBSCRIPTION_EXPIRED') :
+                $licenseTypeString ='Subscription (expired)';
+                break;
+
+            case env('SUPPORTED_BASE') :
+                $licenseTypeString = 'Supported license';
+                break;
+
+            case env('SUPPORT_EXPIRED') :
+                $licenseTypeString = 'Supported license (expired)';
+                break;
+
+            case env('TEMP_BASE') :
+                $licenseTypeString = 'Temporary license';
+                break;
+
+            case env('TEMP_EXPIRED') :
+                $licenseTypeString = 'Temporary license (expired)';
+                break;
+
+            case env('LICENSE_TYPE_INVALID') :
+                $licenseTypeString = 'Invalid license';
+                break;
+
+            default :
+                break;
+        }
+
+        return $licenseTypeString;
+    }
+
+    /**
+     * Returns the days until automatic subscription renewal
+     *
+     * @param $purchaseDate     String      Purchase date as string
+     * @return string       Days until renewal
+     */
+    public static function getDaysTillSubscriptionRenewal($purchaseDate) {
+
+        $expireDate = self::getSubscriptionExpireDate($purchaseDate);
+        $interval = date_diff(Carbon::now(), $expireDate);
+        return $interval->format('%a');
+    }
 }

@@ -23,6 +23,7 @@ class ProductsPage extends Model
     }
 
     public static function updatePage($request,$storage_image){
+
         $data = array();
         $page_ids=  array();
         foreach($request->all() as $key=>$value){
