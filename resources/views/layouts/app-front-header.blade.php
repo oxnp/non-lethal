@@ -1,9 +1,15 @@
 <header>
+    <?php $locale = App::getLocale()?>
+    @if($locale == 'en')
+        <a class="lang" href="{{str_replace($_SERVER["HTTP_HOST"],''.$_SERVER["HTTP_HOST"].'/de',URL::current())}}">DE</a>
+    @else
+        <a class="lang" href="{{str_replace(''.$_SERVER["HTTP_HOST"].'/de',$_SERVER["HTTP_HOST"],URL::current())}}">EN</a>
+    @endif
     <div class="container">
         <div class="row no-gutters">
             <div class="mobmenu">MENU</div>
             <div class="col-lg-5 mlogo">
-                <a class="logo" href="/">
+                <a class="logo" href="{{localeMiddleware::getLocaleFront()}}">
                     <img src="/images/logo.png">
                 </a>
             </div>
@@ -15,28 +21,28 @@
                             <ul class="child">
                                 @foreach($categories as $cat)
                                     <li>
-                                        <a href="{{localeMiddleware::getLocale()}}/{{env('PRODUCTS_URL')}}/{{$cat['slug']}}">{{$cat['name']}}</a>
+                                        <a href="{{localeMiddleware::getLocaleFront()}}/{{env('PRODUCTS_URL')}}/{{$cat['slug']}}">{{$cat['name']}}</a>
                                     </li>
                                 @endforeach
                             </ul>
                         </li>
                         <li>
-                            <a href="{{localeMiddleware::getLocale()}}/user-stories">User Stories</a>
+                            <a href="{{localeMiddleware::getLocaleFront()}}/user-stories">User Stories</a>
                         </li>
                         <li class="parent">
                             <a href="#">Support</a>
                             <ul class="child">
                                 <li>
-                                    <a href="{{localeMiddleware::getLocale()}}/support/knowledge-base">Knowledge
+                                    <a href="{{localeMiddleware::getLocaleFront()}}/support/knowledge-base">Knowledge
                                         base</a>
                                 </li>
                                 <li>
-                                    <a href="{{localeMiddleware::getLocale()}}/support">Get in touch</a>
+                                    <a href="{{localeMiddleware::getLocaleFront()}}/support">Get in touch</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="{{localeMiddleware::getLocale()}}/partners">Partners</a>
+                            <a href="{{localeMiddleware::getLocaleFront()}}/partners">Partners</a>
                         </li>
                         @if(Auth::guest())
                             <li>

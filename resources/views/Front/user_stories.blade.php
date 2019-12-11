@@ -13,10 +13,10 @@
             <div class="items row">
                 @foreach ($user_stories as $user_story)
                     <div class="item col-md-3">
-                        <a href="{{env('USER_STORIES_URL')}}/{{$user_story['slug']}}"><img
+                        <a href="{{localeMiddleware::getLocaleFront()}}/{{env('USER_STORIES_URL')}}/{{$user_story['slug']}}"><img
                                 src="{{$user_story['image']}}"></a>
                         <div class="title">
-                            <a href="{{env('USER_STORIES_URL')}}/{{$user_story['slug']}}">{{$user_story['title']}}</a>
+                            <a href="{{localeMiddleware::getLocaleFront()}}/{{env('USER_STORIES_URL')}}/{{$user_story['slug']}}">{{$user_story['title']}}</a>
                         </div>
                     </div>
                 @endforeach

@@ -15,13 +15,13 @@
             </div>
             <div class="footmenu row text-center">
                 <div class="col">
-                    <a href="/company">Company</a>
+                    <a href="{{localeMiddleware::getLocaleFront()}}/company">Company</a>
                 </div>
                 <div class="col">
-                    <a href="/impressum">Impressum</a>
+                    <a href="{{localeMiddleware::getLocaleFront()}}/impressum">Impressum</a>
                 </div>
                 <div class="col">
-                    <a href="/disclaimer">Disclaimer/Privacy Policy</a>
+                    <a href="{{localeMiddleware::getLocaleFront()}}/disclaimer">Disclaimer/Privacy Policy</a>
                 </div>
             </div>
             <div class="row social">

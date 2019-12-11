@@ -95,7 +95,7 @@
                             </div>
                             <img src="{{$item->image}}">
                         </div>
-                        <a href="{{env('NEWS_URL')}}/{{$item->slug}}" class="readmore">More Detailed <img src="/images/readmore_arr.png"></a>
+                        <a href="{{localeMiddleware::getLocaleFront()}}/{{env('NEWS_URL')}}/{{$item->slug}}" class="readmore">More Detailed <img src="/images/readmore_arr.png"></a>
                     </div>
                 </div>
                 @endforeach
@@ -121,7 +121,7 @@
                         <div class="desc">
                             {{substr(strip_tags($story->content),0,300)}}
                         </div>
-                        <a class="readmore" href="{{env('USER_STORIES_URL')}}/{{$story->slug}}">See More <img src="/images/blue_arr.png"></a>
+                        <a class="readmore" href="{{localeMiddleware::getLocaleFront()}}/{{env('USER_STORIES_URL')}}/{{$story->slug}}">See More <img src="/images/blue_arr.png"></a>
                     </div>
                     <div class="col-lg-7">
                         <img src="{{$story->image}}" class="shad ml-auto">

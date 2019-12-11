@@ -14,11 +14,11 @@
                 <h2 class="text-center">Articles</h2>
                 <div class="cats row justify-content-around">
                     <div class="col text-center">
-                        <a href="{{$data['all_item_url']}}">All</a>
+                        <a href="{{localeMiddleware::getLocaleFront()}}{{$data['all_item_url']}}">All</a>
                     </div>
                     @foreach($data['categories'] as $cat)
                         <div class="col text-center">
-                            <a href="{{$cat['url']}}">{{$cat['name']}}</a>
+                            <a href="{{localeMiddleware::getLocaleFront()}}{{$cat['url']}}">{{$cat['name']}}</a>
                         </div>
                     @endforeach
                 </div>
@@ -26,7 +26,7 @@
                     @foreach($data['list'] as $item)
                         <div class="item row align-items-center">
                             <div class="col-md-4">
-                                <a href="{{$item['url']}}">
+                                <a href="{{localeMiddleware::getLocaleFront()}}{{$item['url']}}">
                                     <img src="{{$item['image']}}">
                                 </a>
                             </div>
@@ -37,7 +37,7 @@
                                 <div class="minidesc">
                                     {{$item['content']}}
                                 </div>
-                                <a class="readmore" href="{{$item['url']}}">
+                                <a class="readmore" href="{{localeMiddleware::getLocaleFront()}}{{$item['url']}}">
                                     See More <img src="/images/blue_arr.png">
                                 </a>
                             </div>
