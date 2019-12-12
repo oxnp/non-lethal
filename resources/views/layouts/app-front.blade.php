@@ -16,6 +16,7 @@
     <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="/js/owl.carousel.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script src="https://cdn.paddle.com/paddle/paddle.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/functions.js"></script>
 </body>
 </html>

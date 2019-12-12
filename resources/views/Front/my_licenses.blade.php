@@ -35,6 +35,7 @@
                             <tr>
                                 <td>
                                     {{$license['serial']}}
+                                    {{$license['ilok']}}
                                 </td>
                                 <td>
                                     {!! $license['type'] !!}
@@ -46,12 +47,20 @@
                                     {{$license['expire_date']}}
                                 </td>
                                 <td>
-                                    {{$license['select_upgrade']}}
+                                    @if(!empty($license['upgrade_targets']))
+                                        <select id="{{$license['select_id']}}_upgrade_select" class="upgrade_select"
+                                                name="{{$license['select_id']}}_upgrade_select" data-upgradeserial="{{$license['serial']}}" data-upgradeilok="{{$license['ilok']}}">
+                                            @foreach($license['upgrade_targets'] as $target)
+                                                <option @if(!empty($target['disable'])) disabled="disabled"
+                                                        @endif value="{{$target['value']}}">{{$target['text']}}</option>
+                                            @endforeach
+                                        </select>
+                                    @endif
                                 </td>
                                 <td>
                                     @if(!empty($license['notes']))
                                         <a data-toggle="modal" data-target="#{{$license['serial']}}" href="">
-                                            Read more about notes
+                                            Read notes
                                         </a>
                                     @endif
                                 </td>
@@ -99,7 +108,8 @@
                             </div>
                             <form name="activate" method="POST" action="javascript:void(0)">
                                 <div>
-                                    <input name="code" type="text" required="required" placeholder="Enter or paste code..." />
+                                    <input name="code" type="text" required="required"
+                                           placeholder="Enter or paste code..."/>
                                 </div>
                                 <button class="activate">Activate</button>
                             </form>
