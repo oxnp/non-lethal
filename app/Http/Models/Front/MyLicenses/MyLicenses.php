@@ -3,20 +3,103 @@
 namespace App\Http\Models\Front\MyLicenses;
 
 use App\Http\Models\Front\Products\Products;
+use App\Http\Models\Front\Users\UserRole;
 use App\Http\Models\Helper\Helper;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Models\Front\Buyers\Buyers;
+use App\Http\Models\Front\MyLicenses\Seats;
 use Auth;
 use DB;
 
 class MyLicenses extends Model
 {
     protected $table = "licenses";
+
+    public static function getTest(){
+        $licenses = MyLicenses::select('licenses.id AS license_id',
+            'licenses.product_id AS product_id',
+            'licenses.type AS license_type',
+            'licenses.serial AS license_serial',
+            'licenses.ilok_code AS license_ilok_code',
+            'licenses.seats AS license_seats',
+            'licenses.license_days AS license_temp_days',
+            'licenses.support_days AS license_support_days',
+            'licenses.date_purchase AS license_date_purchase',
+            'licenses.date_activate AS license_date_activate',
+            'licenses.paddle_sid',
+            'licenses.paddle_status',
+            'licenses.paddle_next_billdate',
+            'licenses.paddle_cancelurl',
+            'licenses.paddle_updateurl',
+            'licenses.paddle_queue_cancel',
+            DB::raw('COUNT(s.id) AS active_seatcount'))
+            ->leftjoin('seats as s','s.license_id','licenses.id')
+            ->leftjoin('buyers as b','b.id','licenses.buyer_id')
+            ->groupBy('licenses.id')
+            ->orderBy('licenses.date_purchase')->where('b.user_id',816)->get()->toArray();
+
+
+        $products = Products::select('products.id AS product_id',
+            'products.ordering AS product_ordering',
+            'products.name AS product_name',
+            'products.code AS product_code',
+            'products.isbeta AS product_isbeta',
+            'products.default_majver AS product_majorversion')
+            ->join('licenses AS l', 'l.product_id','products.id')
+            ->join('buyers AS b','l.product_id','products.id')
+            ->groupBy('products.id')
+            ->orderBy('products.ordering','ASC')->where('b.user_id',816)->get()->toArray();
+
+
+        // Group licenses by products
+        foreach ($products as $product) {
+
+            $product['licenses'] = array();
+
+            foreach ($licenses as $key => $license) {
+                if ($license['product_id'] == $product['product_id']) {
+                    $product['licenses'][] = $license;
+                    unset($licenses[$key]);
+                }
+            }
+
+            // Get upgrade targets
+            //$product->upgrade_targets = $this->getUpgradeTargets($product->product_id);
+        }
+
+        dd($product);
+    }
+
+
     public static function getLicensesByUser(){
 
         $product_ids = MyLicenses::whereBuyerId(93)->select('product_id')->groupBy('product_id')->get();
         $ids = $product_ids->pluck('product_id')->toArray();
         $products = Products::whereIn('id',$ids)->get()->toArray();
-        $licenses = MyLicenses::whereBuyerId(93)->select('id','serial','ilok_code','product_id','type','date_purchase','seats','notes','license_days','date_activate','paddle_cancelurl','paddle_sid','paddle_status','paddle_updateurl','paddle_queue_cancel')->get()->toArray();
+        $licenses = MyLicenses::select(DB::raw('COUNT(s.id) AS active_seatcount'),
+            'licenses.id',
+            'licenses.serial',
+            'licenses.ilok_code',
+            'licenses.product_id',
+            'licenses.type',
+            'licenses.date_purchase',
+            'licenses.seats',
+            'licenses.notes',
+            'licenses.license_days',
+            'licenses.date_activate',
+            'licenses.paddle_cancelurl',
+            'licenses.paddle_sid',
+            'licenses.paddle_status',
+            'licenses.paddle_updateurl',
+            'licenses.paddle_queue_cancel')
+            ->leftjoin('seats as s','s.license_id','licenses.id')
+            ->leftjoin('buyers as b','licenses.buyer_id','b.id')
+            ->where('b.user_id',816)
+            ->groupBy('licenses.id')
+            ->get()
+            ->toArray();
+
+//dd($licenses);
 
         $data = array();
         foreach($products as $product) {
@@ -31,7 +114,7 @@ class MyLicenses extends Model
                     $supportDays = isset($license['support_days']) ? $license['support_days'] : null;
 
 //status
-                    /*
+
                     if ($license['ilok_code'])
                     {
                         $status = 'ilok';
@@ -44,25 +127,25 @@ class MyLicenses extends Model
                             case env('TEMP_BASE') :
                             case env('SUPPORTED_BASE') :
 
-                                $status = ($license->active_seatcount > 0) ? 'active' : 'inactive';
+                                $status = ($license['active_seatcount'] > 0) ? 'active' : 'inactive';
                                 break;
 
-                            case JAA_LICENSE_TYPE::SUBSCRIPTION_BASE :
-                                $status = $license->paddle_status;
+                            case env('SUBSCRIPTION_BASE'):
+                                $status = $license['paddle_status'];
 
                                 // Get activation status according to active seats
                                 if ($status == 'active') {
-                                    $status = ($license->active_seatcount > 0) ? 'active' : 'inactive';
+                                    $status = ($license['active_seatcount'] > 0) ? 'active' : 'inactive';
                                 } elseif (empty($status)) {
                                     $status = ('paddle_unknown');
                                 }
 
                                 break;
 
-                            case JAA_LICENSE_TYPE::INVALID :
-                            case JAA_LICENSE_TYPE::SUBSCRIPTION_EXPIRED :
-                            case JAA_LICENSE_TYPE::SUPPORT_EXPIRED :
-                            case JAA_LICENSE_TYPE::TEMP_EXPIRED :
+                            case env('LICENSE_TYPE_INVALID'):
+                            case env('SUBSCRIPTION_EXPIRED'):
+                            case env('SUPPORT_EXPIRED'):
+                            case env('TEMP_EXPIRED'):
                                 $status = 'expired';
                                 break;
 
@@ -72,14 +155,14 @@ class MyLicenses extends Model
                         }
                     }
 
-                    $licSystem = $license->license_ilok_code ? 'PACE' : 'LL_LICENSELIB';
-                    $statusTitle = 'License system:<br><b>' . JText::_('COM_JAPPACTIVATION_USER_LICENSES_SYSTEM_' . $licSystem) . '</b><br>';
+                    $licSystem = $license['ilok_code'] ? 'PACE' : 'LL_LICENSELIB';
+                    $statusTitle = 'License system:<br><b>' .$licSystem . '</b><br>';
 
-                    $statusTitle .= 'Status:<br><b>' . JText::_('COM_JAPPACTIVATION_USER_LICENSES_STATUS_' . $status) . '</b>';
-                    if($license->license_seats > 1) {
-                        $statusTitle .= '<br>Seats used: <b>' . $license->active_seatcount . ' / ' . $license->license_seats . '</b>';
+                    $statusTitle .= 'Status:<br><b>' . $status . '</b>';
+                    if($license['seats'] > 1) {
+                        $statusTitle .= '<br>Seats used: <b>' . $license['active_seatcount'] . ' / ' . $license['seats'] . '</b>';
                     }
-                    */
+
 //status
 
 
@@ -94,7 +177,7 @@ class MyLicenses extends Model
                             break;
 
                         case env('SUPPORTED_BASE') :         // Check if supported license is expired
-                            $isExpired = JAppActivationHelper::isExpired($purchaseDate, $supportDays);
+                            $isExpired = Helper::isExpired($purchaseDate, $supportDays);
                             if ($isExpired) {
                                 $licenseType = env('SUPPORT_EXPIRED');
                             }
@@ -149,7 +232,7 @@ class MyLicenses extends Model
                         }
 
                     } else {
-                        $type .= '<br><b>This license will end on ' . JAppActivationHelper::getSubscriptionExpireDate($purchaseDate)->format('Y-m-d') . '</b>';
+                        $type .= '<br><b>This license will end on ' . Helper::getSubscriptionExpireDate($purchaseDate)->format('Y-m-d') . '</b>';
                     }
                 }
 
@@ -158,18 +241,103 @@ class MyLicenses extends Model
                 }
                 //type
 
-                    $data[$product['name']][$i]['serial'] = $license['serial'] == '' ? $license['ilok_code'] : substr(chunk_split($license['serial'], 5, '-'), 0, -1);
+                    $data[$product['name']][$i]['ilok'] = $license['ilok_code'];
+                    $data[$product['name']][$i]['serial'] =  substr(chunk_split($license['serial'], 5, '-'), 0, -1);
                     $data[$product['name']][$i]['type'] = $type;
                     $data[$product['name']][$i]['purchase_date'] = Date('Y-m-d', strtotime($purchaseDate));
                     $data[$product['name']][$i]['expire_date'] = $exp_date;
-                    $data[$product['name']][$i]['select_upgrade'] = 'to do';
+                   // $data[$product['name']][$i]['select_upgrade'] = 'to do';
                     $data[$product['name']][$i]['notes'] = $license['notes'];
                     $data[$product['name']][$i]['product_id'] = $product['id'];
+                    $data[$product['name']][$i]['status'] = $statusTitle;
+
+                    if($license['seats'] <= 1) {
+                        if (!isset($product['isbeta']) || !boolval($product['isbeta'])) {
+                            switch ($licenseType) {
+                                case env('LICENSE_TYPE_BASE'):
+                                case env('SUBSCRIPTION_BASE'):
+                                $tmp_target = self::getUpgradeTargets($product['id']);
+
+                                // Generate upgrade target dropdown
+                                $upgradeTargetArray = array();
+                                foreach($tmp_target as $upgradeTarget) {
+                                     //dd($upgradeTarget);
+                                    $reqAccessLevel = intval($upgradeTarget['access_level']);
+                                    if($reqAccessLevel == 0) {
+                                        $reqAccessLevel =  intval(env('default_accesslevel'));
+                                    }
+                                    $userAccessLevels = UserRole::getAuthorisedViewLevels();
+                                    if(in_array($reqAccessLevel, $userAccessLevels)) {
+                                        if(!boolval($upgradeTarget['isbeta'])) {
+                                            if(!empty($upgradeTarget['paddle_upgrade_pid'])) {
+                                                $options = array();
+                                                $options['value'] = $upgradeTarget['paddle_upgrade_pid'];
+                                                $options['text'] = $upgradeTarget['product_name'];
+
+                                                if($upgradeTarget['product_type'] == env('SUBSCRIPTION_BASE')) {
+                                                    $options['attr'] = array(
+                                                        'data-subscription' => 'true'
+                                                    );
+                                                }
+                                                $upgradeTargetArray[] = $options;
+                                            }
+                                        }
+                                    }
+                                }
+                                $dropdownID = $license['id'] . '_upgrade_select';
+                                if((count($upgradeTargetArray) > 0) && intval($license['paddle_queue_cancel']) == 0) {
+                                    // Prepend some default list entries
+                                    $defaultEntries = [
+                                        array('value' => 0, 'text' => '--- Select to start upgrade ---'),
+                                        array('value' => 'code', 'text' => 'Upgrade with pre-activation code'),
+                                        array('value' => '', 'text' => '', 'disable' => true)
+                                    ];
+                                    $upgradeTargetArray = array_merge($defaultEntries, $upgradeTargetArray);
+
+                                    // Set some options
+                                   /* $optionsArray = array(
+                                        'list.attr' => array(           // additional HTML attributes for select field
+                                            'class' => 'upgrade_select',
+                                            'data-upgradeserial' => $license['serial'],
+                                            'data-upgradeilok' => $license['ilok_code'],
+                                        ),
+                                        'list.translate' => false,      // true to translate
+                                        'option.key' => 'value',        // key name for value in data array
+                                        'option.text' => 'text',        // key name for text in data array
+                                        'option.attr' => 'attr',        // key name for attr in data array
+                                        'list.select' => '0',           // value of the SELECTED field
+                                    );
+*/
+
+
+                                }else{
+                                    $data[$product['name']][$i]['upgrade_targets'] = 'No upgrades available';
+                                }
+
+                            }
+                        }
+                    }
+                    $data[$product['name']][$i]['upgrade_targets'] = $upgradeTargetArray;
+                    $data[$product['name']][$i]['select_id'] = $dropdownID;
                 }
                 $i++;
             }
         }
-
+//dd($data);
         return $data;
     }
+
+    public static function getUpgradeTargets($productID)
+    {
+        $product = Products::select('id AS product_id',
+            'name AS product_name',
+            'paddle_upgrade_pid',
+            'isbeta',
+            'type AS product_type',
+            'access AS access_level')
+            ->where('upgradeable_products','LIKE','%"' . $productID . '"%')
+            ->where('published',1)->get()->toArray();
+        return $product;
+    }
+
 }
