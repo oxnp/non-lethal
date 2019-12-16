@@ -29,6 +29,11 @@
     align-items: center
     justify-content: center
     position: relative
+    &:hover
+        span
+            background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+        svg
+            fill: #fff
     svg
         z-index: 2
         margin-right: 4px
@@ -101,6 +106,7 @@ button:focus,input:focus
     outline: none
 img
     max-width: 100%
+    max-height: 100%
 body
     font-family: 'Lato', sans-serif
     color: #000
@@ -125,10 +131,30 @@ header
                 list-style: none
                 a
                     font-weight: bold
+                    text-decoration: none
                     font-size: 16px
                     line-height: 20px
+                    position: relative
                     color: #fff
                     +transition(all .3s ease)
+                    &:before
+                        position: absolute
+                        left: 0
+                        bottom: -8px
+                        content: ''
+                        height: 1px
+                        width: 0
+                        background: #4282FF
+                        +transition(all .3s ease)
+                    &:hover
+                        color: #4282FF
+                        &:before
+                            width: 100%
+                &.parent.rt
+                    ul
+                        left: auto
+                        width: 140px
+                        right: -20px
                 &.parent
                     position: relative
                     ul
@@ -154,6 +180,8 @@ header
                             &:hover
                                 color: #4282FF
                                 border-bottom: 1px solid #4282FF
+                            &:before
+                                display: none
 footer
     .copyright
         padding: 22px 0
@@ -175,8 +203,13 @@ footer
                 text-transform: capitalize
         .social
             margin-top: 55px
+            a
+                &:hover
+                    svg
+                        fill: #426BFF
             svg
                 fill: #838383
+                +transition(all .3s ease)
 #slider
     height: 100vh
     background: url("/images/slider_bg.png")no-repeat center center
@@ -189,8 +222,12 @@ footer
         a
             display: inline-block
             margin-right: 35px
+            &:hover
+                svg
+                    fill: #7392FF
             svg
                 fill: #fff
+                +transition(all .3s ease)
     .row
         position: relative
     .text
@@ -271,6 +308,7 @@ footer
             color: #232323
             font-family: 'Montserrat',sans-serif
             margin-bottom: 30px
+            min-height: 48px
         .desc
             font-size: 15px
             line-height: 21px
@@ -292,9 +330,13 @@ footer
             line-height: 68px
             font-family: 'Montserrat',sans-serif
             text-decoration: none
+            &:hover
+                img
+                    margin-left: 25px
             img
                 width: auto
                 margin-left: 18px
+                +transition(all .3s ease)
 #user_stories
     .heading
         margin-bottom: 70px
@@ -325,20 +367,32 @@ footer
             color: #4282ff
             font-weight: bold
             text-decoration: none
+            &:hover
+                img
+                    margin-left: 30px
             img
                 margin-left: 20px
+                +transition(all .3s ease)
         .owl-carousel
             .owl-nav
                 right: 30px
                 bottom: 0
                 .owl-next span, .owl-prev span
                     background: #141414
+                    +transition(all .3s ease)
+                .owl-next, .owl-prev
+                    &:hover
+                        span
+                            background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
                 svg
                    fill: #fff
             .item
                 img
                     max-width: 100%
                     width: auto
+                    border-radius: 15px
+.intro.statpage
+    background: url('/images/pp_top.jpg')no-repeat center
 .intro.stories
     background: url('/images/stories_top.jpg')no-repeat center
 .intro.kb
@@ -353,7 +407,7 @@ footer
     background: url('/images/impressum_top.jpg')no-repeat center
 .intro.partners
     background: url('/images/partners_top.jpg')no-repeat center
-.intro.login,.intro.pcat
+.intro.login,.intro.pcat,.intro.lic,.intro.prof
     background: url('/images/login_top.jpg')no-repeat center
 section.intro
     height: 340px
@@ -373,6 +427,7 @@ section.intro
         color: #fff
         letter-spacing: 0.08em
         font-size: 20px
+        text-align: center
 section.login-section
     background: #E5E5E5
     padding: 80px 0 120px
@@ -645,6 +700,7 @@ section#support
             line-height: 24px
             color: #838383
             margin-bottom: 20px
+            word-break: break-word
         a.readmore
             display: flex
             align-items: center
@@ -652,8 +708,12 @@ section#support
             color: #4282ff
             font-weight: bold
             text-decoration: none
+            &:hover
+                img
+                    margin-left: 30px
             img
                 margin-left: 20px
+                +transition(all .3s ease)
 section#stories
     padding: 100px 0
     background: #F3F3F3
@@ -670,6 +730,8 @@ section#stories
         margin-bottom: 45px
         img
             border-radius: 15px
+            height: 175px
+            width: 100%
         .title
             margin-top: 20px
         a
@@ -712,9 +774,257 @@ section#pcat
         color: #4282ff
         font-weight: bold
         text-decoration: none
+        &:hover
+            img
+                margin-left: 30px
         img
             margin-left: 20px
+            +transition(all .3s ease)
 section#pcat
+    .bl_but
+        background: linear-gradient(180deg, #252525 0%, #0D0D0D 100%)
+        border-radius: 10px
+        color: #fff
+        display: inline-block
+        padding: 15px 70px
+        letter-spacing: 0.1em
+        font-weight: bold
+        font-size: 18px
+        line-height: 22px
+        text-decoration: none
+        margin: 0 15px
+            +transition(all .3s ease)
+        &:hover
+            background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+    .buy_but
+        margin: 0 15px
+        border-radius: 10px
+        color: #fff
+        display: inline-block
+        padding: 15px 70px
+        letter-spacing: 0.1em
+        font-weight: bold
+        font-size: 18px
+        line-height: 22px
+        text-decoration: none
+        background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+        +transition(all .3s ease)
+        &:hover
+            background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%)
+    .features
+        .f_img
+            justify-content: center
+            height: 200px
+            display: flex
+            align-items: center
+            background: linear-gradient(180deg, #FCFCFC 0%, #F9F9F9 100%)
+            box-shadow: 5px 5px 15px rgba(152, 152, 152, 0.25)
+            border-radius: 10px
+            margin-bottom: 27px
+            overflow: hidden
+        .name
+            letter-spacing: 0.08em
+            font-weight: 500
+            font-size: 20px
+            line-height: 28px
+            color: #474747
+            text-align: center
+            margin-bottom: 20px
+    .other
+        img
+            box-shadow: 5px 5px 30px rgba(125, 125, 125, 0.25)
+    a.feature_list_but
+        display: block
+        color: #fff
+        letter-spacing: 0.08em
+        font-weight: 500
+        font-size: 20px
+        line-height: 24px
+        background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+        border-radius: 10px
+        padding: 18px 0
+        text-align: center
+        cursor: pointer
+        margin-bottom: 40px
+        &:hover
+            background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%)
+        .tog
+            display: none
+            &.vis
+                display: block
+    .full_list
+        display: none
+        .versions
+            margin-bottom: 20px
+            .vs
+                background: linear-gradient(180deg, #ECECEC 0%, #D7D7D7 100%)
+                border-radius: 10px
+                color: #1F1F1F
+                padding: 15px 0
+                text-align: center
+                font-weight: bold
+                font-size: 18px
+                line-height: 22px
+                &.bl
+                    background: linear-gradient(180deg, #252525 0%, #0D0D0D 100%)
+                    color: #fff
+        .fl_group
+            margin-bottom: 30px
+            .fl_head
+                background: #E8E8E8
+                border-radius: 10px
+                padding: 15px 30px
+                letter-spacing: 0.08em
+                font-size: 15px
+                line-height: 18px
+                font-weight: bold
+                text-transform: uppercase
+                font-family: 'Montserrat', sans-serif
+                margin-bottom: 10px
+            .fl_item
+                margin: 0
+                border-bottom: 1px solid #DCDCDC
+                .col-md-6
+                    padding: 15px
+                    font-size: 17px
+                    line-height: 24px
+                    color: #707070
+                .col-md-3
+                    background: #F4F4F4
+                    display: flex
+                    align-items: center
+                    justify-content: center
+                    &:last-child
+                        border-left: 3px solid #fff
+                    span.full
+                        border-radius: 100%
+                        background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+                        width: 24px
+                        height: 24px
+                    span.empty
+                        border: 2px solid #7492FF
+                        border-radius: 100%
+                        width: 24px
+                        height: 24px
+                span.text
+                    text-align: center
+                    color: #707070
+                    font-size: 15px
+                    line-height: 22px
+                .gs
+                    text-align: center
+                    color: #707070
+                    font-size: 15px
+                    line-height: 22px
+                    background: #F4F4F4
+    .pricing
+        .price
+            width: 90%
+            margin: 0 auto
+            text-align: center
+            background: linear-gradient(180deg, #FCFCFC 0%, #F9F9F9 100%)
+            box-shadow: 5px 5px 15px rgba(152, 152, 152, 0.25)
+            border-radius: 10px
+            margin-top: 45px
+            padding-bottom: 40px
+            img
+                margin-top: -45px
+                margin-bottom: 40px
+            .lic_type
+                background: linear-gradient(180deg, #252525 0%, #0D0D0D 100%)
+                color: #fff
+                font-weight: bold
+                font-size: 15px
+                line-height: 18px
+                text-transform: uppercase
+                font-family: 'Montserrat', sans-serif
+                padding: 20px 0
+                margin-bottom: 55px
+            .sum
+                color: #4282FF
+                font-family: 'Montserrat', sans-serif
+                font-size: 42px
+                line-height: 51px
+                margin-bottom: 10px
+            .sub_sum
+                color: #4282FF
+                letter-spacing: 0.08em
+                text-transform: uppercase
+                font-size: 18px
+                line-height: 22px
+                margin-bottom: 25px
+            .feats
+                border-top: 1px solid #DCDCDC
+                margin-bottom: 40px
+                div
+                    font-size: 17px
+                    line-height: 24px
+                    text-align: center
+                    color: #707070
+                    padding: 15px 0
+                    border-bottom: 1px solid #DCDCDC
+            .buybut
+                a
+                    border-radius: 10px
+                    color: #fff
+                    display: inline-block
+                    padding: 15px 70px
+                    letter-spacing: 0.1em
+                    font-weight: bold
+                    font-size: 18px
+                    line-height: 22px
+                    text-decoration: none
+                    cursor: pointer
+                    background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+                    &:hover
+                        background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%)
+        .bgpanel
+            margin-top: 100px
+            background: url('/images/bgpanel.png')no-repeat center
+            background-size: cover
+            padding: 25px 35px
+            justify-content: space-between
+            font-size: 17px
+            line-height: 54px
+            display: flex
+            align-items: center
+            color: #FFFFFF
+            border-radius: 10px
+            h4
+                color: #4282FF
+                font-weight: 600
+                font-family: 'Montserrat', sans-serif
+                font-size: 23px
+                line-height: 54px
+                margin-bottom: 0
+            a.download_but
+                color: #fff
+                border-radius: 10px
+                display: inline-block
+                padding: 15px 70px
+                letter-spacing: 0.1em
+                font-weight: bold
+                font-size: 18px
+                line-height: 22px
+                text-decoration: none
+                background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+                &:hover
+                    background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%)
+    .get_start
+        text-align: center
+        img
+            box-shadow: 5px 5px 30px rgba(125, 125, 125, 0.25)
+            border-radius: 15px
+            margin-bottom: 20px
+        a
+            color: #4282FF
+            font-size: 17px
+            line-height: 20px
+    .story
+        img
+            border-radius: 10px
+        .title
+            color: #1F1F1F
     .check
         font-weight: 500
         font-size: 20px
@@ -779,8 +1089,11 @@ section#pcat
         text-decoration: none
         display: inline-block
         margin-bottom: 50px
+        +transition(all .3s ease)
+        &:hover
+            background: url('/images/blackload_ar.png')no-repeat left 25px center, linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
     h2
-        color: #1F1F1F;
+        color: #1F1F1F
         font-weight: bold
         font-family: 'Montserrat', sans-serif
         font-size: 42px
@@ -837,3 +1150,503 @@ section#pcat
                 font-size: 15px
                 line-height: 24px
                 color: #838383
+section#story_item
+    padding: 90px 0
+    h2.maintitle
+        color: #1F1F1F
+        font-weight: bold
+        font-size: 42px
+        line-height: 54px
+        text-align: center
+    .subtitle
+        text-align: center
+        letter-spacing: 0.08em
+        color: #474747
+        font-size: 20px
+        line-height: 24px
+        margin-bottom: 55px
+    .intro_img
+        margin-bottom: 40px
+        img
+            border-radius: 15px
+    .desc
+        font-size: 15px!important
+        line-height: 24px!important
+        color: #838383
+        font-family: 'Lato', sans-serif!important
+        p
+            font-family: 'Lato', sans-serif!important
+            font-size: 15px!important
+            line-height: 24px!important
+        h3
+            font-family: 'Lato', sans-serif!important
+            letter-spacing: 0.08em!important
+            color: #1F1F1F!important
+            font-size: 20px!important
+            line-height: 24px!important
+        h2
+            font-family: 'Lato', sans-serif!important
+            letter-spacing: 0.08em!important
+            color: #1F1F1F!important
+            font-size: 24px!important
+            line-height: 32px!important
+section#kb_item
+    padding: 90px 0
+    h1
+        font-weight: bold!important
+        font-size: 42px!important
+        line-height: 54px!important
+        color: #1F1F1F!important
+        font-family: 'Montserrat', sans-serif!important
+    p
+        font-family: 'Lato', sans-serif!important
+        font-size: 15px!important
+        line-height: 24px!important
+    h3
+        font-family: 'Lato', sans-serif!important
+        letter-spacing: 0.08em!important
+        color: #1F1F1F!important
+        font-size: 20px!important
+        line-height: 24px!important
+    h2
+        font-family: 'Lato', sans-serif!important
+        letter-spacing: 0.08em!important
+        color: #1F1F1F!important
+        font-size: 24px!important
+        line-height: 32px!important
+    .desc
+        font-size: 15px!important
+        line-height: 24px!important
+        color: #838383
+        font-family: 'Lato', sans-serif!important
+.pagination
+    justify-content: center
+    li
+        padding-left: 0
+        &:before
+            display: none
+section.profile
+    padding: 80px 0
+    .group_title
+        font-weight: 500
+        font-size: 20px
+        line-height: 24px
+        letter-spacing: 0.08em
+        color: #1F1F1F
+        padding-bottom: 30px
+        border-bottom: 1px solid #E1E1E1
+        margin-bottom: 45px
+    label
+        font-weight: 600
+        font-size: 17px
+        line-height: 20px
+        text-align: right
+        color: #1F1F1F
+        display: block
+        margin-bottom: 0
+    .prof_group
+        margin-bottom: 60px
+    input
+        font-weight: 500
+        font-size: 17px
+        line-height: 20px
+        color: #838383
+        padding: 5px 24px;
+    .row
+        margin-bottom: 30px
+.mobmenu
+    display: none
+a.lang
+    position: absolute
+    font-weight: bold
+    font-size: 16px
+    line-height: 20px
+    text-transform: capitalize
+    color: #FFFFFF
+    text-decoration: none
+    border-bottom: 1px solid #fff
+    padding-bottom: 2px
+    left: 60px
+    top: 50%
+    margin-top: -13px
+    &:hover
+        border: 0
+section#licenses
+    padding: 80px 0
+    table
+        width: 100%
+        background: #F8F8F8
+        border: 1px solid #DCDCDC
+        border-radius: 10px
+        th
+            padding: 20px
+            vertical-align: middle
+            border: 1px solid #DCDCDC
+            font-weight: 500
+            font-size: 17px
+            line-height: 21px
+            font-family: 'Montserrat', sans-serif
+        td
+            padding: 15px 20px
+            vertical-align: middle
+            background: #fff
+            border: 1px solid #DCDCDC
+            font-family: 'Montserrat', sans-serif
+            font-weight: 500
+            font-size: 15px
+            line-height: 18px
+    .total
+        background: #F8F8F8
+        border: 1px solid #DCDCDC
+        border-top: 0
+        padding: 20px
+    a.dlinks
+        color: #1F1F1F
+        font-weight: bold
+        font-size: 20px
+        line-height: 54px
+        font-family: 'Montserrat', sans-serif
+        padding: 12px 0 12px 60px
+        background: url('/images/dlink.png')no-repeat left
+        display: inline-block
+        margin-top: 30px
+        cursor: pointer
+    .item
+        margin-bottom: 30px
+    h2
+        font-family: 'Montserrat', sans-serif
+        font-weight: bold
+        font-size: 29px
+        line-height: 54px
+        margin-bottom: 45px
+#activation
+    .modal-body
+        padding: 60px 15px
+    h2
+        margin-bottom: 30px!important
+    button.activate
+        border-radius: 10px
+        color: #fff
+        display: inline-block
+        padding: 15px 70px
+        letter-spacing: 0.1em
+        font-weight: bold
+        font-size: 18px
+        line-height: 22px
+        text-decoration: none
+        border: 0
+        background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+        cursor: pointer
+        &:hover
+            background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%)
+            color: #fff
+    .activate_desc
+        letter-spacing: 0.08em
+        color: #474747
+        font-size: 20px
+        line-height: 28px
+        margin-bottom: 45px
+    input
+        margin-bottom: 30px
+        width: 290px
+.off_act
+    a.activate
+        border-radius: 10px
+        color: #fff
+        display: inline-block
+        padding: 15px 70px
+        letter-spacing: 0.1em
+        font-weight: bold
+        font-size: 18px
+        line-height: 22px
+        text-decoration: none
+        background: linear-gradient(180deg, #7492FF 0%, #426BFF 100%)
+        cursor: pointer
+        &:hover
+            background: linear-gradient(180deg, #7392FF 0%, #082FBB 100%)
+            color: #fff
+    .activate_desc
+        letter-spacing: 0.08em
+        color: #474747
+        font-size: 20px
+        line-height: 28px
+        margin-bottom: 45px
+.upgrade_select
+    max-width: 220px
+    font-size: 14px
+    padding: 10px 0
+@media (max-width: 992px)
+    a.lang
+        position: fixed
+        left: 0
+        top: auto
+        bottom: 0
+        background: #000
+        padding: 10px;
+        border: 1px solid #fff
+        border-bottom: 0
+        border-left: 0
+    header
+        display: flex
+        align-items: center
+        height: 80px
+        .row
+            flex-wrap: nowrap
+            justify-content: space-between
+        .mobmenu
+            background: url("/images/mobmenu.png")no-repeat left center
+            display: flex
+            align-items: center
+            padding-left: 45px
+            color: #fff
+            font-weight: bold
+            font-size: 14px
+            line-height: 17px
+            font-family: 'Montserrat', sans-serif
+            &.toggled
+                background: url("/images/close.png")no-repeat left 7px center
+        .mmenu
+            position: fixed
+            top: 80px
+            left: 0
+            height: calc(100% - 80px)
+            overflow: auto
+            background: #fff
+            display: none
+            .topmenu
+                ul
+                    display: block
+                    li
+                        a
+                            display: block
+                            font-weight: bold
+                            font-size: 18px
+                            line-height: 22px
+                            text-align: left
+                            color: #1F1F1F
+                            padding: 24px 15px
+                            border-bottom: 1px solid #D8D8D8
+                            &:before
+                                display: none
+                        &.parent
+                            ul.child
+                                position: static
+                                background: none
+                                width: 100%
+                                li
+                                    a
+                                        display: block
+                                        font-weight: bold
+                                        font-size: 18px
+                                        line-height: 22px
+                                        text-align: left
+                                        color: #1F1F1F
+                                        padding: 24px 15px
+                                        border-bottom: 1px solid #D8D8D8
+        .mlogo
+            width: auto
+            text-align: right
+    .owl-nav
+        right: 30px
+        bottom: 30px
+    #slider
+        .text
+            font-size: 32px
+            line-height: 46px
+            margin-bottom: 30px
+        .subtext
+            font-size: 16px
+        .social
+            bottom: 45px
+            left: 30px
+            a
+                margin-right: 25px
+    .heading
+        font-size: 28px
+        line-height: 36px
+    #create
+        padding: 45px 0
+        .row
+            display: block
+            .col
+                margin-bottom: 45px
+            .desc
+                margin-top: 15px
+    #user_stories
+        padding: 45px 0
+        .heading
+            margin-bottom: 30px
+        .item
+            flex-direction: column-reverse
+            img.shad
+                margin-bottom: 30px
+    #newsletter
+        padding: 45px 0
+        .subtext
+            margin: 15px 0 45px
+            letter-spacing: 0.44em
+        form
+            button
+                position: static
+                margin: 0 auto
+                margin-top: 30px
+    footer
+        .about_nla
+            .footmenu
+                display: block
+                margin-top: 30px
+                .col
+                    width: 100%
+                    margin-bottom: 15px
+            .social
+                .row
+                    justify-content: space-around!important
+    section.intro
+        height: 220px
+        padding-bottom: 50px
+        .subtitle
+            font-size: 16px
+        h1
+            font-size: 30px
+            line-height: 40px
+    section#pcat
+        .item
+            img
+                margin-bottom: 30px
+        a.readmore
+            img
+                margin-bottom: 0
+        .gbg
+            padding: 60px 0
+        .whbg
+            padding: 60px 0
+        .bl_but
+            margin-bottom: 30px
+        .story
+            img
+                margin-bottom: 15px
+        h2
+            margin-bottom: 15px
+            font-size: 36px
+        .full_list
+            .versions
+                .vs
+                    height: 75px
+                    display: flex
+                    align-items: center
+                    justify-content: center
+                .col-md-3
+                    width: 50%
+                    margin-left: 0
+            .fl_group
+                .fl_item
+                    .col-md-3
+                        width: 50%
+                        padding: 15px 0
+        .get_start
+            a
+                padding: 30px 0
+                display: block
+        .pricing
+            .bgpanel
+                display: block
+                line-height: 28px
+                h4
+                    line-height: 36px
+                    margin-bottom: 15px
+                .text
+                    margin-bottom: 30px
+            .price
+                margin-top: 75px
+    section#stories
+        padding: 60px 0
+        iframe
+            height: auto
+            min-height: 220px
+        .item
+            img
+                height: auto
+    section#story_item
+        padding: 60px 0
+    #kb
+        .cats
+            display: block
+            a
+                padding: 5px 0
+                display: block
+        .item
+            a.readmore
+                img
+                    margin-bottom: 0
+            img
+                margin-bottom: 15px
+    section#kb_item
+        padding: 60px 0
+        h1
+            font-size: 30px !important
+            line-height: 40px !important
+        iframe
+            width: 100%!important
+            height: auto!important
+            position: static!important
+            min-height: 220px
+        div[style^="width"]
+            max-width: 100%
+        .su-vimeo,.su-youtube
+            padding-bottom: 15px!important
+            height: auto!important
+    section#support
+        padding: 60px 0
+        .alert-primary
+            margin-bottom: 30px
+        label
+            max-width: 33%
+        .attach
+            display: block
+            label
+                max-width: 100%
+                margin-bottom: 5px
+            span
+                display: block
+    section#partners
+        padding: 60px 0
+        .partner
+            .row
+                height: auto
+                .text-center
+                    text-align: left!important
+                img
+                    margin: 15px 0
+    section.login-section
+        padding: 0
+        form
+            border-radius: 0
+    section.register
+        padding: 0
+        .container
+            padding: 0
+            form
+                border-radius: 0
+                .form-group
+                    button[type="submit"]
+                        margin-top: 0
+                        width: 100%
+                label
+                    width: 33%
+                .formhead
+                    margin-left: -15px
+                    margin-right: -15px
+                .req
+                    margin-left: -15px
+                    margin-right: -15px
+    section.profile
+        padding: 60px 0
+        .col-md-3
+            width: 33%
+            label
+                text-align: left
+        .col-md-4
+            width: 66%
+        input
+            max-width: 100%
+

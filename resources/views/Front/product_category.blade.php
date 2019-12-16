@@ -13,7 +13,7 @@
                     @foreach($category_data['pages'] as $page)
                         <div class="item row align-items-center">
                             <div class="col-md-4">
-                                <a href="/{{env('PRODUCTS_URL')}}/{{$category}}/{{$page['slug']}}">
+                                <a href="{{localeMiddleware::getLocaleFront()}}/{{env('PRODUCTS_URL')}}/{{$category}}/{{$page['slug']}}">
                                     <img src="{{$page['image']}}">
                                 </a>
                             </div>
@@ -27,7 +27,7 @@
                                 <div class="minidesc">
                                     {{$page['short_text']}}
                                 </div>
-                                <a class="readmore" href="/{{env('PRODUCTS_URL')}}/{{$category}}/{{$page['slug']}}">
+                                <a class="readmore" href="{{localeMiddleware::getLocaleFront()}}/{{env('PRODUCTS_URL')}}/{{$category}}/{{$page['slug']}}">
                                     See More <img src="/images/blue_arr.png">
                                 </a>
                             </div>
