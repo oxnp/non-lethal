@@ -67,6 +67,11 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="control-label">Upgrade Link Page</label>
+                            <input class="form-control" type="text" name="upgrade_link_page"  value=""/>
+                        </div>
+
+                        <div class="form-group">
                             <label class="control-label">Upgreadable products</label>
                             <select class="form-control" name="upgradeable_products[]" multiple size="20">
                                 @foreach($upgradeable_products as $prod)

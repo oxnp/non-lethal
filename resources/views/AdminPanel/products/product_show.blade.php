@@ -68,6 +68,12 @@
                             <input class="form-control" type="text" name="default_majver"
                                    value="{{$product['default_majver']}}"/>
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label">Upgrade Link Page</label>
+                            <input class="form-control" type="text" name="upgrade_link_page"  value="{{$product['upgrade_link_page']}}"/>
+                        </div>
+
                         <div class="form-group">
                             <label class="control-label">Upgreadable products</label>
                             @php $upgreadeable_products_id = json_decode($product['upgradeable_products'])@endphp

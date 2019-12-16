@@ -30,7 +30,7 @@
         <button class="btn btn-primary btn-md" data-toggle="modal" id="show_import">
             Import iLok codes
         </button>
-        <a class="btn btn-primary btn-md" href="/products/create">Add product</a>
+        <a class="btn btn-primary btn-md" href="{{route('products.create')}}">Add product</a>
     </div>
     <div id="gencodes" class="modal fade">
         <div class="modal-dialog">

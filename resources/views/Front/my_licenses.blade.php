@@ -26,9 +26,11 @@
                         <th>
                             Upgrade
                         </th>
+                        @if(Auth::user()->role_id == 1)
                         <th>
                             Notes
                         </th>
+                        @endif
                         </thead>
                         <tbody>
                         @foreach($value as $license)
@@ -47,7 +49,7 @@
                                     {{$license['expire_date']}}
                                 </td>
                                 <td>
-                                    @if(!empty($license['upgrade_targets']))
+                                    @if(is_array($license['upgrade_targets']))
                                         <select id="{{$license['select_id']}}_upgrade_select" class="upgrade_select"
                                                 name="{{$license['select_id']}}_upgrade_select" data-upgradeserial="{{$license['serial']}}" data-upgradeilok="{{$license['ilok']}}">
                                             @foreach($license['upgrade_targets'] as $target)
@@ -55,8 +57,10 @@
                                                         @endif value="{{$target['value']}}">{{$target['text']}}</option>
                                             @endforeach
                                         </select>
+                                        @else {!! $license['upgrade_targets']!!}
                                     @endif
                                 </td>
+                                @if(Auth::user()->role_id == 1)
                                 <td>
                                     @if(!empty($license['notes']))
                                         <a data-toggle="modal" data-target="#{{$license['serial']}}" href="">
@@ -75,6 +79,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                @endif
                                 @endif
                             </tr>
                         @endforeach

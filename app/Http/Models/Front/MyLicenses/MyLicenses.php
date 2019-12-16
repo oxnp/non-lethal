@@ -36,7 +36,7 @@ class MyLicenses extends Model
             ->leftjoin('seats as s','s.license_id','licenses.id')
             ->leftjoin('buyers as b','b.id','licenses.buyer_id')
             ->groupBy('licenses.id')
-            ->orderBy('licenses.date_purchase')->where('b.user_id',816)->get()->toArray();
+            ->orderBy('licenses.date_purchase')->where('b.user_id',2792)->get()->toArray();
 
 
         $products = Products::select('products.id AS product_id',
@@ -48,7 +48,7 @@ class MyLicenses extends Model
             ->join('licenses AS l', 'l.product_id','products.id')
             ->join('buyers AS b','l.product_id','products.id')
             ->groupBy('products.id')
-            ->orderBy('products.ordering','ASC')->where('b.user_id',816)->get()->toArray();
+            ->orderBy('products.ordering','ASC')->where('b.user_id',2792)->get()->toArray();
 
 
         // Group licenses by products
@@ -64,18 +64,37 @@ class MyLicenses extends Model
             }
 
             // Get upgrade targets
-            //$product->upgrade_targets = $this->getUpgradeTargets($product->product_id);
+            $product['upgrade_targets'] = self::getUpgradeTargets($product['product_id']);
         }
 
         dd($product);
+
+        foreach($products as $product) {
+            foreach($product['licenses'] as $license) {
+
+                // Detect real license type
+                $licenseType = $license['license_type'];
+                $purchaseDate = $license['license_date_purchase'];
+                $activationDate = isset($license['license_date_activate']) ? $license['license_date_activate'] : null;
+                $tempDays = isset($license['license_temp_days']) ? $license['license_temp_days'] : null;
+                $supportDays = isset($license['license_support_days']) ? $license['license_support_days'] : null;
+
+            }
+        }
     }
 
 
     public static function getLicensesByUser(){
 
         $product_ids = MyLicenses::whereBuyerId(93)->select('product_id')->groupBy('product_id')->get();
+
+
         $ids = $product_ids->pluck('product_id')->toArray();
+
+
         $products = Products::whereIn('id',$ids)->get()->toArray();
+
+
         $licenses = MyLicenses::select(DB::raw('COUNT(s.id) AS active_seatcount'),
             'licenses.id',
             'licenses.serial',
@@ -99,11 +118,11 @@ class MyLicenses extends Model
             ->get()
             ->toArray();
 
-//dd($licenses);
 
         $data = array();
         foreach($products as $product) {
             $i = 0;
+
             foreach ($licenses as $license) {
                 if ($license['product_id'] == $product['id']) {
 
@@ -246,12 +265,12 @@ class MyLicenses extends Model
                     $data[$product['name']][$i]['type'] = $type;
                     $data[$product['name']][$i]['purchase_date'] = Date('Y-m-d', strtotime($purchaseDate));
                     $data[$product['name']][$i]['expire_date'] = $exp_date;
-                   // $data[$product['name']][$i]['select_upgrade'] = 'to do';
                     $data[$product['name']][$i]['notes'] = $license['notes'];
                     $data[$product['name']][$i]['product_id'] = $product['id'];
                     $data[$product['name']][$i]['status'] = $statusTitle;
 
                     if($license['seats'] <= 1) {
+
                         if (!isset($product['isbeta']) || !boolval($product['isbeta'])) {
                             switch ($licenseType) {
                                 case env('LICENSE_TYPE_BASE'):
@@ -261,7 +280,7 @@ class MyLicenses extends Model
                                 // Generate upgrade target dropdown
                                 $upgradeTargetArray = array();
                                 foreach($tmp_target as $upgradeTarget) {
-                                     //dd($upgradeTarget);
+
                                     $reqAccessLevel = intval($upgradeTarget['access_level']);
                                     if($reqAccessLevel == 0) {
                                         $reqAccessLevel =  intval(env('default_accesslevel'));
@@ -294,30 +313,39 @@ class MyLicenses extends Model
                                     ];
                                     $upgradeTargetArray = array_merge($defaultEntries, $upgradeTargetArray);
 
-                                    // Set some options
-                                   /* $optionsArray = array(
-                                        'list.attr' => array(           // additional HTML attributes for select field
-                                            'class' => 'upgrade_select',
-                                            'data-upgradeserial' => $license['serial'],
-                                            'data-upgradeilok' => $license['ilok_code'],
-                                        ),
-                                        'list.translate' => false,      // true to translate
-                                        'option.key' => 'value',        // key name for value in data array
-                                        'option.text' => 'text',        // key name for text in data array
-                                        'option.attr' => 'attr',        // key name for attr in data array
-                                        'list.select' => '0',           // value of the SELECTED field
-                                    );
-*/
-
+                                    $tmp_upgrade = $upgradeTargetArray;
                                 }else{
-                                    $data[$product['name']][$i]['upgrade_targets'] = 'No upgrades available';
+                                 //   dd($product['name']);
+                                    $tmp_upgrade = 'No upgrades available';
                                 }
+
+                                break;
+
+                                case env('TEMP_BASE') :
+                                case env('SUPPORTED_BASE') :
+                                $tmp_upgrade = 'Upgrades only available for perpetual licenses. <a href ="'. $product['upgrade_link_page'].'">Please subscribe to a new plan</a>';
+                                    //echo(JText::sprintf('COM_JAPPACTIVATION_USER_LICENSES_UPGRADES_ONLY_PERPETUAL_LINK', JRoute::_('index.php?Itemid=' . $productPurchaseMenuItemid)));
+                                    break;
+
+                                case env('LICENSE_TYPE_INVALID')  :
+                                case env('SUBSCRIPTION_EXPIRED') :
+                                case env('SUPPORT_EXPIRED') :
+                                case env('TEMP_EXPIRED') :
+                                $tmp_upgrade = 'This license has expired! <a href ="'. $product['upgrade_link_page'].'">Please subscribe to a new plan</a>';
+                                   // echo(JText::sprintf('COM_JAPPACTIVATION_USER_LICENSES_EXPIRED_PLEASE_UPGRADE_LINK', JRoute::_('index.php?Itemid=' . $productPurchaseMenuItemid)));
+                                    break;
+
+                                default :
+                                    break;
 
                             }
                         }
+                        $data[$product['name']][$i]['upgrade_targets'] = $tmp_upgrade;
+                        $data[$product['name']][$i]['select_id'] = $dropdownID;
+                    }else {
+                        $data[$product['name']][$i]['upgrade_targets'] = 'Upgrading multi-seat licenses is not supported at the moment. Please contact us for assistance.';
                     }
-                    $data[$product['name']][$i]['upgrade_targets'] = $upgradeTargetArray;
-                    $data[$product['name']][$i]['select_id'] = $dropdownID;
+
                 }
                 $i++;
             }

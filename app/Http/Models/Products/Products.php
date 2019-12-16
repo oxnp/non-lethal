@@ -8,7 +8,7 @@ use DB;
 
 class Products extends Model
 {
-    protected $fillable = ['id', 'published', 'access', 'ordering', 'type', 'licsystem', 'name', 'code', 'default_majver', 'prefix_full', 'prefix_upgrade', 'prefix_temp', 'features', 'debug_mode', 'feature_prefixes', 'isbeta', 'mail_address', 'mail_from', 'mail_bcc', 'mail_subject', 'mail_body', 'upgradeable_products', 'paddle_pid', 'paddle_upgrade_pid', 'notes', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'published', 'access', 'ordering', 'type', 'licsystem', 'name', 'code', 'default_majver', 'prefix_full', 'prefix_upgrade', 'prefix_temp', 'features', 'debug_mode', 'feature_prefixes', 'isbeta', 'mail_address', 'mail_from', 'mail_bcc', 'mail_subject', 'mail_body', 'upgradeable_products', 'paddle_pid', 'paddle_upgrade_pid', 'notes','upgrade_link_page', 'created_at', 'updated_at'];
     /**
      * Transfer Licenses
      * @param  int $per_page
@@ -69,6 +69,7 @@ class Products extends Model
         //dd(json_encode($request->upgradeable_products));
         $product = Products::find($id)->update([
             'published'=>$request->published,
+            'upgrade_link_page'=>$request->upgrade_link_page,
             'access'=>$request->access,
             'type'=>$request->type,
             'licsystem'=>$request->licsystem,
@@ -99,6 +100,7 @@ class Products extends Model
         //dd(json_encode($request->upgradeable_products));
         $product = Products::create([
             'published'=>$request->published,
+            'upgrade_link_page'=>$request->upgrade_link_page,
             'access'=>$request->access,
             'type'=>$request->type,
             'licsystem'=>$request->licsystem,
