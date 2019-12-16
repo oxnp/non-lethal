@@ -309,7 +309,6 @@ class MyLicenses extends Model
                                     );
 */
 
-
                                 }else{
                                     $data[$product['name']][$i]['upgrade_targets'] = 'No upgrades available';
                                 }
