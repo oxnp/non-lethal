@@ -25,6 +25,18 @@ class MyLicensesController extends Controller
         ]);
     }
 
+    public function fulfillment(Request $request)
+    {
+        $precode = str_replace('-','',$request->code);
+
+        $precode_result = MyLicenses::lookupByPreCode($precode);
+        if ($precode_result == false){
+            return 'Code already consumed';
+        }
+dd($precode_result);
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *

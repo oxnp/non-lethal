@@ -2,6 +2,7 @@
 
 namespace App\Http\Models\Front\MyLicenses;
 
+use App\Http\Models\Front\Precode\Precode;
 use App\Http\Models\Front\Products\Products;
 use App\Http\Models\Front\Users\UserRole;
 use App\Http\Models\Helper\Helper;
@@ -87,14 +88,8 @@ class MyLicenses extends Model
     public static function getLicensesByUser(){
 
         $product_ids = MyLicenses::whereBuyerId(93)->select('product_id')->groupBy('product_id')->get();
-
-
         $ids = $product_ids->pluck('product_id')->toArray();
-
-
         $products = Products::whereIn('id',$ids)->get()->toArray();
-
-
         $licenses = MyLicenses::select(DB::raw('COUNT(s.id) AS active_seatcount'),
             'licenses.id',
             'licenses.serial',
@@ -267,7 +262,8 @@ class MyLicenses extends Model
                     $data[$product['name']][$i]['expire_date'] = $exp_date;
                     $data[$product['name']][$i]['notes'] = $license['notes'];
                     $data[$product['name']][$i]['product_id'] = $product['id'];
-                    $data[$product['name']][$i]['status'] = $statusTitle;
+                    $data[$product['name']][$i]['status_title'] = $statusTitle;
+                    $data[$product['name']][$i]['status'] = $status;
 
                     if($license['seats'] <= 1) {
 
@@ -367,4 +363,19 @@ class MyLicenses extends Model
         return $product;
     }
 
+    public static function lookupByPreCode($precode){
+
+        $result = Precode::where('precode',$precode)
+            ->leftjoin('products as p','p.id','precodes.product_id')
+            ->get()->toArray();
+
+        // Detect precode state, return false if already consumed
+        if(!empty($result)) {
+            if (intval($result[0]['used']) == 1) {
+                return false;
+            }
+        }
+
+        return $result;
+    }
 }

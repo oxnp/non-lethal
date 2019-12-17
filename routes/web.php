@@ -110,6 +110,11 @@ Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
     Route::put('/profile','Front\ProfileController@updateProfile')->name('profile-update');
 
     Route::get('/my-licenses','Front\MyLicensesController@index')->name('my-licenses');
+
+    Route::post('/fulfillment','Front\MyLicensesController@fulfillment')->name('fulfillment');
+
+
+
 //profile
 
 
