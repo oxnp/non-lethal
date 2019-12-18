@@ -33,8 +33,8 @@ class Profile extends Model
         }
         $user->save();
         $request['user_id'] = Auth::ID();
-        $request['first'] = $request['name'];
-        $request['last'] = $request['name'];
+        $request['first'] = $request['first'];
+        $request['last'] = $request['last'];
         $request['email'] = Auth::user()->email;
 
         unset($request['username']);
