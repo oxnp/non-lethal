@@ -4,7 +4,7 @@
         <h1>My licenses</h1>
     </section>
     <section id="licenses">
-        <div class="container">
+        <div class="container" id="license-tables">
             @foreach($licenses as $key=>$value)
                 <div class="item">
                     <h2 class="text-center">{{$key}}</h2>
@@ -27,17 +27,16 @@
                             Upgrade
                         </th>
                         @if(Auth::user()->role_id == 1)
-                        <th>
-                            Notes
-                        </th>
+                            <th>
+                                Notes
+                            </th>
                         @endif
                         </thead>
                         <tbody>
                         @foreach($value as $license)
                             <tr>
                                 <td>
-                                    {{$license['serial']}}
-                                    {{$license['ilok']}}
+                                    <code class="hasTip {{$license['status']}}">{{$license['serial']}}{{$license['ilok']}}</code>
                                 </td>
                                 <td>
                                     {!! $license['type'] !!}
@@ -51,35 +50,37 @@
                                 <td>
                                     @if(is_array($license['upgrade_targets']))
                                         <select id="{{$license['select_id']}}_upgrade_select" class="upgrade_select"
-                                                name="{{$license['select_id']}}_upgrade_select" data-upgradeserial="{{$license['serial']}}" data-upgradeilok="{{$license['ilok']}}">
+                                                name="{{$license['select_id']}}_upgrade_select"
+                                                data-upgradeserial="{{$license['serial']}}"
+                                                data-upgradeilok="{{$license['ilok']}}">
                                             @foreach($license['upgrade_targets'] as $target)
                                                 <option @if(!empty($target['disable'])) disabled="disabled"
                                                         @endif value="{{$target['value']}}">{{$target['text']}}</option>
                                             @endforeach
                                         </select>
-                                        @else {!! $license['upgrade_targets']!!}
+                                    @else {!! $license['upgrade_targets']!!}
                                     @endif
                                 </td>
                                 @if(Auth::user()->role_id == 1)
-                                <td>
+                                    <td>
+                                        @if(!empty($license['notes']))
+                                            <a data-toggle="modal" data-target="#{{$license['serial']}}" href="">
+                                                Read notes
+                                            </a>
+                                        @endif
+                                    </td>
                                     @if(!empty($license['notes']))
-                                        <a data-toggle="modal" data-target="#{{$license['serial']}}" href="">
-                                            Read notes
-                                        </a>
-                                    @endif
-                                </td>
-                                @if(!empty($license['notes']))
-                                    <div class="modal fade" id="{{$license['serial']}}" tabindex="-1" role="dialog"
-                                         aria-labelledby="{{$license['serial']}}" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-body">
-                                                    {!! $license['notes'] !!}
+                                        <div class="modal fade" id="{{$license['serial']}}" tabindex="-1" role="dialog"
+                                             aria-labelledby="{{$license['serial']}}" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        {!! $license['notes'] !!}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endif
+                                    @endif
                                 @endif
                             </tr>
                         @endforeach
@@ -111,17 +112,36 @@
                                 If you recived a pre-activation code from your local reseller,<br/>
                                 please click below to start product activation
                             </div>
-                            <form name="activate" method="POST" action="javascript:void(0)">
+                            <form name="activate" method="POST" action="{{route('fulfillment')}}">
+                                {{csrf_field()}}
                                 <div>
+                                    <input type="hidden" value="{{Auth::user()->email}}" name="email" />
+                                    <input type="hidden" value="{{Auth::ID()}}" name="user_id" />
                                     <input name="code" type="text" required="required"
                                            placeholder="Enter or paste code..."/>
                                 </div>
                                 <button class="activate">Activate</button>
                             </form>
+                            <script>
+                                $('form[name="activate"]').submit(function (e) {
+                                    e.preventDefault();
+                                    var form = $(this);
+                                    var url = form.attr('action');
+                                    $.ajax({
+                                        method: 'POST',
+                                        url: url,
+                                        data: form.serialize(),
+                                        success: function (data) {
+                                            console.log(data);
+                                        }
+                                    })
+                                })
+                            </script>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
 @endsection

@@ -20,9 +20,17 @@
                             <a href="#">Products</a>
                             <ul class="child">
                                 @foreach($categories as $cat)
-                                    <li>
-                                        <a href="{{localeMiddleware::getLocaleFront()}}/{{env('PRODUCTS_URL')}}/{{$cat['slug']}}">{{$cat['name']}}</a>
-                                    </li>
+                                    @if($cat['auth_visible']==0)
+                                        <li>
+                                            <a href="{{localeMiddleware::getLocaleFront()}}/{{env('PRODUCTS_URL')}}/{{$cat['slug']}}">{{$cat['name']}}</a>
+                                        </li>
+                                    @elseif($cat['auth_visible']==1)
+                                        @if(!Auth::guest())
+                                            <li>
+                                                <a href="{{localeMiddleware::getLocaleFront()}}/{{env('PRODUCTS_URL')}}/{{$cat['slug']}}">{{$cat['name']}}</a>
+                                            </li>
+                                        @endif
+                                    @endif
                                 @endforeach
                             </ul>
                         </li>
