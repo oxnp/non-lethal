@@ -2,6 +2,7 @@
 
 namespace App\Http\Models\License;
 
+use App\Http\Models\Helper\Helper;
 use App\Http\Models\Precode\Precode;
 use http\Env\Request;
 use Illuminate\Database\Eloquent\Model;
@@ -240,5 +241,82 @@ class License extends Model
         return true;
     }
 
+    /**
+     * Method to get a license matching an iLok code and an optional featureset
+     *
+     * @param $productID
+     * @param $buyerID
+     * @return mixed        The license data, false if not found
+     */
+    public static function lookupByilokCode($iLokCode, $features = array())
+    {
 
+        $query = License::where(DB::raw("BINARY licenses.ilok_code ='".$iLokCode."'"))
+            ->leftjoin('buyers as b','b.id','licenses.buyer_id')
+            ->leftjoin('products as p','p.id','licenses.product_id')->get();
+
+        if(!empty($features)) {
+            $query->where('licenses.prod_features=' . Helper::feature2bitmask($features));
+        }
+
+        return $query->get()->toArray();
+    }
+
+    /**
+     * Method to get a license matching a serial and an optional featureset
+     *
+     * @param $productID
+     * @param $buyerID
+     * @return mixed        The license data, false if not found
+     */
+    public static function lookupBySerial($serial, $features = array())
+    {
+        // Clean serial
+        $serial = str_replace('-', '',trim($serial));
+
+        $query = License::where(DB::raw("BINARY licenses.serial ='".$serial."'"))
+            ->leftjoin('buyers as b','b.id','licenses.buyer_id')
+            ->leftjoin('products as p','p.id','licenses.product_id')->get();
+
+        if(!empty($features)) {
+            $query->where('licenses.prod_features=' . Helper::feature2bitmask($features));
+        }
+
+        return $query->get()->toArray();
+    }
+
+    /**
+     * License lookup for old appactivation license by serial
+     *
+     * @param $serial
+     */
+    public static function lookupOldSerial($serial) {
+
+        $query = License::where(DB::raw("BINARY licenses.serial ='".$serial."'"))->get()->toArray();
+
+        return $query;
+    }
+
+    //frontend
+    /**
+     * Deletes old component license by license id
+     *
+     * @param $licenseID
+     *
+     * @return mixed
+     */
+    public static function deleteOldLicense($licenseID) {
+
+        // Check if old component is installed
+        if (!JComponentHelper::isInstalled('com_appactivation'))
+            return false;
+
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->delete('#__appactivation_licenses');
+        $query->where('id=' . $licenseID);
+
+        $db->setQuery($query);
+        return $db->execute();
+    }
 }

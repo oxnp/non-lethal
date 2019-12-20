@@ -90,7 +90,7 @@ Route::get('/disclaimer',function(){
 
 })->name('privacy_policy');
 */
-
+/*
 Route::get('/support',function(){
     $categories = ProductsPageCategory::getCategoriesTolist();
     return view('Front.support')->with([
@@ -99,12 +99,21 @@ Route::get('/support',function(){
 
 })->name('support');
 
-
+*/
 
 
 
 Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
     Auth::routes();
+
+    Route::get('/support',function(){
+        $categories = ProductsPageCategory::getCategoriesTolist();
+        return view('Front.support')->with([
+            'categories'=>$categories
+        ]);
+
+    })->name('support');
+
 //profile
     Route::get('/profile','Front\ProfileController@profile')->name('profile');
     Route::put('/profile','Front\ProfileController@updateProfile')->name('profile-update');

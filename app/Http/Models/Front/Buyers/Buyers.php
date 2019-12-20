@@ -13,4 +13,13 @@ class Buyers extends Model
         $buyer = Buyers::whereEmail($email)->get()->toArray();
         return $buyer;
     }
+    /**
+     * Returns a single Buyer of the old activation component
+     * @param type $buyerID
+     * @return type
+     */
+    public static function getOldBuyer($buyerID){
+        $buyer = Buyers::find($buyerID);
+        return $buyer;
+    }
 }
