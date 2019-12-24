@@ -2,9 +2,13 @@
 
 namespace App\Http\Models\Paddle;
 
+use App\Http\Models\Front\Buyers\Buyers;
+use App\Http\Models\License\License;
 use App\Http\Models\Products\Products;
 use Illuminate\Database\Eloquent\Model;
 use Cache;
+use Illuminate\Support\Facades\Auth;
+
 class Paddle extends Model
 {
 
@@ -120,6 +124,19 @@ class Paddle extends Model
             );
         }
         return json_decode($cResponse);
+    }
+
+
+    public static function queueCancelSubscription($license_id)
+    {
+        $license = License::find($license_id);
+        $lic_data = $license->toArray();
+        $buers = Buyers::find($lic_data['buyer_id'])->toArray();
+        if($buers['user_id'] == Auth::ID()){
+            $license->paddle_queue_cancel = 1;
+            $license->save();
+        }
+        return $buers;
     }
 
 }

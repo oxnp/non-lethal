@@ -15,7 +15,7 @@ use App\Http\Models\Front\Contents\ProductsPageCategory;
 
 
 
-Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
+
 
 Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
 
@@ -90,7 +90,7 @@ Route::get('/disclaimer',function(){
 
 })->name('privacy_policy');
 */
-
+/*
 Route::get('/support',function(){
     $categories = ProductsPageCategory::getCategoriesTolist();
     return view('Front.support')->with([
@@ -99,17 +99,33 @@ Route::get('/support',function(){
 
 })->name('support');
 
-
+*/
 
 
 
 Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
     Auth::routes();
+    Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
+    Route::get('/support',function(){
+        $categories = ProductsPageCategory::getCategoriesTolist();
+        return view('Front.support')->with([
+            'categories'=>$categories
+        ]);
+
+    })->name('support');
+
 //profile
     Route::get('/profile','Front\ProfileController@profile')->name('profile');
     Route::put('/profile','Front\ProfileController@updateProfile')->name('profile-update');
 
     Route::get('/my-licenses','Front\MyLicensesController@index')->name('my-licenses');
+    Route::get('/queue-cancel-subscription','Front\MyLicensesController@queueCancelSubscription')->name('queueCancelSubscription');
+    Route::post('/get-product-published-state','Front\MyLicensesController@getProductPublishedState')->name('getProductPublishedState');
+
+    Route::post('/fulfillment','Front\MyLicensesController@fulfillment')->name('fulfillment');
+
+
+
 //profile
 
 

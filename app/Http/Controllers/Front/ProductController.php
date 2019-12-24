@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Http\Models\Front\Buyers\Buyers;
 use App\Http\Models\Front\Contents\ProductsPage;
 use App\Http\Models\Front\Contents\ProductsPageCategory;
 use Illuminate\Http\Request;
@@ -13,9 +14,11 @@ class ProductController extends Controller
     {
         $page = ProductsPage::getPage($page);
         $categories = ProductsPageCategory::getCategoriesTolist();
+        $buyer = Buyers::getBuyer();
         return view('Front.product_page')->with([
             'product_data'=>$page,
-            'categories'=>$categories
+            'categories'=>$categories,
+            'buyer'=>$buyer
         ]);
     }
 
