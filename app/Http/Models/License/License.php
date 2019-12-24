@@ -308,15 +308,16 @@ class License extends Model
     public static function deleteOldLicense($licenseID) {
 
         // Check if old component is installed
-        if (!JComponentHelper::isInstalled('com_appactivation'))
+       // if (!JComponentHelper::isInstalled('com_appactivation'))
             return false;
 
-        $db = JFactory::getDbo();
+     /*   $db = JFactory::getDbo();
         $query = $db->getQuery(true);
         $query->delete('#__appactivation_licenses');
         $query->where('id=' . $licenseID);
 
         $db->setQuery($query);
         return $db->execute();
+     */
     }
 }

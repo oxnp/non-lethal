@@ -3,6 +3,7 @@
 namespace App\Http\Models\Front\Buyers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Buyers extends Model
 {
@@ -20,6 +21,11 @@ class Buyers extends Model
      */
     public static function getOldBuyer($buyerID){
         $buyer = Buyers::find($buyerID);
+        return $buyer;
+    }
+
+    public static function getBuyer(){
+        $buyer = Buyers::whereUserId(Auth::ID())->get();
         return $buyer;
     }
 }

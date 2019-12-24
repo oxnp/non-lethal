@@ -7,7 +7,7 @@ use App\Http\Models\Front\Contents\ProductsPageCategory;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Request;
-
+use App\Http\Middleware\LocaleMiddleware;
 class LoginController extends Controller
 {
     /*
@@ -48,7 +48,7 @@ class LoginController extends Controller
 
     public function logout(Request $request) {
         Auth::logout();
-        return redirect('/');
+        return redirect('/'.LocaleMiddleware::getLocale());
     }
 
     /**
@@ -59,11 +59,8 @@ class LoginController extends Controller
     public function findUsername()
     {
         $login = request()->input('login');
-
         $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-
         request()->merge([$fieldType => $login]);
-
         return $fieldType;
     }
 

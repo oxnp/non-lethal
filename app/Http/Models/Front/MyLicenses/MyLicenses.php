@@ -86,8 +86,14 @@ class MyLicenses extends Model
 
 
     public static function getLicensesByUser(){
+        $data = array();
+        $buyer_data = Buyers::whereUserId(Auth::ID())->get()->toArray();
 
-        $product_ids = MyLicenses::whereBuyerId(93)->select('product_id')->groupBy('product_id')->get();
+        if (!isset($buyer_data[0]['id'])){
+            return $data;
+        }
+
+        $product_ids = MyLicenses::whereBuyerId($buyer_data[0]['id'])->select('product_id')->groupBy('product_id')->get();
         $ids = $product_ids->pluck('product_id')->toArray();
         $products = Products::whereIn('id',$ids)->get()->toArray();
         $licenses = MyLicenses::select(DB::raw('COUNT(s.id) AS active_seatcount'),
@@ -108,13 +114,13 @@ class MyLicenses extends Model
             'licenses.paddle_queue_cancel')
             ->leftjoin('seats as s','s.license_id','licenses.id')
             ->leftjoin('buyers as b','licenses.buyer_id','b.id')
-            ->where('b.user_id',816)
+            ->where('b.user_id',Auth::ID())
             ->groupBy('licenses.id')
             ->get()
             ->toArray();
 
 
-        $data = array();
+
         foreach($products as $product) {
             $i = 0;
 
@@ -169,7 +175,7 @@ class MyLicenses extends Model
                         }
                     }
 
-                    $licSystem = $license['ilok_code'] ? 'PACE' : 'LL_LICENSELIB';
+                    $licSystem = $license['ilok_code'] ? 'PACE' : 'NLA Licensing';
                     $statusTitle = 'License system:<br><b>' .$licSystem . '</b><br>';
 
                     $statusTitle .= 'Status:<br><b>' . $status . '</b>';
@@ -177,8 +183,7 @@ class MyLicenses extends Model
                         $statusTitle .= '<br>Seats used: <b>' . $license['active_seatcount'] . ' / ' . $license['seats'] . '</b>';
                     }
 
-//status
-
+                    //status
 
                     //type
                     switch ($licenseType) {
@@ -242,7 +247,7 @@ class MyLicenses extends Model
                         if ($daysTillSubRenewal <= 30) {
                             $type .= '<br><a href="' . $license['paddle_cancelurl'] . '" data-paddle_sid="' . $license['paddle_sid'] . '" class="btn_subscription_cancel"><i class="fa fa-trash-o"></i> Cancel subscription</a>';
                         } else {
-                            $type .= '<br><a href="' . 'index.php?option=com_jappactivation&task=paddle.queueDelete&licenseid=' . (int)$license['id'] . '" class="btn_subscription_queue_cancel"><i class="fa fa-trash-o"></i> Cancel subscription</a>';
+                            $type .= '<br><a href="' . route('queueCancelSubscription',['licenseid'=>(int)$license['id']]). '" class="btn_subscription_queue_cancel"><i class="fa fa-trash-o"></i> Cancel subscription</a>';
                         }
 
                     } else {

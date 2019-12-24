@@ -6,9 +6,11 @@ use App\Http\Models\Front\Buyers\Buyers;
 use App\Http\Models\Front\Contents\ProductsPageCategory;
 use App\Http\Models\Front\MyLicenses\MyLicenses;
 use App\Http\Models\Front\Precode\Precode;
+use App\Http\Models\Front\Products\Products;
 use App\Http\Models\Helper\Helper;
 use App\Http\Models\IlokCodes\IlokCodes;
 use App\Http\Models\License\Seats;
+use App\Http\Models\Paddle\Paddle;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,6 +20,10 @@ use App\Http\Models\License\License;
 
 class MyLicensesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -32,6 +38,39 @@ class MyLicensesController extends Controller
             'categories' => $categories,
             'licenses'=>$licenses
         ]);
+    }
+
+    public function queueCancelSubscription(Request $request)
+    {
+        $result = Paddle::queueCancelSubscription($request->licenseid);
+       return redirect()->back();
+    }
+
+    public function getProductPublishedState(Request $request){
+
+        $productData = Products::lookupByPaddlePID($request->paddle_pid);
+
+        if(empty($productData)) {
+            self::_finishPublishState(false, 'Data error, please try again or contact us for assistance.');
+        }
+
+        if(!$productData[0]['published']) {
+            self::_finishPublishState(false, 'This purchase is temporary not available, please try again later.');
+        }
+
+        self::_finishPublishState(true);
+    }
+
+    /**
+     * Finishes the product published state method
+     */
+    public function _finishPublishState($result, $message = '')
+    {
+       // dd($result);
+        // Return validation result
+        $resultArray = array('isPublished' => $result, 'message' => $message);
+        echo json_encode($resultArray);
+       // return response()->json($resultArray);
     }
 
     public function fulfillment(Request $request)
@@ -56,7 +95,7 @@ class MyLicensesController extends Controller
         $activationMode = intval($precodeData[0]['type']);
 
         // If feature activation, check if prefix is set in product settings
-        if($activationMode == env('JAA_PRE_ACTIVATION_FEATURE')) {
+        if($activationMode == intval(env('JAA_PRE_ACTIVATION_FEATURE'))) {
 
             $codePrefix = substr($precode, 0, 5);
             if(strpos($productData[0]['feature_prefixes'], $codePrefix) === false) {
@@ -67,7 +106,7 @@ class MyLicensesController extends Controller
         }
 
         // Serial or iLok code delivered for upgrade or feature activation?
-        if ($activationMode == env('JAA_PRE_ACTIVATION_UPGRADE') || $activationMode ==  env('JAA_PRE_ACTIVATION_FEATURE')) {
+        if ($activationMode == intval(env('JAA_PRE_ACTIVATION_UPGRADE')) || $activationMode ==  intval(env('JAA_PRE_ACTIVATION_FEATURE'))) {
 
             $upgradeSerial = $request->serial;
             $upgradeiLokCode = $request->ilok;
@@ -141,7 +180,7 @@ class MyLicensesController extends Controller
                 {
                     //JAppActivationHelper::log('Error adding new buyer', JLog::ERROR);
                     //$this->_finishFulfillment();
-                    return 'Component error';
+                    return 'Component error 1';
                 }
 
                 $buyerID = $buyerCreated->id;
@@ -168,37 +207,43 @@ class MyLicensesController extends Controller
                 $licenseData['license_days'] = $codeData->temp_days;
             }
 
+
+
             // Generate serial or get iLok code
-            if ($activationMode == env('JAA_PRE_ACTIVATION_TEMP') || intval($productData['0']['licsystem']) === env('LL_LicenseLib'))
+            if ($activationMode == env('JAA_PRE_ACTIVATION_TEMP') || intval($productData['0']['licsystem']) == intval(env('LL_LicenseLib')))
             {
                 $licenseData['serial'] = str_replace('-','',License::generateSerialNumber());
             }
             else
             {
                 $licenseData['ilok_code'] = IlokCodes::getFreeCode($productData[0]['id']);
+
                 if (empty($licenseData['ilok_code']))
                 {
                     //JAppActivationHelper::log('No more ilok codes on stock!!!', JLog::ERROR);
                     //$this->sendIlokStockWarningMail(); send mail
                     //$this->_finishFulfillment();
-                    return 'Component error';
+                    return 'Component error 2';
                 }
+
             }
+            //dd($licenseData);
             // Store new license
             $result =  License::create($licenseData);
             if(empty($result))
             {
                 //JAppActivationHelper::log('Error creating new license', JLog::ERROR);
                 //$this->_finishFulfillment();
-                return 'Component error';
+                return 'Component error 3';
             }
             else
             {
+
                 $currentLicenseID = $result->id;
                 //JAppActivationHelper::log('New license created:', JLog::INFO);
                 //JAppActivationHelper::log('-> ID ' . $currentLicenseID, JLog::INFO);
 
-                if ($licenseData['ilok_code'])
+                if (isset($licenseData['ilok_code']))
                 {
                     //JAppActivationHelper::log('-> iLok Code ' . $licenseData['ilok_code'], JLog::INFO);
                 }
@@ -224,7 +269,7 @@ class MyLicensesController extends Controller
                    // JAppActivationHelper::log('Debug mode enabled, will not eat iLok code!', JLog::INFO);
                 }
             }
-            dd($licenseData);
+           // dd($licenseData);
         }
         else {
             // Upgrade mode handler (feature & product)
@@ -330,7 +375,7 @@ class MyLicensesController extends Controller
                     }
 
                     // Try to get buyer in new activation component, else create new
-                    $buyer = Buyers::buyerLookupByMail($legacyBuyer->email);
+                    $buyer = Buyers::buyerLookupByMail($legacyBuyer['email']);
                     if(empty($buyer)) {
 
                         // Create new buyer
@@ -387,7 +432,7 @@ class MyLicensesController extends Controller
                             //JAppActivationHelper::log('No more iLok codes in stock!!!', JLog::ERROR);
                             //$this->_finishFulfillment();
                             //throw new Exception('Component error', 500);
-                            return 'Component error';
+                            return 'Component error 4';
                         }
                     }
                 }
@@ -399,7 +444,7 @@ class MyLicensesController extends Controller
                    // JAppActivationHelper::log('Error creating/updating license!', JLog::ERROR);
                    // $this->_finishFulfillment();
                    // throw new Exception('Component error', 500);
-                    return 'Component error';
+                    return 'Component error 5';
                 }
 
                 // Determine iLok -> iLok upgrade and just send an instruction email to the customer in this case
@@ -418,31 +463,85 @@ class MyLicensesController extends Controller
                 }
 
                 // Delete old (legacy) license
-                $licenseModelFrontend = JModelLegacy::getInstance('LicenseFrontend', 'JAppActivationModel');
+                //$licenseModelFrontend = JModelLegacy::getInstance('LicenseFrontend', 'JAppActivationModel');
                 if($isLegacyLicense) {
-                    if(!$licenseModelFrontend->deleteOldLicense($licenseData['id'])) {
-                        JAppActivationHelper::log('Deletion of old license from old activation component failed!', JAppActivationLog::NOTICE);
-                        $this->_finishFulfillment();
-                        throw new Exception('Deletion of legacy license failed', 500);
+                    if(!License::deleteOldLicense($licenseData['id'])) {
+                        //JAppActivationHelper::log('Deletion of old license from old activation component failed!', JAppActivationLog::NOTICE);
+                        // $this->_finishFulfillment();
+                        //throw new Exception('Deletion of legacy license failed', 500);
+                        return 'Deletion of legacy license failed';
                     }
-                    JAppActivationHelper::log('Legacy license deleted');
+                    //JAppActivationHelper::log('Legacy license deleted');
                 }
 
                 // Invalidate iLok code for purchases (mark as used)
                 if (!$upgradeiLokCode && isset($newLicenseData['ilok_code'])) {
-                    if(intval($productData->debug_mode) == 0) {
-                        $ilokModel->consumeCode($newLicenseData['ilok_code']);
-                        JAppActivationHelper::log('Mmmhhhh: Used iLok code tastes perfect!', JLog::INFO);
+                    if(intval($productData[0]['debug_mode']) == 0) {
+                        IlokCodes::consumeCode($newLicenseData['ilok_code']);
+                        //JAppActivationHelper::log('Mmmhhhh: Used iLok code tastes perfect!', JLog::INFO);
                     } else {
-                        JAppActivationHelper::log('Debug mode enabled, will not eat iLok code!', JLog::INFO);
+                        //JAppActivationHelper::log('Debug mode enabled, will not eat iLok code!', JLog::INFO);
                     }
                 }
             }
+            else
+            {
+                // Compare product IDs
+                if($productData[0]['id'] !== $licenseData['product_id']) {
+                    //JAppActivationHelper::log('Products do not match!', JLog::NOTICE);
+                   // $this->_finishFulfillment();
+                    return 'Products do not match';
+                }
 
+                // Feature comparison
+                $featureNames = explode(',', $productData[0]['features']);
+                $featurePrefixes = explode(',', $productData[0]['feature_prefixes']);
+                $purchasedFeatureBit = array_search($codePrefix, $featurePrefixes);
+                $featureValues = Helper::bitmask2feature($licenseData['prod_features']);
 
+                if($featureValues[$purchasedFeatureBit] == 1) {
+                    //JAppActivationHelper::log('Feature flag is already set!', JLog::NOTICE);
+                    //$this->_finishFulfillment();
+                    return 'Feature flag is already set';
+                }
+
+                // Set new feature bit
+                $featureValues[$purchasedFeatureBit] = 1;
+
+                // Convert to feature set
+                $newFeatureset = array_keys(array_filter($featureValues));
+                $licenseData['prod_features'] = $newFeatureset;
+                $licenseData['notes'] .= sprintf("Feature '%s' was created on %s using Pre-Activation Code: %s", $featureNames[$purchasedFeatureBit], Carbon::now()->format('Y-m-d'), $formattedPrecode);
+
+                if(License::create($licenseData)) {
+                    //JAppActivationHelper::log('Purchased feature set: ' . $featureNames[$purchasedFeatureBit], JLog::INFO);
+                } else {
+                   // JAppActivationHelper::log('Error updating license!', JLog::ERROR);
+                    //$this->_finishFulfillment();
+                    //throw new Exception('Component error', 500);
+                    return  'Component error 6';
+                }
+
+                // Send serial mail to customer
+                JAppActivationHelper::sendSerialMail($licenseData['id']);
+                //JAppActivationHelper::log('Serial mail sent to customer', JLog::INFO);
+            }
+        }
+        // Invalidate pre-activation code (mark as used)
+        if(intval($productData[0]['debug_mode']) == 0) {
+            Precode::consumeCode($precode);
+            //JAppActivationHelper::log('Yummy: Pre-Activation Code eliminated!', JLog::INFO);
+        } else {
+            //JAppActivationHelper::log('Debug mode enabled, will not consume Pre-Activation Code!', JLog::INFO);
         }
 
+        // Sending serial to client
+        if (isset($licenseData['serial'])) {
+           // echo(JAppActivationHelper::cleanFormattedString($licenseData['serial'], '-'));
+        }
 
+       // $this->_finishFulfillment();
+        exit();
     }
 
     /**
