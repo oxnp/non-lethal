@@ -1,7 +1,7 @@
 @extends('layouts.app-front')
 @section('app-front-content')
     <section class="intro kb">
-        <h1>Knowledge base</h1>
+        <h1>{!!trans('main.knowledge_base')!!}</h1>
         @if(isset($data['sub_title_page']))
             <div class="subtitle">
                 {{$data['sub_title_page']}}
@@ -11,10 +11,10 @@
     <section id="kb">
         <div class="container">
             <div class="desc">
-                <h2 class="text-center">Articles</h2>
+                <h2 class="text-center">{!!trans('main.articles')!!}</h2>
                 <div class="cats row justify-content-around">
                     <div class="col text-center">
-                        <a href="{{localeMiddleware::getLocaleFront()}}{{$data['all_item_url']}}">All</a>
+                        <a href="{{localeMiddleware::getLocaleFront()}}{{$data['all_item_url']}}">{!!trans('main.all')!!}</a>
                     </div>
                     @foreach($data['categories'] as $cat)
                         <div class="col text-center">
@@ -38,7 +38,7 @@
                                     {{$item['content']}}
                                 </div>
                                 <a class="readmore" href="{{localeMiddleware::getLocaleFront()}}{{$item['url']}}">
-                                    See More <img src="/images/blue_arr.png">
+                                    {!!trans('main.see_more')!!} <img src="/images/blue_arr.png">
                                 </a>
                             </div>
                         </div>

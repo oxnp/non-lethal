@@ -1,9 +1,9 @@
 @if (Route::getCurrentRoute()->uri() !== '/')
     <section id="breadcrumbs">
         <div class="container">
-                You are here:
+                {!!trans('main.you_are_here')!!}:
                 <span class="divider"> <img src="/images/bread_divider.png"> </span>
-                <a href="/">Homepage</a>
+                <a href="/">{!!trans('main.homepage')!!}</a>
         </div>
     </section>
 @endif
@@ -11,17 +11,17 @@
     <div class="about_nla">
         <div class="container">
             <div class="heading">
-                About NLA
+                {!!trans('main.about_nla')!!}
             </div>
             <div class="footmenu row text-center">
                 <div class="col">
-                    <a href="{{localeMiddleware::getLocaleFront()}}/company">Company</a>
+                    <a href="{{localeMiddleware::getLocaleFront()}}/company">{!!trans('main.company')!!}</a>
                 </div>
                 <div class="col">
-                    <a href="{{localeMiddleware::getLocaleFront()}}/impressum">Impressum</a>
+                    <a href="{{localeMiddleware::getLocaleFront()}}/impressum">{!!trans('main.impressum')!!}</a>
                 </div>
                 <div class="col">
-                    <a href="{{localeMiddleware::getLocaleFront()}}/disclaimer">Disclaimer/Privacy Policy</a>
+                    <a href="{{localeMiddleware::getLocaleFront()}}/disclaimer">{!!trans('main.disclaimer')!!}/{!!trans('main.privacy_policy')!!}</a>
                 </div>
             </div>
             <div class="row social">
@@ -46,6 +46,6 @@
         </div>
     </div>
     <div class="copyright text-center">
-        Non-Lethal Applications Copyright © 2017. High quality multimedia tools.
+        {!!trans('main.copyright')!!}
     </div>
 </footer>

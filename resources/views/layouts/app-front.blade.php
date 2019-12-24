@@ -9,9 +9,11 @@
     <link rel="stylesheet" type="text/css" href="/css/front.css"/>
     <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="/js/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="/js/popper.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script src="https://cdn.paddle.com/paddle/paddle.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/jquery.base64.min.js"></script>
+    <script src="https://kit.fontawesome.com/7dfad927b2.js"></script>
     <script type="text/javascript" src="/js/functions.js"></script>
 </head>
 <body>
@@ -160,5 +162,148 @@
         }
     });
 </script>
+@if(!Auth::guest())
+    <script>
+        // Holds the selected product ID
+        var selectedProduct = null;
+        var userData = null;
+        var isSubscription = false;
+        var checkoutData = null;
+
+
+        /**
+         * Entry point
+         */
+        jQuery(document).ready(function () {
+
+            // Determine login status and init purchase functionality
+
+            // Get form token and make login call
+            var formToken = '{{csrf_token()}}';
+            if (formToken) {
+
+                // Append form token as login credential
+                var data = {};
+                data[formToken] = 1;
+            }
+
+            // Buy button click handler - Show buy form
+            jQuery('a[data-product]').on('click', function () {
+
+                // Wrap this for subfunction use
+                var that = jQuery(this);
+
+                // Show loader
+                Paddle.Spinner.show();
+
+                // Determine product published state
+                selectedProduct = jQuery(this).data('product');
+                isSubscription = jQuery(this).data('subscription');
+
+                // Get form token and make login call
+                var formToken = '{{csrf_token()}}';
+                if (formToken) {
+                    // Append form token as login credential
+                    var data = {};
+                    data['_token'] = '{{csrf_token()}}';
+                    data['paddle_pid'] = selectedProduct;
+
+                    jQuery.ajax({
+                        url: '{{route('getProductPublishedState')}}',
+                        method: 'post',
+                        data: data,
+                        dataType: 'json'
+                    })
+                        .done(function (response) {
+                            if (!response.isPublished) {
+                                alert(response.message);
+                                return;
+                            }
+                            startCheckout();
+                        })
+                        .fail(function () {
+                            alert('This purchase is temporary not available, please try again later');
+                        })
+                        .always(function () {
+                            Paddle.Spinner.hide();
+                        });
+                } else {
+                    Paddle.Spinner.hide();
+                    alert('This purchase is temporary not available, please try again later');
+                }
+            });
+        });
+
+        /**
+         * This is the main checkout method that calls the paddle checkout
+         * after verification of some fields and/or user login was successful
+         */
+        function startCheckout() {
+            // Proceed to checkout immediately if user is logged in
+            var checkoutData = {};
+
+            checkoutData['email'] = '{{$buyer[0]["email"]}}';
+            checkoutData['firstname'] = '{{$buyer[0]["first"]}}';
+            checkoutData['lastname'] = '{{$buyer[0]["last"]}}';
+            callPaddle(checkoutData);
+            return;
+
+        }
+
+
+        /**
+         * This method opens the Paddle checkout popup and
+         * passes user/registration data.
+         *
+         * @param data      Additional data, sent as passthrough
+         */
+        function callPaddle(data) {
+
+            // Specify checkout email
+            var checkoutEmail = '{{$buyer[0]["email"]}}';
+            var enableQuantity = false;
+            if (!isSubscription) {
+                enableQuantity = true
+            }
+
+            // Convert data to JSON and b64 encode the result
+            var passthroughData = JSON.stringify(data);
+            // Create Base64 Object
+            passthroughData = $.base64.encode(passthroughData);
+            var checkoutOptions = {
+                product: selectedProduct,
+                passthrough: passthroughData,
+                email: checkoutEmail,
+                successCallback: checkoutSuccess,
+                closeCallback: finishCheckout,
+                allowQuantity: enableQuantity
+            };
+            Paddle.Checkout.open(checkoutOptions);
+        }
+
+        /**
+         * This method gets called when checkout was successful
+         */
+        function checkoutSuccess() {
+            finishCheckout();
+        }
+
+        /**
+         * Checkout finish method
+         */
+        function finishCheckout() {
+
+            Paddle.Spinner.hide();
+        }
+    </script>
+@else
+    <script>
+        $('a[data-product]').each(function(){
+            $(this).attr('href','{{ route("login") }}')
+        })
+    </script>
+@endif
+
+
 </body>
 </html>

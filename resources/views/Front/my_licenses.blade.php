@@ -36,7 +36,9 @@
                         @foreach($value as $license)
                             <tr>
                                 <td>
-                                    <code class="hasTip {{$license['status']}}">{{$license['serial']}}{{$license['ilok']}}</code>
+                                    <code data-html="true" data-toggle="tooltip" data-placement="top"
+                                          title="{{$license['status_title']}}"
+                                          class="hasTip {{$license['status']}}">{{$license['serial']}}{{$license['ilok']}}</code>
                                 </td>
                                 <td>
                                     {!! $license['type'] !!}
@@ -64,14 +66,14 @@
                                 @if(Auth::user()->role_id == 1)
                                     <td>
                                         @if(!empty($license['notes']))
-                                            <a data-toggle="modal" data-target="#{{$license['serial']}}" href="">
+                                            <a data-toggle="modal" data-target="#{{$license['serial']}}{{$license['ilok']}}" href="">
                                                 Read notes
                                             </a>
                                         @endif
                                     </td>
                                     @if(!empty($license['notes']))
-                                        <div class="modal fade" id="{{$license['serial']}}" tabindex="-1" role="dialog"
-                                             aria-labelledby="{{$license['serial']}}" aria-hidden="true">
+                                        <div class="modal fade" id="{{$license['serial']}}{{$license['ilok']}}" tabindex="-1" role="dialog"
+                                             aria-labelledby="{{$license['serial']}}{{$license['ilok']}}" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-body">
@@ -115,8 +117,8 @@
                             <form name="activate" method="POST" action="{{route('fulfillment')}}">
                                 {{csrf_field()}}
                                 <div>
-                                    <input type="hidden" value="{{Auth::user()->email}}" name="email" />
-                                    <input type="hidden" value="{{Auth::ID()}}" name="user_id" />
+                                    <input type="hidden" value="{{Auth::user()->email}}" name="email"/>
+                                    <input type="hidden" value="{{Auth::ID()}}" name="user_id"/>
                                     <input name="code" type="text" required="required"
                                            placeholder="Enter or paste code..."/>
                                 </div>
@@ -143,5 +145,14 @@
             </div>
         </div>
     </section>
-
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+        $(function () {
+            $('[data-toggle="modal"]').click(function () {
+                jQuery(jQuery(this).attr('data-target')).modal('show');
+            })
+        })
+    </script>
 @endsection
