@@ -2,6 +2,7 @@
 
 namespace App\Http\Models\Front\Buyers;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,10 @@ class Buyers extends Model
 
     public static function getBuyer(){
         $buyer = Buyers::whereUserId(Auth::ID())->get();
+        if($buyer->isEmpty()){
+            $buyer = User::whereId(Auth::ID())->get();
+        }
+        //dd($buyer);
         return $buyer;
     }
 }

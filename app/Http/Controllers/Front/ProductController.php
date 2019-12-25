@@ -15,6 +15,7 @@ class ProductController extends Controller
         $page = ProductsPage::getPage($page);
         $categories = ProductsPageCategory::getCategoriesTolist();
         $buyer = Buyers::getBuyer();
+
         return view('Front.product_page')->with([
             'product_data'=>$page,
             'categories'=>$categories,
@@ -26,10 +27,13 @@ class ProductController extends Controller
     {
         $category_data = ProductsPageCategory::getCategory($category);
         $categories = ProductsPageCategory::getCategoriesTolist();
+        $buyer = Buyers::getBuyer();
+
         return view('Front.product_category')->with([
             'category_data'=>$category_data,
             'category'=>$category,
-            'categories'=>$categories
+            'categories'=>$categories,
+            'buyer'=>$buyer
         ]);
 
     }

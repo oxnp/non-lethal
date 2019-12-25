@@ -17,7 +17,7 @@ class Products extends Model
     public static  function lookupByPaddlePID($pPID)
     {
         $product = Products::wherePaddlePid($pPID)->orWhere('paddle_upgrade_pid',$pPID)->get()->toArray();
-        //dd($product);
+
         return $product;
     }
 }
