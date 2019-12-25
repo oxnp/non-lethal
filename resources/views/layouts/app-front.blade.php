@@ -163,6 +163,7 @@
     });
 </script>
 @if(!Auth::guest())
+    @if(isset($buyer[0]))
     <script>
         // Holds the selected product ID
         var selectedProduct = null;
@@ -243,8 +244,8 @@
             var checkoutData = {};
 
             checkoutData['email'] = '{{$buyer[0]["email"]}}';
-            checkoutData['firstname'] = '{{$buyer[0]["first"]}}';
-            checkoutData['lastname'] = '{{$buyer[0]["last"]}}';
+            checkoutData['firstname'] = '';
+            checkoutData['lastname'] = '';
             callPaddle(checkoutData);
             return;
 
@@ -292,10 +293,10 @@
          * Checkout finish method
          */
         function finishCheckout() {
-
             Paddle.Spinner.hide();
         }
     </script>
+    @endif
 @else
     <script>
         $('a[data-product]').each(function(){
@@ -303,7 +304,14 @@
         })
     </script>
 @endif
+<script>
+    $('.gbg a.buy_but').click(function (e) {
+        e.preventDefault();
+        var $container = $("html,body");
+        var $scrollTo = $('.pricing');
+        $container.animate({scrollTop: $scrollTo.offset().top, scrollLeft: 0},300);
 
-
+    })
+</script>
 </body>
 </html>
