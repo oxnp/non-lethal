@@ -139,4 +139,18 @@ class Paddle extends Model
         return $buers;
     }
 
+    public static function cancelSubscription($subID) {
+
+        // Get component params
+        if (empty(self::$postParams)) {
+            return false;
+        }
+
+        // Send subscription cancel request to Paddle
+        $params = array('subscription_id' => $subID);
+        $result = self::askPaddle(env('JAA_PADDLE_API_CANCEL_SUBSCRIPTION'), $params);
+
+        return $result;
+    }
+
 }
