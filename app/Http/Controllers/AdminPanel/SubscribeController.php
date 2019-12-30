@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
+use App\Http\Models\Subscribers\SubscribersGroups;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Models\Subscribers\Subscribers;
 
 class SubscribeController extends Controller
 {
@@ -12,8 +14,14 @@ class SubscribeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $offset = 0;
+        if ($request->page){
+            $offset = $request->page;
+        }
+        $data_subscriber = Subscribers::getSubscribers($offset);
+        return view('AdminPanel.subscriber.subscriber_list')->with(['data_subscriber'=>$data_subscriber]);
 
     }
     /**
@@ -43,7 +51,9 @@ class SubscribeController extends Controller
      */
     public function show($id)
     {
-
+        $subscriber = Subscribers::getSubscriberById($id);
+        $subscriber_groups = SubscribersGroups::all()->toArray();
+        return view('AdminPanel.subscriber.subscriber_show')->with(['subscriber' => $subscriber,'subscriber_groups'=>$subscriber_groups]);
     }
     /**
      * Show the form for editing the specified resource.

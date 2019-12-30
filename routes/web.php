@@ -18,7 +18,9 @@ use App\Http\Models\Front\Contents\ProductsPageCategory;
 
 
 Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
-
+    //subscriber
+    Route::resource('subscribers','AdminPanel\SubscribeController');
+    //subscriber
     Route::get('admin','AdminPanel\AdminPanelController@index');
 
     Route::resource('buyers','AdminPanel\BuyersController');
@@ -55,9 +57,7 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
     Route::resource('knowledge-base-categories','AdminPanel\KnowledgeBaseCategoriesController');
     //contents
 
-    //subscriber
-    Route::resource('subscriber','AdminPanel\SubscribersCategoriesController');
-    //subscriber
+
 
 
 });
