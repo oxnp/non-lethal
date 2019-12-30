@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 
 class Buyers extends Model
 {
-    protected $fillable = ['first','last','email','company','phone','website','street1','street2','zip','city','state','country','bcc_emails','notes'];
+    protected $fillable = ['first','last','email','company','phone','website','street1','street2','zip','city','state','country','bcc_emails','notes','user_id'];
     /**
      * Get buyers
      * @param   array  $per_page

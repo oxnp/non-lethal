@@ -6,6 +6,7 @@ use App\Http\Models\Front\Precode\Precode;
 use App\Http\Models\Front\Products\Products;
 use App\Http\Models\Front\Users\UserRole;
 use App\Http\Models\Helper\Helper;
+use App\Http\Models\License\License;
 use Illuminate\Database\Eloquent\Model;
 use App\Http\Models\Front\Buyers\Buyers;
 use App\Http\Models\Front\MyLicenses\Seats;
@@ -383,4 +384,27 @@ class MyLicenses extends Model
 
         return $result;
     }
+
+    public static function deleted($pks) {
+        // Make sure, pks is an array
+        $pks = (array)$pks;
+        License::whereIn('licenses.id',implode(',', $pks))
+            ->leftjoin('seats as s','s.license_id','licenses.id')->delete();
+
+/*
+        //Get database instance
+        $db = JFactory::getDbo();
+
+        //create query to delete the license(s) including all assigned seats
+        $query = "DELETE l.*,s.* FROM ";
+        $query .= "#__jappactivation_licenses AS l ";
+        $query .= "LEFT JOIN #__jappactivation_seats AS s ON s.license_id=l.id ";
+        $query .= 'WHERE l.id IN (' . implode(',', $pks) . ')';
+        $db->setQuery($query);
+
+        return $db->execute();
+*/
+    }
+
+
 }

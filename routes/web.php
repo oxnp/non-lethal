@@ -18,7 +18,9 @@ use App\Http\Models\Front\Contents\ProductsPageCategory;
 
 
 Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
-
+    //subscriber
+    Route::resource('subscribers','AdminPanel\SubscribeController');
+    //subscriber
     Route::get('admin','AdminPanel\AdminPanelController@index');
 
     Route::resource('buyers','AdminPanel\BuyersController');
@@ -53,58 +55,30 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
     Route::resource('user-stories','AdminPanel\UserStoriesController');
     Route::resource('knowledge-base','AdminPanel\KnowledgeBaseController');
     Route::resource('knowledge-base-categories','AdminPanel\KnowledgeBaseCategoriesController');
+    //contents
+
+
 
 
 });
 
-
-
 //Front
-
-
-
-
-//Route::get('/partners',function(){return view('Front.partners');})->name('partners');
-/*
-Route::get('/company',function(){
-    $categories = ProductsPageCategory::getCategoriesTolist();
-    return view('Front.company')->with([
-        'categories'=>$categories
-    ]);
-})->name('company');
-*/
-/*
-Route::get('/impressum',function(){
-    $categories = ProductsPageCategory::getCategoriesTolist();
-    return view('Front.impressum')->with([
-        'categories'=>$categories
-    ]);
-})->name('impressum');
-*/
-/*
-Route::get('/disclaimer',function(){
-    $categories = ProductsPageCategory::getCategoriesTolist();
-    return view('Front.privacy_policy')->with([
-        'categories'=>$categories
-    ]);
-
-})->name('privacy_policy');
-*/
-/*
-Route::get('/support',function(){
-    $categories = ProductsPageCategory::getCategoriesTolist();
-    return view('Front.support')->with([
-        'categories'=>$categories
-    ]);
-
-})->name('support');
-
-*/
-
 
 
 Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
     Auth::routes();
+//paddle checkout
+    Route::post('paddle-gateway','Front\PaddleCheckoutController@paddle_gateway')->name('paddle_gateway');
+//paddle checkout
+
+//subscriber
+    Route::resource('subscriber','Front\SubscribersCategoriesController');
+//subscriber
+
+//download
+    Route::get('/nlalib/download.php','Front\DownloadController@getFile');
+//download
+
     Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
     Route::get('/support',function(){
         $categories = ProductsPageCategory::getCategoriesTolist();
@@ -123,43 +97,38 @@ Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
     Route::post('/get-product-published-state','Front\MyLicensesController@getProductPublishedState')->name('getProductPublishedState');
 
     Route::post('/fulfillment','Front\MyLicensesController@fulfillment')->name('fulfillment');
-
-
-
 //profile
 
 
 //mainpage
-Route::get('/','Front\HomeController@index')->name('index');
+    Route::get('/','Front\HomeController@index')->name('index');
 //mainpage
 
 //products
-Route::get('/'.env('PRODUCTS_URL').'/{category}','Front\ProductController@category');
-Route::get('/'.env('PRODUCTS_URL').'/{category}/{page}','Front\ProductController@page');
+    Route::get('/'.env('PRODUCTS_URL').'/{category}','Front\ProductController@category');
+    Route::get('/'.env('PRODUCTS_URL').'/{category}/{page}','Front\ProductController@page');
 //products
 
 
 //user stories
-Route::get('/'.env('USER_STORIES_URL'),'Front\UserStoriesController@index');
-Route::get('/'.env('USER_STORIES_URL').'/{stories}','Front\UserStoriesController@show');
+    Route::get('/'.env('USER_STORIES_URL'),'Front\UserStoriesController@index');
+    Route::get('/'.env('USER_STORIES_URL').'/{stories}','Front\UserStoriesController@show');
 //user stories
 
 //news
-Route::get('/'.env('NEWS_URL'),'Front\NewsController@index');
-Route::get('/'.env('NEWS_URL').'/{news}','Front\NewsController@show');
+    Route::get('/'.env('NEWS_URL'),'Front\NewsController@index');
+    Route::get('/'.env('NEWS_URL').'/{news}','Front\NewsController@show');
 //news
 
 //static
-Route::get('/{page}','Front\StaticPageController@page');
+    Route::get('/{page}','Front\StaticPageController@page');
 //static
 
 //knowledge base
-Route::get('/{headcategory}/{category}','Front\KnowledgeBaseController@category');
-Route::get('/{headcategory}/{category}/{subcategory}','Front\KnowledgeBaseController@subcategory');
-Route::get('/{headcategory}/{category}/{subcategory}/{item}','Front\KnowledgeBaseController@item');
+    Route::get('/{headcategory}/{category}','Front\KnowledgeBaseController@category');
+    Route::get('/{headcategory}/{category}/{subcategory}','Front\KnowledgeBaseController@subcategory');
+    Route::get('/{headcategory}/{category}/{subcategory}/{item}','Front\KnowledgeBaseController@item');
 //knowledge base
-
-
 
 });
 

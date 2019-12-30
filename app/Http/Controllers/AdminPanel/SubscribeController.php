@@ -1,52 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\AdminPanel;
 
-use App\Http\Models\Front\Buyers\Buyers;
-use App\Http\Models\Front\Contents\ProductsPage;
-use App\Http\Models\Front\Contents\ProductsPageCategory;
+use App\Http\Models\Subscribers\SubscribersGroups;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Models\Subscribers\Subscribers;
 
-class ProductController extends Controller
+class SubscribeController extends Controller
 {
-    public function page($category,$page)
-    {
-        $page = ProductsPage::getPage($page);
-        $categories = ProductsPageCategory::getCategoriesTolist();
-        $buyer = Buyers::getBuyer();
-
-        return view('Front.product_page')->with([
-            'product_data'=>$page,
-            'categories'=>$categories,
-            'buyer'=>$buyer
-        ]);
-    }
-
-    public function category($category)
-    {
-        $category_data = ProductsPageCategory::getCategory($category);
-        $categories = ProductsPageCategory::getCategoriesTolist();
-        $buyer = Buyers::getBuyer();
-
-        return view('Front.product_category')->with([
-            'category_data'=>$category_data,
-            'category'=>$category,
-            'categories'=>$categories,
-            'buyer'=>$buyer
-        ]);
-
-    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $offset = 0;
+        if ($request->page){
+            $offset = $request->page;
+        }
+        $data_subscriber = Subscribers::getSubscribers($offset);
+        return view('AdminPanel.subscriber.subscriber_list')->with(['data_subscriber'=>$data_subscriber]);
 
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -54,9 +31,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
-    }
 
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -65,9 +41,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
 
+    }
     /**
      * Display the specified resource.
      *
@@ -76,9 +51,10 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $subscriber = Subscribers::getSubscriberById($id);
+        $subscriber_groups = SubscribersGroups::all()->toArray();
+        return view('AdminPanel.subscriber.subscriber_show')->with(['subscriber' => $subscriber,'subscriber_groups'=>$subscriber_groups]);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -89,7 +65,6 @@ class ProductController extends Controller
     {
         //
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -99,9 +74,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
 
+    }
     /**
      * Remove the specified resource from storage.
      *

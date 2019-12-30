@@ -320,4 +320,30 @@ class License extends Model
         return $db->execute();
      */
     }
+
+    /**
+     * Function to load product data matching a given Paddle Subscription ID
+     *
+     * @param $pPID     int     The paddle SID
+     *
+     * @return mixed        The product data as object
+     */
+    public static function lookupByPaddleSID($pSID) {
+
+        $result = License::wherePaddleSid($pSID)->get();
+        return $result;
+    }
+
+    /**
+     * Function to load product data matching a given Paddle Subscription ID
+     *
+     * @param $pPID     int     The paddle SID
+     *
+     * @return mixed        The product data as object
+     */
+    public static function lookupByPaddleOID($pOID) {
+
+        $result = License::wherePaddleOid($pOID)->get();
+        return $result;
+    }
 }
