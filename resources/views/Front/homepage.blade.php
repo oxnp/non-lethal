@@ -137,7 +137,7 @@
             </div>
             <div class="col-lg-6 m-auto">
                 <form name="newsletter" method="POST" action="javascript:void(0)">
-                    <input type="email" name="email" required="required" placeholder="{!!trans('main.enter_email')!!}"/>
+                    <input @if(!Auth::guest()) value="{{Auth::user()->email}}" readonly="readonly" @endif type="email" name="email" required="required" placeholder="{!!trans('main.enter_email')!!}"/>
                     <button type="submit">
                         <svg width="20" height="20" viewBox="0 0 20 20">
                             <use xlink:href="#mail-envelope" x="0" y="0"/>

@@ -39,8 +39,6 @@
                 }
             })
         });
-
-
         /*Cancel subscription*/
         jQuery('#license-tables .btn_subscription_queue_cancel').click(function (event) {
             var confirmed = confirm('Please confirm the cancellation of this subscription.');
@@ -48,7 +46,6 @@
                 event.preventDefault();
             }
         });
-
         /*?????????????*/
         jQuery('#license-tables .btn_subscription_cancel').click(function (event) {
             event.preventDefault();
