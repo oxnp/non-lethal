@@ -74,7 +74,8 @@ class SubscribeController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        Subscribers::updateUserSubscribe($request, $id);
+        return redirect()->back();
     }
     /**
      * Remove the specified resource from storage.
