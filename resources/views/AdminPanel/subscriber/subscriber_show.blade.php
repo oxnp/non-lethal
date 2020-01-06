@@ -11,8 +11,13 @@
                     </a>
                 </li>
                 <li class="nav-item d-inline">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{route('newsletters.index')}}">
                         Newsletters
+                    </a>
+                </li>
+                <li class="nav-item d-inline">
+                    <a class="nav-link" href="{{route('newsletters.create')}}">
+                        Add newsletter
                     </a>
                 </li>
             </ul>

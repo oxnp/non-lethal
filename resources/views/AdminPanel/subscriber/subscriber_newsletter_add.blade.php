@@ -24,114 +24,76 @@
         </div>
     </div>
     <div class="row formgroup">
-        <form action="{{route('newsletters.update',$newsletter->id)}}" method="POST">
+        <form action="{{route('newsletters.store')}}" method="POST">
             {{csrf_field()}}
-            <input name="_method" type="hidden" value="PUT">
             <div class="col-md-8">
                 <div class="col-lg-6 form-group">
                     <div class="form-group">
                         <label class="control-label">Subject</label>
-                        <input class="form-control" type="text" value="{{$newsletter->subject}}" name="subject"/>
+                        <input class="form-control" type="text" value="" name="subject"/>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Alias</label>
-                        <input class="form-control" type="text" value="{{$newsletter->alias}}" name="alias"/>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Created date</label><br/>
-                        {{$newsletter->created_at}}
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Sent date</label><br/>
-                        {{$newsletter->send_date}}
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Sent by</label><br/>
-                        {{$newsletter->sender}}
+                        <input class="form-control" type="text" value="" name="alias"/>
                     </div>
                 </div>
                 <div class="col-lg-6 form-group">
                     <div class="form-group">
                         <label class="control-label">Published</label>
                         <select class="form-control" name="published">
-                            <option @if($newsletter->published==1)
-                                    selected="selected"
-                                    @endif value="1">Yes
-                            </option>
-                            <option @if($newsletter->published==0)
-                                    selected="selected"
-                                    @endif value="0">No
-                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Visible</label>
                         <select class="form-control" name="visible">
-                            <option @if($newsletter->visible==1)
-                                    selected="selected"
-                                    @endif value="1">Yes
-                            </option>
-                            <option @if($newsletter->visible==0)
-                                    selected="selected"
-                                    @endif value="0">No
-                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Send HTML Version</label>
                         <select class="form-control" name="send_html_version">
-                            <option @if($newsletter->send_html_version==1)
-                                    selected="selected"
-                                    @endif value="1">Yes
-                            </option>
-                            <option @if($newsletter->send_html_version==0)
-                                    selected="selected"
-                                    @endif value="0">No
-                            </option>
+                            <option value="1">Yes</option>
+                            <option value="0">No</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label class="control-label">Summary</label>
-                        <textarea name="summary" class="form-control">{{$newsletter->summary}}</textarea>
+                        <textarea name="summary" class="form-control"></textarea>
                     </div>
                 </div>
                 <div class="col-lg-12 form-group">
             <textarea rows="15" class="form-control summernote" name="body_html"
-                      value="{{$newsletter->body_html}}">{{$newsletter->body_html}}</textarea>
+                      value=""></textarea>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="control-label">Lists</label>
-                    @php
-                        $ids = explode(',',$newsletter->subscription_group_ids);
-                    @endphp
                     @foreach($subscriber_groups as $group)
                         <div>
-                            <input
-                                @if(in_array($group['id'],$ids))
-                                checked="checked"
-                                @endif
-                                id="group{{$group['id']}}" value="{{$group['id']}}" type="checkbox" name="subscription_group_ids[]">
+                            <input id="group{{$group['id']}}" value="{{$group['id']}}" type="checkbox" name="subscription_group_ids[]">
                             <label for="group{{$group['id']}}">{{$group['group_name']}}</label>
                         </div>
                     @endforeach
                 </div>
                 <div class="form-group">
                     <label class="control-label">From name</label>
-                    <input class="form-control" type="text" value="{{$newsletter->from_name}}" name="from_name"/>
+                    <input class="form-control" type="text" value="" name="from_name"/>
                 </div>
                 <div class="form-group">
                     <label class="control-label">From address</label>
-                    <input class="form-control" type="text" value="{{$newsletter->from_adress}}" name="from_adress"/>
+                    <input class="form-control" type="text" value="" name="from_adress"/>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Reply-to Name</label>
-                    <input class="form-control" type="text" value="{{$newsletter->reply_to_name}}" name="reply_to_name"/>
+                    <input class="form-control" type="text" value="" name="reply_to_name"/>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Reply-to address</label>
-                    <input class="form-control" type="text" value="{{$newsletter->reply_to_adress}}" name="reply_to_adress"/>
+                    <input class="form-control" type="text" value="" name="reply_to_adress"/>
                 </div>
             </div>
             <div class="col-md-12">
