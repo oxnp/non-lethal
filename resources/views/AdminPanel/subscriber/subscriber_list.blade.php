@@ -20,7 +20,6 @@
         </div>
     </div>
 
-
     <div class="list">
         <div class="list_head">
             <div class="col-md-4">Name</div>
