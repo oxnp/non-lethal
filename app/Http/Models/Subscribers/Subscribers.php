@@ -8,6 +8,7 @@ use App\Http\Models\Subscribers\SubscribersGroups;
 class Subscribers extends Model
 {
     protected $table = 'subscribers';
+    protected $fillable = ['email','name','user_id','enabled','confirmed','receive_html','subscription_group_ids'];
     public static function getSubscribers($offset){
         $subscribers= Subscribers::select('*')->offset($offset)->limit($offset + 20)->paginate(1);
        // dd($subscribers);
@@ -42,5 +43,20 @@ class Subscribers extends Model
 
     public static function getSubscriberById($id){
         $subscriber = Subscribers::find($id);
+        return $subscriber;
+    }
+
+    public static function updateUserSubscribe($request, $id)
+    {
+
+        $result = Subscribers::find($id)->update([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'enabled'=>$request->enabled,
+            'confirmed'=>$request->confirmed,
+            'receive_html'=>$request->receive_html,
+            'subscription_group_ids'=> implode(',',$request->subscription_group_ids)
+        ]);
+       // dd($result);
     }
 }

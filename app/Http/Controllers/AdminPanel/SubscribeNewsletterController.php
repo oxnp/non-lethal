@@ -2,28 +2,21 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
-use App\Http\Models\Subscribers\SubscribersGroups;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Models\Subscribers\Subscribers;
 
-class SubscribeController extends Controller
+class SubscribeNewsletterController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $offset = 0;
-        if ($request->page){
-            $offset = $request->page;
-        }
-        $data_subscriber = Subscribers::getSubscribers($offset);
-        return view('AdminPanel.subscriber.subscriber_list')->with(['data_subscriber'=>$data_subscriber]);
-
+        //
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -31,8 +24,9 @@ class SubscribeController extends Controller
      */
     public function create()
     {
-
+        //
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -41,8 +35,9 @@ class SubscribeController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
+
     /**
      * Display the specified resource.
      *
@@ -51,10 +46,9 @@ class SubscribeController extends Controller
      */
     public function show($id)
     {
-        $subscriber = Subscribers::getSubscriberById($id);
-        $subscriber_groups = SubscribersGroups::all()->toArray();
-        return view('AdminPanel.subscriber.subscriber_show')->with(['subscriber' => $subscriber,'subscriber_groups'=>$subscriber_groups]);
+        //
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -65,6 +59,7 @@ class SubscribeController extends Controller
     {
         //
     }
+
     /**
      * Update the specified resource in storage.
      *
@@ -74,9 +69,9 @@ class SubscribeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        Subscribers::updateUserSubscribe($request, $id);
-        return redirect()->back();
+        //
     }
+
     /**
      * Remove the specified resource from storage.
      *
