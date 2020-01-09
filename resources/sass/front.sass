@@ -272,11 +272,11 @@ footer
         position: relative
         input
             width: 100%
+            margin-bottom: 15px
         button
             position: absolute
             top: 0
             right: 0
-            text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.6)
 #latest_news
     .heading
         margin-bottom: 45px
@@ -307,8 +307,10 @@ footer
             font-size: 21px
             color: #232323
             font-family: 'Montserrat',sans-serif
-            margin-bottom: 30px
+            margin-bottom: 10px
             min-height: 48px
+        .date
+            margin-bottom: 15px
         .desc
             font-size: 15px
             line-height: 21px
@@ -411,7 +413,7 @@ footer
     background: url('/images/login_top.jpg')no-repeat center
 section.intro
     height: 340px
-    background-size: cover
+    background-size: cover!important
     display: flex
     justify-content: flex-end
     align-items: center
@@ -730,7 +732,7 @@ section#stories
         margin-bottom: 45px
         img
             border-radius: 15px
-            height: 175px
+            height: auto
             width: 100%
         .title
             margin-top: 20px
@@ -753,7 +755,7 @@ section#pcat
         font-weight: 600
         font-size: 29px
         line-height: 35px
-        color: #4282FF
+        color: #000
         margin-bottom: 15px
         font-family: 'Montserrat', sans-serif
     .subtitle
@@ -1257,18 +1259,12 @@ section.profile
 .mobmenu
     display: none
 a.lang
-    position: absolute
     font-weight: bold
     font-size: 16px
     line-height: 20px
     text-transform: capitalize
     color: #FFFFFF
     text-decoration: none
-    border-bottom: 1px solid #fff
-    padding-bottom: 2px
-    left: 60px
-    top: 50%
-    margin-top: -13px
     &:hover
         border: 0
 section#licenses
@@ -1375,6 +1371,22 @@ section#licenses
     max-width: 220px
     font-size: 14px
     padding: 10px 0
+code.active
+    color: green
+.tbs
+    text-align: center
+    margin-bottom: 30px
+    a
+        display: inline-block
+        margin: 0 10px
+        font-size: 18px
+        cursor: pointer
+        &.active
+            border-bottom: 1px solid #000
+        &:hover
+            border-bottom: 1px solid #000
+#perp
+    display: none
 @media (max-width: 992px)
     a.lang
         position: fixed

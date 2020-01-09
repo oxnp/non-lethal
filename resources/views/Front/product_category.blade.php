@@ -28,7 +28,7 @@
                                     {{$page['short_text']}}
                                 </div>
                                 <a class="readmore" href="{{localeMiddleware::getLocaleFront()}}/{{env('PRODUCTS_URL')}}/{{$category}}/{{$page['slug']}}">
-                                    See More <img src="/images/blue_arr.png">
+                                    {!!trans('main.see_more')!!} <img src="/images/blue_arr.png">
                                 </a>
                             </div>
                         </div>

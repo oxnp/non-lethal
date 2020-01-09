@@ -1,7 +1,7 @@
 @extends('layouts.app-front')
 @section('app-front-content')
     <section class="intro stories">
-        <h1>User stories</h1>
+        <h1>{!!trans('main.USER_STORIES')!!}</h1>
     </section>
     <section id="story_item">
         <div class="container">

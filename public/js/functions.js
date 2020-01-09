@@ -52,4 +52,11 @@ $(document).ready(function () {
         $(hided).addClass('vis');
         $('.full_list').slideToggle();
     })
+    $('.tbs a').click(function () {
+        let target = $(this).attr('data-tg');
+        $('.tbs a').removeClass('active');
+        $(this).addClass('active');
+        $('#subs,#perp').hide();
+        $('#'+target+'').show();
+    })
 });

@@ -6,18 +6,18 @@
                 <div class="owl-carousel slider col">
                     <div class="item">
                         <div class="text">
-                            SIX free programs to support your creativity
+                            {!!trans('main.six_programs')!!}
                         </div>
                         <div class="subtext">
-                            You can definitely choose something useful for yourself!
+                            {!!trans('main.choose_for_yourself')!!}
                         </div>
                     </div>
                     <div class="item">
                         <div class="text">
-                            SIX free programs to support your creativity
+                            {!!trans('main.six_programs')!!}
                         </div>
                         <div class="subtext">
-                            You can definitely choose something useful for yourself!
+                            {!!trans('main.choose_for_yourself')!!}
                         </div>
                     </div>
                 </div>
@@ -44,26 +44,25 @@
     <section id="create" class="text-center">
         <div class="container">
             <div class="heading">
-                Create with pleasure<br/>
-                and convenience
+                {!!trans('main.create_with')!!}
             </div>
             <div class="row">
                 <div class="col">
                     <img src="/images/monitor.png">
                     <div class="desc">
-                        Convenient and intuitive<br/>interface
+                        {!!trans('main.convenient_interface')!!}
                     </div>
                 </div>
                 <div class="col">
                     <img src="/images/man.png">
                     <div class="desc">
-                        You will receive excellent information support
+                        {!!trans('main.excellent_support')!!}
                     </div>
                 </div>
                 <div class="col">
                     <img src="/images/function.png">
                     <div class="desc">
-                        Modern and Useful<br/>Functionality
+                        {!!trans('main.modern_function')!!}
                     </div>
                 </div>
             </div>
@@ -72,11 +71,8 @@
     <section id="latest_news">
         <div class="container">
             <div class="heading">
-                Latest news
+                {!!trans('main.latest_news')!!}
             </div>
-
-
-
             <div class="owl-carousel news_slider">
                 @foreach($news as $item)
                 <div class="item col-12">
@@ -89,13 +85,16 @@
                                 <div class="title">
                                     {{$item->title}}
                                 </div>
+                                <div class="date">
+                                    {{date('d.m.Y',strtotime($item->created_at))}}
+                                </div>
                                 <div class="desc">
                                     {{substr(strip_tags($item->content),0,100)}}
                                 </div>
                             </div>
                             <img src="{{$item->image}}">
                         </div>
-                        <a href="{{localeMiddleware::getLocaleFront()}}/{{env('NEWS_URL')}}/{{$item->slug}}" class="readmore">More Detailed <img src="/images/readmore_arr.png"></a>
+                        <a href="{{localeMiddleware::getLocaleFront()}}/{{env('NEWS_URL')}}/{{$item->slug}}" class="readmore">{!!trans('main.read_more')!!} <img src="/images/readmore_arr.png"></a>
                     </div>
                 </div>
                 @endforeach
@@ -105,7 +104,7 @@
     <section id="user_stories">
         <div class="container">
             <div class="heading">
-                User stories
+                {!!trans('main.USER_STORIES')!!}
             </div>
             <div class="owl-carousel user_stories">
 
@@ -121,7 +120,7 @@
                         <div class="desc">
                             {{substr(strip_tags($story->content),0,300)}}
                         </div>
-                        <a class="readmore" href="{{localeMiddleware::getLocaleFront()}}/{{env('USER_STORIES_URL')}}/{{$story->slug}}">See More <img src="/images/blue_arr.png"></a>
+                        <a class="readmore" href="{{localeMiddleware::getLocaleFront()}}/{{env('USER_STORIES_URL')}}/{{$story->slug}}">{!!trans('main.see_more')!!} <img src="/images/blue_arr.png"></a>
                     </div>
                     <div class="col-lg-7">
                         <img src="{{$story->image}}" class="shad ml-auto">
@@ -134,19 +133,20 @@
     <section id="newsletter" class="text-center">
         <div class="container">
             <div class="heading">
-                Join newsletter
+                {!!trans('main.join_newsletter')!!}
             </div>
             <div class="subtext">
-                Stay up to date
+                {!!trans('main.up_to_date')!!}
             </div>
             <div class="col-lg-6 m-auto">
                 <form name="newsletter" method="POST" action="javascript:void(0)">
-                    <input type="email" name="email" required="required" placeholder="Enter email address"/>
+                    {{csrf_field()}}
+                    <input @if(!Auth::guest()) value="{{Auth::user()->email}}" readonly="readonly" @endif type="email" name="email" required="required" placeholder="{!!trans('main.enter_email')!!}"/>
                     <button type="submit">
                         <svg width="20" height="20" viewBox="0 0 20 20">
                             <use xlink:href="#mail-envelope" x="0" y="0"/>
                         </svg>
-                        Send
+                        {!!trans('main.sign_up')!!}
                     </button>
                 </form>
             </div>
