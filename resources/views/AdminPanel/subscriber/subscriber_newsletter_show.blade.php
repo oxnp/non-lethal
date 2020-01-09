@@ -24,7 +24,16 @@
         </div>
     </div>
     <div class="row formgroup">
-        <form action="{{route('newsletters.update',$newsletter->id)}}" method="POST">
+        <div class="col-md-12" style="padding: 0 30px">
+            <input class="btn btn-primary" form="saveform" value="Save" type="submit">
+            <input class="btn btn-primary" form="nsend" value="Send" type="submit">
+        </div>
+        <div style="clear:both;padding:15px;overflow:hidden;">
+            <form id="nsend" action="{{route('newsletterSend',$newsletter->id)}}" method="POST">
+                {{csrf_field()}}
+            </form>
+        </div>
+        <form id="saveform" action="{{route('newsletters.update',$newsletter->id)}}" method="POST">
             {{csrf_field()}}
             <input name="_method" type="hidden" value="PUT">
             <div class="col-md-8">
@@ -39,11 +48,11 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Created date</label><br/>
-                        {{$newsletter->created_at}}
+                        {{date('d.m.Y',strtotime($newsletter->created_at))}}
                     </div>
                     <div class="form-group">
                         <label class="control-label">Sent date</label><br/>
-                        {{$newsletter->send_date}}
+                        {{date('d.m.Y',strtotime($newsletter->send_date))}}
                     </div>
                     <div class="form-group">
                         <label class="control-label">Sent by</label><br/>
@@ -134,9 +143,7 @@
                     <input class="form-control" type="text" value="{{$newsletter->reply_to_adress}}" name="reply_to_adress"/>
                 </div>
             </div>
-            <div class="col-md-12">
-                <input class="btn btn-primary" type="submit">
-            </div>
         </form>
+
     </div>
 @stop
