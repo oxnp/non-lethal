@@ -85,13 +85,16 @@
                                 <div class="title">
                                     {{$item->title}}
                                 </div>
+                                <div class="date">
+                                    {{date('d.m.Y',strtotime($item->created_at))}}
+                                </div>
                                 <div class="desc">
                                     {{substr(strip_tags($item->content),0,100)}}
                                 </div>
                             </div>
                             <img src="{{$item->image}}">
                         </div>
-                        <a href="{{localeMiddleware::getLocaleFront()}}/{{env('NEWS_URL')}}/{{$item->slug}}" class="readmore">{!!trans('main.more_detailed')!!} <img src="/images/readmore_arr.png"></a>
+                        <a href="{{localeMiddleware::getLocaleFront()}}/{{env('NEWS_URL')}}/{{$item->slug}}" class="readmore">{!!trans('main.read_more')!!} <img src="/images/readmore_arr.png"></a>
                     </div>
                 </div>
                 @endforeach
@@ -137,12 +140,13 @@
             </div>
             <div class="col-lg-6 m-auto">
                 <form name="newsletter" method="POST" action="javascript:void(0)">
+                    {{csrf_field()}}
                     <input @if(!Auth::guest()) value="{{Auth::user()->email}}" readonly="readonly" @endif type="email" name="email" required="required" placeholder="{!!trans('main.enter_email')!!}"/>
                     <button type="submit">
                         <svg width="20" height="20" viewBox="0 0 20 20">
                             <use xlink:href="#mail-envelope" x="0" y="0"/>
                         </svg>
-                        {!!trans('main.send')!!}
+                        {!!trans('main.sign_up')!!}
                     </button>
                 </form>
             </div>

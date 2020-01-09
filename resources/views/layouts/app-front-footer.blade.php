@@ -26,17 +26,22 @@
             </div>
             <div class="row social">
                 <div class="col-lg-2 m-auto row justify-content-between">
-                    <a href="#" target="_blank" rel="nofollow">
+                    <a href="https://twitter.com/nonlethalapp" target="_blank" rel="nofollow">
                         <svg width="26" height="24" viewBox="0 0 26 24">
-                            <use xlink:href="#youtube" x="0" y="0"/>
+                            <use xlink:href="#twitter" x="0" y="0"/>
                         </svg>
                     </a>
-                    <a href="#" target="_blank" rel="nofollow">
+                    <a href="https://www.linkedin.com/company/10368426/" target="_blank" rel="nofollow">
+                        <svg width="26" height="24" viewBox="0 0 26 24">
+                            <use xlink:href="#linkedin" x="0" y="0"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.instagram.com/nonlethalapplications/" target="_blank" rel="nofollow">
                         <svg width="24" height="24" viewBox="0 0 24 24">
                             <use xlink:href="#instagram" x="0" y="0"/>
                         </svg>
                     </a>
-                    <a href="#" target="_blank" rel="nofollow">
+                    <a href="https://www.facebook.com/NonLethalApplications/" target="_blank" rel="nofollow">
                         <svg width="24" height="24" viewBox="0 0 24 24">
                             <use xlink:href="#facebook" x="0" y="0"/>
                         </svg>

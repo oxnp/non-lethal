@@ -8,7 +8,7 @@
             {{csrf_field()}}
             <input type="submit" class="btn btn-primary btn-md" value="Export Buyers" />
         </form>
-        <a class="btn btn-primary btn-md" href="/buyers/create">
+        <a class="btn btn-primary btn-md" href="{{route('buyers.create')}}">
             Add buyer
         </a>
         <a class="btn btn-primary btn-md" id="add_license">

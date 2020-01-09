@@ -298,12 +298,12 @@ footer .about_nla {
   #newsletter form {
     position: relative; }
     #newsletter form input {
-      width: 100%; }
+      width: 100%;
+      margin-bottom: 15px; }
     #newsletter form button {
       position: absolute;
       top: 0;
-      right: 0;
-      text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.6); }
+      right: 0; }
 
 #latest_news .heading {
   margin-bottom: 45px; }
@@ -341,8 +341,10 @@ footer .about_nla {
     font-size: 21px;
     color: #232323;
     font-family: 'Montserrat',sans-serif;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     min-height: 48px; }
+  #latest_news .inner .date {
+    margin-bottom: 15px; }
   #latest_news .inner .desc {
     font-size: 15px;
     line-height: 21px;
@@ -462,7 +464,7 @@ footer .about_nla {
 
 section.intro {
   height: 340px;
-  background-size: cover;
+  background-size: cover !important;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -802,7 +804,7 @@ section#stories {
     margin-bottom: 45px; }
     section#stories .item img {
       border-radius: 15px;
-      height: 175px;
+      height: auto;
       width: 100%; }
     section#stories .item .title {
       margin-top: 20px; }
@@ -826,7 +828,7 @@ section#pcat .title {
   font-weight: 600;
   font-size: 29px;
   line-height: 35px;
-  color: #4282FF;
+  color: #000;
   margin-bottom: 15px;
   font-family: 'Montserrat', sans-serif; }
 
@@ -1372,18 +1374,12 @@ section.profile {
   display: none; }
 
 a.lang {
-  position: absolute;
   font-weight: bold;
   font-size: 16px;
   line-height: 20px;
   text-transform: capitalize;
   color: #FFFFFF;
-  text-decoration: none;
-  border-bottom: 1px solid #fff;
-  padding-bottom: 2px;
-  left: 60px;
-  top: 50%;
-  margin-top: -13px; }
+  text-decoration: none; }
   a.lang:hover {
     border: 0; }
 

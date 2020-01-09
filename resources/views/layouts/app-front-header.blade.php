@@ -1,10 +1,5 @@
 <header>
     <?php $locale = App::getLocale()?>
-    @if($locale == 'en')
-        <a class="lang" href="{{str_replace($_SERVER["HTTP_HOST"],''.$_SERVER["HTTP_HOST"].'/de',URL::current())}}">DE</a>
-    @else
-        <a class="lang" href="{{str_replace(''.$_SERVER["HTTP_HOST"].'/de',$_SERVER["HTTP_HOST"],URL::current())}}">EN</a>
-    @endif
     <div class="container">
         <div class="row no-gutters">
             <div class="mobmenu">MENU</div>
@@ -71,6 +66,13 @@
                                 </ul>
                             </li>
                         @endif
+                        <li>
+                        @if($locale == 'en')
+                            <a class="lang" href="{{str_replace($_SERVER["HTTP_HOST"],''.$_SERVER["HTTP_HOST"].'/de',URL::current())}}">DE</a>
+                        @else
+                            <a class="lang" href="{{str_replace(''.$_SERVER["HTTP_HOST"].'/de',$_SERVER["HTTP_HOST"],URL::current())}}">EN</a>
+                        @endif
+                        </li>
                     </ul>
                 </div>
             </div>

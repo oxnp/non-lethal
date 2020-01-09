@@ -307,7 +307,31 @@
         var $container = $("html,body");
         var $scrollTo = $('.pricing');
         $container.animate({scrollTop: $scrollTo.offset().top, scrollLeft: 0},300);
-
+    })
+</script>
+<script>
+    jQuery('form[name="newsletter"]').submit(function(e){
+        e.preventDefault();
+        jQuery.ajax({
+            url: '{{route('newsletterSendFront')}}',
+            method: 'post',
+            data: jQuery(this).serialize(),
+            dataType: 'json'
+        })
+            .done(function (data) {
+                if(data==true){
+                    jQuery('form[name="newsletter"]').append('<div class="alert alert-success" role="alert">\n' +
+                        ' {{trans("main.newsletter_confirmation")}}\n' +
+                        '</div>');
+                }else{
+                    jQuery('form[name="newsletter"]').append('<div class="alert alert-warning" role="alert">\n' +
+                        '  {{trans("main.already_subscribed")}}\n' +
+                        '</div>');
+                }
+                setTimeout(function(){
+                    jQuery('form[name="newsletter"] .alert').fadeOut();
+                },3000)
+            })
     })
 </script>
 </body>

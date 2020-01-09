@@ -18,6 +18,8 @@ return [
     'modern_function' => 'Moderne und nützliche <br/> Funktionalität',
     'latest_news' => 'Neuesten Nachrichten',
     'more_detailed' => 'Genauer',
+    'read_more' => 'Weiterlesen',
+    'sign_up' => 'Anmelden',
     'see_more' => 'Mehr sehen',
     'join_newsletter' => 'Newsletter abonnieren',
     'up_to_date' => 'Auf dem Laufenden bleiben',
@@ -30,11 +32,12 @@ return [
     'impressum' => 'Impressum',
     'privacy_policy' => 'Datenschutz-Bestimmungen',
     'homepage' => 'Startseite',
-    'copyright' => 'Non-Lethal Applications Copyright © 2017. Hochwertige Multimedia-Tools.',
+    'copyright' => 'Non-Lethal Applications Copyright © 2011-2020. Hochwertige Multimedia-Tools.',
     'products' => 'Produkte',
     'six_programs' => 'Sechs kostenlose Programme zur Unterstützung Ihrer Kreativität',
     'choose_for_yourself' => 'Sie können sich definitiv etwas Nützliches aussuchen!',
     'articles' => 'Artikel',
     'all' => 'Alle',
-
+    'newsletter_confirmation' => 'Eine Bestätigungs-E-Mail wurde gesendet. Klicken Sie auf den Bestätigungslink, um Ihr Abonnement zu bestätigen',
+    'already_subscribed' => 'Sie sind bereits angemeldet'
 ];

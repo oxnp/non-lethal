@@ -18,6 +18,8 @@ return [
     'modern_function' => 'Modern and Useful<br/>Functionality',
     'latest_news' => 'Latest news',
     'more_detailed' => 'More Detailed',
+    'read_more' => 'Read More',
+    'sign_up' => 'Sign up',
     'see_more' => 'See More',
     'join_newsletter' => 'Join newsletter',
     'up_to_date' => 'Stay up to date',
@@ -30,11 +32,12 @@ return [
     'impressum' => 'Impressum',
     'privacy_policy' => 'Privacy Policy',
     'homepage' => 'Homepage',
-    'copyright' => 'Non-Lethal Applications Copyright © 2017. High quality multimedia tools.',
+    'copyright' => 'Non-Lethal Applications 2011-2020. High quality multimedia tools.',
     'products' => 'Products',
     'six_programs' => 'SIX free programs to support your creativity',
     'choose_for_yourself' => 'You can definitely choose something useful for yourself!',
     'articles' => 'Articles',
     'all' => 'All',
-
+    'newsletter_confirmation' => 'A confirmation e-mail has been sent, please click on the confirmation link in order to confirm your subscription',
+    'already_subscribed' => 'You are already subscribed'
 ];
