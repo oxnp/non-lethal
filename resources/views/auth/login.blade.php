@@ -41,7 +41,6 @@
                 </button>
             </div>
             <div class="group">
-                <a class="problems">Having problems? <img src="/images/toggle_arr.png"></a>
                 <div class="other">
                     @if (Route::has('password.request'))
                         <div>

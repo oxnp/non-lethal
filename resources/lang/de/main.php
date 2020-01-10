@@ -39,5 +39,7 @@ return [
     'articles' => 'Artikel',
     'all' => 'Alle',
     'newsletter_confirmation' => 'Eine Bestätigungs-E-Mail wurde gesendet. Klicken Sie auf den Bestätigungslink, um Ihr Abonnement zu bestätigen',
-    'already_subscribed' => 'Sie sind bereits angemeldet'
+    'already_subscribed' => 'Sie sind bereits angemeldet',
+    'choose_files' => 'Wähle Dateien',
+    'download' => 'Herunterladen'
 ];

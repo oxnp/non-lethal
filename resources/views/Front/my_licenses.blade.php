@@ -4,7 +4,7 @@
         <h1>My licenses</h1>
     </section>
     <section id="licenses">
-        <div class="container" id="license-tables">
+        <div class="container-fluid" id="license-tables">
             @foreach($licenses as $key=>$value)
                 <div class="item">
                     <h2 class="text-center">{{$key}}</h2>

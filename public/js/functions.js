@@ -36,7 +36,11 @@ $(document).ready(function () {
     })
     $('form[name="support"] input[type="file"]').change(function () {
         $('.file_val').text('');
-        $('.file_val').append($(this).val());
+        var names = [];
+        for (var i = 0; i < $(this).get(0).files.length; ++i) {
+            names.push($(this).get(0).files[i].name+' <br /> ');
+        }
+        $('.file_val').append(names);
     })
     $('.topmenu li.parent>a').click(function(e){
         e.preventDefault();

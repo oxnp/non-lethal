@@ -104,7 +104,7 @@
             var upgradeiLok = jQuery(this).data('upgradeilok');
             var upgradeWithCode = selectedOption.val() === 'code';
             if (upgradeWithCode) {
-                showRedeemModal(selectedOption, upgradeSerial, upgradeiLok);
+                jQuery('#activation').modal('show');
                 return;
             }
             var paddleProductID = jQuery(this).val();

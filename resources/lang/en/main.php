@@ -39,5 +39,7 @@ return [
     'articles' => 'Articles',
     'all' => 'All',
     'newsletter_confirmation' => 'A confirmation e-mail has been sent, please click on the confirmation link in order to confirm your subscription',
-    'already_subscribed' => 'You are already subscribed'
+    'already_subscribed' => 'You are already subscribed',
+    'choose_files' => 'Choose files',
+    'download' => 'Download'
 ];

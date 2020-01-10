@@ -9,4 +9,64 @@
     <section id="pcat" class="cat_{{$product_data[0]['id']}}">
         {!! $product_data[0]['content'] !!}
     </section>
+    <div class="modal fade" id="activation_prod" tabindex="-1" role="dialog"
+         aria-labelledby="activation" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="alert alert-primary" role="alert">
+                        We would love to stay in touch!<br />
+                        Please take a moment to signup for our newsletter.*
+                    </div>
+                    <form name="newsletter_prod" method="POST" action="javascript:void(0)">
+                        {{csrf_field()}}
+                        <input style="display: block;width: 100%;margin-bottom: 15px" @if(!Auth::guest()) value="{{Auth::user()->email}}" readonly="readonly" @endif type="email" name="email" placeholder="{!!trans('main.enter_email')!!}"/>
+                        <div class="sp">* Signup is optional and not required for downloading the software.</div>
+                        <button type="submit" style="margin: 15px auto">
+                            <svg width="20" height="20" viewBox="0 0 20 20">
+                                <use xlink:href="#mail-envelope" x="0" y="0"/>
+                            </svg>
+                            {!!trans('main.download')!!}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('a[href^="/nlalib"]').click(function (e) {
+            e.preventDefault();
+            let file = $(this).attr('href');
+            $('#activation_prod').modal('show');
+            jQuery('form[name="newsletter_prod"]').attr('data-link',file);
+        })
+        jQuery('form[name="newsletter_prod"]').submit(function(e){
+            e.preventDefault();
+            let file = $(this).attr('data-link');
+            if($(this).find('input[name="email"]').val()!=='') {
+                jQuery.ajax({
+                    url: '{{route('newsletterSendFront')}}',
+                    method: 'post',
+                    data: jQuery(this).serialize(),
+                    dataType: 'json'
+                })
+                    .done(function (data) {
+                        if (data == true) {
+                            window.location.href = file;
+                            $('#activation_prod').modal('hide');
+                        } else {
+                            jQuery('form[name="newsletter_prod"]').append('<div class="alert alert-warning" role="alert">\n' +
+                                '  {{trans("main.already_subscribed")}}\n' +
+                                '</div>');
+                        }
+                        setTimeout(function () {
+                            jQuery('form[name="newsletter_prod"] .alert').fadeOut();
+                        }, 3000)
+                    })
+            }else{
+                window.location.href = file;
+                $('#activation_prod').modal('hide');
+            }
+        })
+    </script>
 @endsection

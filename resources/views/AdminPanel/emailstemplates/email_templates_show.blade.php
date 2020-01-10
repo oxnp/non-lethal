@@ -10,6 +10,10 @@
                 <input class="form-control" type="text" value="{{$template->name}}" name="name"/>
             </div>
             <div class="form-group">
+                <label class="control-label">Subject</label>
+                <input class="form-control" type="text" value="{{$template->subject}}" name="subject"/>
+            </div>
+            <div class="form-group">
                 <label class="control-label">Alias name</label>
                 <input class="form-control" type="text" value="{{$template->alias_name}}" name="alias_name"/>
             </div>
@@ -35,6 +39,12 @@
             <div class="form-group">
                 <label class="control-label">Reply-to address</label>
                 <input class="form-control" type="text" value="{{$template->reply_to_addres}}" name="reply_to_addres"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Usable Fields</label>
+                <div>
+                    {{$template->fields}}
+                </div>
             </div>
         </div>
         <div class="col-md-12" style="margin-bottom:120px">

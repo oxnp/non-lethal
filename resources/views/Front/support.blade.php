@@ -64,10 +64,10 @@
                     <label for="attachment" class="col-md-2 col-form-label">{{ __('Attachment') }}</label>
                     <div class="col">
                         <div class="attach">
-                        <label for="attachment"><img src="/images/fil_chooser.png"></label>
+                        <label for="attachment">Choose files</label>
                         <span>If you want to send us a screenshot, please attach it here.<br />
                             Supported file formats are: .pdf | .jpg | .png</span>
-                        <input type="file" name="attachment" id="attachment"/>
+                        <input type="file" multiple="multiple" name="attachment[]" id="attachment"/>
                         </div>
                         <div class="file_val"></div>
                     </div>
