@@ -55,7 +55,7 @@ class Buyers extends Model
 
         $user_laravel->save();
 
-        Buyers::insert([
+        $buyer = Buyers::create([
             'user_id'=>$user_laravel->id,
             'first'=>$request->first,
             'last'=>$request->last,
@@ -72,6 +72,7 @@ class Buyers extends Model
             'bcc_emails'=>$request->bcc_emails,
             'notes'=>$request->notes
         ]);
+        return $buyer;
     }
     /**
      * Update buyers by ID

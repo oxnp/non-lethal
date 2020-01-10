@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminPanel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Models\EmailsTemplates\EmailsTemplates;
+
 class EmailsTemplatesController extends Controller
 {
     /**
@@ -74,7 +75,7 @@ class EmailsTemplatesController extends Controller
     public function update(Request $request, $id)
     {
         EmailsTemplates::updateTemplate($request, $id);
-        return redirect()->back();
+        return redirect(route('emails-templates.index'));
     }
 
     /**

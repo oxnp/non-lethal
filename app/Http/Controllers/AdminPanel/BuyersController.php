@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
+use App\Http\Models\EmailsTemplates\EmailsTemplates;
+use App\Notifications\MailRegisterUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Buyers\Buyers;
+use Illuminate\Notifications\Messages\MailMessage;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class BuyersController extends Controller
 {
@@ -59,8 +64,33 @@ class BuyersController extends Controller
      */
     public function store(Request $request)
     {
-        Buyers::addBuyer($request);
-        return redirect('buyers');
+        $pwd = str_random(10);
+        $hash = Hash::make($pwd);
+        $buyer = Buyers::addBuyer($request);
+
+        //dd($buyer);
+
+        $user = new User();
+
+        $user->email = $buyer->email;   // This is the email you want to send to.
+        $user->username = $buyer->first;   // This is the email you want to send to.
+        $user->name = $buyer->first;   // This is the email you want to send to.
+        $user->password = $hash;
+
+        $data = [
+            'email'=> $buyer->email,
+            'name'=> $buyer->first,
+            'username'=> $buyer->email,
+            'password'=>$pwd
+        ];
+
+        $user->notify(new MailRegisterUser($data));
+
+       // $user->save();
+
+
+
+        return redirect('buyers.index');
     }
 
     /**

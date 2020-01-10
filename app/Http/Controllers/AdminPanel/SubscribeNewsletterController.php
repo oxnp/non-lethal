@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Jobs\SendEmail;
 use App\Http\Models\Subscribers\Subscribers;
 use Illuminate\Support\Facades\Artisan;
+
 class SubscribeNewsletterController extends Controller
 {
     /**

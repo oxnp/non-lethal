@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Http\Models\EmailsTemplates\EmailsTemplates;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,15 +11,15 @@ use Illuminate\Notifications\Messages\MailMessage;
 class MailRegisterUser extends Notification
 {
     use Queueable;
-
+    public $user_data;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($request)
     {
-        //
+        $this->user_data = $request;
     }
 
     /**
@@ -40,10 +41,16 @@ class MailRegisterUser extends Notification
      */
     public function toMail($notifiable)
     {
+
+        $template = EmailsTemplates::where('alias_name','register')->get();
+
+        $body = str_replace(array('{name}','{username}','{password}'),array($this->user_data['name'],$this->user_data['username'],$this->user_data['password']),$template[0]['body_html']);
+
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->subject($template[0]['subject'])
+            ->from($template[0]['from_addres'],$template[0]['from_name'])
+            ->line($body)
+            ->replyTo($template[0]['reply_to_addres']);
     }
 
     /**
