@@ -25,6 +25,7 @@ class ProductController extends Controller
 
     public function category($category)
     {
+
         $category_data = ProductsPageCategory::getCategory($category);
         $categories = ProductsPageCategory::getCategoriesTolist();
         $buyer = Buyers::getBuyer();

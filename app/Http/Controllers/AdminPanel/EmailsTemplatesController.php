@@ -4,7 +4,7 @@ namespace App\Http\Controllers\AdminPanel;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Http\Models\EmailsTemplates\EmailsTemplates;
 class EmailsTemplatesController extends Controller
 {
     /**
@@ -14,7 +14,9 @@ class EmailsTemplatesController extends Controller
      */
     public function index()
     {
-        //
+        $templates = EmailsTemplates::getTemplates();
+
+        return view('AdminPanel.emailstemplates.email_templates_list')->with(['templates' => $templates]);
     }
 
     /**
@@ -46,7 +48,9 @@ class EmailsTemplatesController extends Controller
      */
     public function show($id)
     {
-        //
+        $template = EmailsTemplates::getTemplate($id);
+
+        return view('AdminPanel.emailstemplates.email_templates_show')->with(['template' => $template]);
     }
 
     /**
@@ -69,7 +73,8 @@ class EmailsTemplatesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        EmailsTemplates::updateTemplate($request, $id);
+        return redirect()->back();
     }
 
     /**

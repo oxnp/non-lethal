@@ -16,6 +16,7 @@ class UserStoriesController extends Controller
      */
     public function index()
     {
+
         $user_stories = UserStories::getStories();
         $categories = ProductsPageCategory::getCategoriesTolist();
         return view('Front.user_stories')->with([

@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\SendEmail;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,8 +25,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+       // $schedule->job(new SendEmail());
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->exec('php artisan queue:work --stop-when-empty');
     }
 
     /**

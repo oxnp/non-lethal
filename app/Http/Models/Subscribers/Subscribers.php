@@ -8,9 +8,9 @@ use App\Http\Models\Subscribers\SubscribersGroups;
 class Subscribers extends Model
 {
     protected $table = 'subscribers';
-    protected $fillable = ['email','name','user_id','enabled','confirmed','receive_html','subscription_group_ids'];
+    protected $fillable = ['email','name','user_id','enabled','confirmed','receive_html','subscription_group_ids','token'];
     public static function getSubscribers($offset){
-        $subscribers= Subscribers::select('*')->offset($offset)->limit($offset + 20)->paginate(1);
+        $subscribers= Subscribers::select('*')->offset($offset)->limit($offset + 20)->paginate(20);
        // dd($subscribers);
        //$subscribers_paginate = Subscribers::select('*')->paginate(1);
 
