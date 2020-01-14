@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Auth;
 use Request;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Database\QueryException;
 
 class Profile extends Model
 {
+
     public static function getUser(){
         $user = User::find(Auth::ID());
     return $user;
@@ -48,7 +49,18 @@ class Profile extends Model
 
         if(!empty($buyers)){
             $buyer = Buyers::whereUserId(Auth::ID());
-            $buyer->update($request);
+           // dd($request);
+            try {
+                $buyer->update($request);
+            } catch (QueryException $exception) {
+            dd($exception);
+        }
+        }else{
+            try {
+            Buyers::create($request);
+            } catch (QueryException $exception) {
+                dd($exception);
+            }
         }
     }
 }

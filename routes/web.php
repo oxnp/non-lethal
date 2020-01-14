@@ -14,13 +14,18 @@
 use App\Http\Models\Front\Contents\ProductsPageCategory;
 
 
-
-
-
 Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
+
+    //teplates email
+    Route::resource('emails-templates','AdminPanel\EmailsTemplatesController');
+    //teplates email
+
     //subscriber
     Route::resource('subscribers','AdminPanel\SubscribeController');
+    Route::resource('newsletters','AdminPanel\SubscribeNewsletterController');
+    Route::post('newsletter-send/{id}','AdminPanel\SubscribeNewsletterController@sendMessage')->name('newsletterSend');
     //subscriber
+
     Route::get('admin','AdminPanel\AdminPanelController@index');
 
     Route::resource('buyers','AdminPanel\BuyersController');
@@ -38,7 +43,6 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
     Route::resource('licenses','AdminPanel\LicenseController');
 
     Route::post('transfer_license','AdminPanel\LicenseController@transferLicense')->name('transferLicense');
-
 
 
     Route::post('feature_precode','AdminPanel\PrecodeController@generateFeaturePreCodeAJAX')->name('generateFeaturePreCodeAJAX');
@@ -67,6 +71,14 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
 
 Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
     Auth::routes();
+//subscribe
+    Route::post('newsletter-send-mail','Front\SubscribeController@sendMSubscribeMail')->name('newsletterSendFront');
+//subscribe
+//mainpage
+    Route::get('/','Front\HomeController@index')->name('index');
+//mainpage
+
+
 //paddle checkout
     Route::post('paddle-gateway','Front\PaddleCheckoutController@paddle_gateway')->name('paddle_gateway');
 //paddle checkout
@@ -100,9 +112,7 @@ Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
 //profile
 
 
-//mainpage
-    Route::get('/','Front\HomeController@index')->name('index');
-//mainpage
+
 
 //products
     Route::get('/'.env('PRODUCTS_URL').'/{category}','Front\ProductController@category');

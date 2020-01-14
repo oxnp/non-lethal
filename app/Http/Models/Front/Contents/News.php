@@ -10,6 +10,7 @@ class News extends Model
 {
     public static function getNews(){
         $news = News::whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->paginate(9);
+
         return $news;
     }
 

@@ -59,10 +59,12 @@ class License extends Model
             $query->whereLike(['b.last','b.first','licenses.serial','licenses.ilok_code',DB::raw("CONCAT(b.last,' ',b.first)")],str_replace('-','',$filter['search_string']));
         }
         $url = '';
+
         foreach($filter as $f=>$value){
             $url .= $f.'&'.$value;
         }
         $result = array();
+
         $result['licenses'] = $query->paginate($per_page);
         $result['filter'] = $filter;
         return $result;
