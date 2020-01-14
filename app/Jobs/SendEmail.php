@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
 use Mail;
+use mysql_xdevapi\Exception;
 
 class SendEmail implements ShouldQueue
 {
@@ -31,13 +32,13 @@ class SendEmail implements ShouldQueue
     {
 
         $this->email = $data_subscriber['email'];
-        $this->name = $data_subscriber['name'];
         $this->body_html = $data_subscriber['body_html'];
 
         $this->name_from = $sender_info['name_from'];
         $this->email_from = $sender_info['email_from'];
         $this->email_reply = $sender_info['email_reply'];
         $this->subject = $sender_info['subject'];
+
 
     }
 
@@ -48,13 +49,16 @@ class SendEmail implements ShouldQueue
      */
     public function handle()
     {
-        //info( $this->email);
+      //  dd($this->email_from);
+        try {
+            Mail::send('temp_email.newsletter', ['body_html' => $this->body_html], function ($message) {
+                $message->from($this->email_from);
+                $message->to($this->email)
+                    ->subject($this->subject);
+            });
+        }catch (Exception $exception){
+            dd($exception);
+        }
 
-        Mail::send('temp_email.newsletter', ['body_html' => $this->body_html], function($message)
-        {
-            $message->from($this->email_from);
-            $message->to($this->email)
-                ->subject($this->subject);
-        });
     }
 }

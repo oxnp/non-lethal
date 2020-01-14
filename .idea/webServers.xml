@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="71b5d120-bad8-4e99-83e5-fde167733916" name="oxnp-lethal" url="http://oxnp.com">
-        <fileTransfer host="oxnp.com" port="21">
+      <webServer id="71b5d120-bad8-4e99-83e5-fde167733916" name="lethal.izzi.studio" url="http://142.93.111.152">
+        <fileTransfer host="142.93.111.152" port="21">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

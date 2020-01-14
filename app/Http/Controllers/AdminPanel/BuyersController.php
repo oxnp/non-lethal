@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AdminPanel;
 
 use App\Http\Models\EmailsTemplates\EmailsTemplates;
+use App\Http\Models\Helper\Helper;
 use App\Notifications\MailRegisterUser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -10,7 +11,7 @@ use App\Http\Models\Buyers\Buyers;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\User;
 use Illuminate\Support\Facades\Hash;
-
+use Illuminate\Support\Facades\Notification;
 class BuyersController extends Controller
 {
     /**
@@ -20,15 +21,15 @@ class BuyersController extends Controller
      */
     public function index(Request $request)
     {
-        $per_page = 20;
-        if ($request->per_page != null){
-            $per_page = $request->per_page;
-        }
+    if ($request->searchstring != null){
+        $buyers = Buyers::getBuyers($request)->appends(['searchstring'=>$request->searchstring]);
+    }else{
+        $buyers = Buyers::getBuyers($request);
+    }
 
-        $buyers = Buyers::getBuyers($per_page)->appends(['per_page' => $per_page]);
-        return view('AdminPanel.buyers.buyers_list')->with([
+    return view('AdminPanel.buyers.buyers_list')->with([
             'buyers' => $buyers
-        ]);
+    ]);
     }
 
     public function export(Request $request){
@@ -64,33 +65,24 @@ class BuyersController extends Controller
      */
     public function store(Request $request)
     {
-        $pwd = str_random(10);
-        $hash = Hash::make($pwd);
+        Helper::sendSerialMail(2258,false);
+
+
         $buyer = Buyers::addBuyer($request);
-
-        //dd($buyer);
-
-        $user = new User();
-
-        $user->email = $buyer->email;   // This is the email you want to send to.
-        $user->username = $buyer->first;   // This is the email you want to send to.
-        $user->name = $buyer->first;   // This is the email you want to send to.
-        $user->password = $hash;
-
-        $data = [
-            'email'=> $buyer->email,
-            'name'=> $buyer->first,
-            'username'=> $buyer->email,
-            'password'=>$pwd
-        ];
-
-        $user->notify(new MailRegisterUser($data));
-
-       // $user->save();
+        $user = User::find($buyer['user_id']);
 
 
+        if($buyer['new_client'] == 1) {
+            $data = [
+                'email'=> $buyer['email'],
+                'name'=> $buyer['first'],
+                'username'=> $buyer['email'],
+                'password'=>$buyer['password']
+            ];
+            $user->notify(new MailRegisterUser($data));
+        }
 
-        return redirect('buyers.index');
+        return redirect(route('buyers.index'));
     }
 
     /**

@@ -2,8 +2,11 @@
 
 namespace App\Http\Models\Helper;
 
+use App\Jobs\SendEmail;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Http\Models\License\License;
+use App\Http\Models\EmailsTemplates\EmailsTemplates;
 class Helper extends Model
 {
     /**
@@ -179,7 +182,128 @@ class Helper extends Model
         self::sendSerialMail($licenseID, true);
     }
 
+    public static function getMailData($licenseID) {
+
+        $license_data =  License::select('licenses.id',
+            'licenses.serial',
+            'licenses.ilok_code',
+            'licenses.seats',
+            'licenses.max_majver',
+            'licenses.type',
+            'licenses.support_days',
+            'licenses.license_days',
+            'b.first',
+            'b.last',
+            'b.company',
+            'b.email',
+            'b.bcc_emails',
+            'p.name',
+            'p.mail_address',
+            'p.mail_from',
+            'p.mail_bcc',
+            'p.mail_subject',
+            'p.mail_body')
+            ->leftjoin('buyers as b','b.id','licenses.buyer_id')
+            ->leftjoin('products as p','p.id','licenses.product_id')
+            ->where('licenses.id',$licenseID)
+            ->get();
+
+        return $license_data;
+    }
+
     public static function sendSerialMail($licenseID, $isIlokUpgrade = false) {
+        if (!$licenseID)
+            return false;
+        // Obtain mail data
+        $mailData = self::getMailData($licenseID);
+
+        $sender_info = array();
+        $recepient_info = array();
+        $recepient_info['email'] = $mailData[0]->email;
+
+        if ($mailData[0]->ilok_code){
+            $sender_info['name_from'] = env('MAIL_FROM_NAME');
+            $sender_info['email_from'] =  env('MAIL_FROM_ADDRESS');
+            $sender_info['email_reply'] = env('MAIL_FROM_ADDRESS');
+            $sender_info['subject'] = '';
+        }else{
+
+        }
+
+        // Build license duration string
+        $licenseDurationString = 'unlimited';
+        if ($mailData[0]->type == env('SUPPORTED_BASE'))
+            $licenseDurationString = $mailData[0]->support_days.' days';
+        elseif ($mailData[0]->type == env('TEMP_BASE'))
+            $licenseDurationString = $mailData[0]->license_days.' days';
+
+
+        $fields = [
+            '[product.name]',
+            '[customer.last]',
+            '[customer.first]',
+            '[customer.company]',
+            '[license.serial]',
+            '[license.ilok_code]',
+            '[license.majorversion]',
+            '[license.type]',
+            '[license.duration]',
+            '[license.seats]',
+            '[website]',
+        ];
+
+        $fields_replace = [
+            $mailData[0]->name,
+            $mailData[0]->last,
+            $mailData[0]->first,
+            $mailData[0]->company,
+            substr(chunk_split( $mailData[0]->serial,5,'-'),0,-1),
+            $mailData[0]->ilok_code,
+            $mailData[0]->majorversion,
+            self::licenseTypeIDtoString($mailData[0]->type),
+            $licenseDurationString,
+            $mailData[0]->seats,
+            env('APP_URL'),
+        ];
+
+        $mail_body = str_replace($fields,$fields_replace,$mailData[0]->mail_body);
+        // Set subject and body
+        if ($mailData[0]->ilok_code) {
+
+            if ($isIlokUpgrade)
+            {
+                $template = EmailsTemplates::where('alias_name','ilok_update')->get();
+
+                $recepient_info['body_html'] = str_replace($fields,$fields_replace,$template[0]->body_html);
+
+                $sender_info['name_from'] = $template[0]->from_name;
+                $sender_info['email_from'] =  $template[0]->from_addres;
+                $sender_info['email_reply'] = $template[0]->reply_to_addres;
+                $sender_info['subject'] = str_replace($fields,$fields_replace,$template[0]->subject);
+            }else{
+                $template = EmailsTemplates::where('alias_name','ilok')->get();
+
+                $recepient_info['body_html'] = str_replace($fields,$fields_replace,$template[0]->body_html);
+
+                $sender_info['name_from'] = $template[0]->from_name;
+                $sender_info['email_from'] =  $template[0]->from_addres;
+                $sender_info['email_reply'] = $template[0]->reply_to_addres;
+                $sender_info['subject'] = str_replace($fields,$fields_replace,$template[0]->subject);
+            }
+        }else{
+            $sender_info['subject'] = str_replace($fields,$fields_replace,$mailData[0]->mail_subject);
+            $recepient_info['body_html'] = str_replace($fields,$fields_replace,$mailData[0]->mail_body);
+
+            $sender_info['name_from'] = $mailData[0]->mail_from;
+            $sender_info['email_from'] =  $mailData[0]->mail_address;
+            $sender_info['email_reply'] = $mailData[0]->mail_address;
+        }
+
+
+
+        $job = dispatch(new SendEmail($recepient_info,$sender_info));
+
+
         /*
         // Abort, if no license was assigned
         if (!$licenseID)

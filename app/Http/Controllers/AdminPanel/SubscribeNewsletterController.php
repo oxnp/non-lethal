@@ -129,8 +129,8 @@ class SubscribeNewsletterController extends Controller
 
 
         foreach ($data_subscribers as $subscriber) {
-            $job = (new SendEmail($subscriber,$data_sender));
-            $this->dispatch($job);
+            dispatch(new SendEmail($subscriber,$data_sender));
+
         }
 
        // Artisan::call('queue:work',['--stop-when-empty' => 'foo']);
