@@ -63,31 +63,43 @@
                                     @else {!! $license['upgrade_targets']!!}
                                     @endif
                                 </td>
-                                @if(Auth::user()->role_id == 1)
-                                    <td>
-                                        @if(!empty($license['notes']))
-                                            <a data-toggle="modal" data-target="#{{$license['serial']}}{{$license['ilok']}}" href="">
-                                                Read notes
-                                            </a>
-                                        @endif
-                                    </td>
-                                    @if(!empty($license['notes']))
-                                        <div class="modal fade" id="{{$license['serial']}}{{$license['ilok']}}" tabindex="-1" role="dialog"
-                                             aria-labelledby="{{$license['serial']}}{{$license['ilok']}}" aria-hidden="true">
-                                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        {!! $license['notes'] !!}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                @endif
+
+                                <td>
+                                    <a data-toggle="modal"
+                                       data-target="#{{$license['serial']}}{{$license['ilok']}}" href="">
+                                        Notes
+                                    </a>
+
+                                </td>
+
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
+
+                    @foreach($value as $license)
+                    <div class="modal fade" id="{{$license['serial']}}{{$license['ilok']}}"
+                         tabindex="-1" role="dialog"
+                         aria-labelledby="{{$license['serial']}}{{$license['ilok']}}"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <form name="noteform" method="POST"
+                                          action="{{route('user-notes')}}">
+                                        {{csrf_field()}}
+                                        <input type="hidden" name="license_id"
+                                               value="{{$license['license_id']}}"/>
+                                        <textarea class="form-control" name="user_notes"
+                                                  value="{{$license['user_notes']}}">{{$license['user_notes']}}</textarea>
+                                        <input class="btn btn-primary" type="submit"
+                                               value="Edit notes"/>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
                     <div class="total text-center">
                         Total license count: {{count($value)}}
                     </div>
@@ -122,6 +134,7 @@
                                     <input name="code" type="text" required="required"
                                            placeholder="Enter or paste code..."/>
                                 </div>
+                                <div class="response"></div>
                                 <button class="activate">Activate</button>
                             </form>
                             <script>
@@ -134,7 +147,15 @@
                                         url: url,
                                         data: form.serialize(),
                                         success: function (data) {
-                                            console.log(data);
+                                            $('.response').text(data.text);
+                                            setTimeout(function () {
+                                                $('.response').text('');
+                                            }, 5000)
+                                            if (data.status == true) {
+                                                setTimeout(function () {
+                                                    window.location.reload();
+                                                }, 3000)
+                                            }
                                         }
                                     })
                                 })

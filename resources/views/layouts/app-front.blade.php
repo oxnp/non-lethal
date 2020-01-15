@@ -12,7 +12,7 @@
     <script type="text/javascript" src="/js/popper.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js"></script>
     <script src="https://cdn.paddle.com/paddle/paddle.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/jquery.base64.min.js"></script>
+    <script type="text/javascript" src="/js/base.min.js"></script>
     <script src="https://kit.fontawesome.com/7dfad927b2.js"></script>
     <script type="text/javascript" src="/js/functions.js"></script>
 </head>

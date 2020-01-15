@@ -5,11 +5,11 @@ var sass = require('gulp-sass');
 const gutil = require('gutil');
 const ftp = require('vinyl-ftp');
 var localFiles = ['./public/css/*','*.ico','*.js','*.html','*.css'];
-var user = 'bernetcor_nonlet';
-var password = 'q15DzNKMHF';
+var user = 'lethal@lethal.izzi.studio';
+var password = 'wdsedoi?FzQu';
 function getFtpConnection(){
     return ftp.create({
-        host: 'oxnp.com',
+        host: '142.93.111.152',
         port: 21,
         user: user,
         password: password,

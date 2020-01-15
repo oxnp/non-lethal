@@ -39,7 +39,7 @@
                                     <a href="{{localeMiddleware::getLocaleFront()}}/support/knowledge-base">{{trans('main.knowledge_base')}}</a>
                                 </li>
                                 <li>
-                                    <a href="{{localeMiddleware::getLocaleFront()}}/support">{{trans('main.get_in_touch')}}</a>
+                                    <a href="{{localeMiddleware::getLocaleFront()}}/support/get-in-touch">{{trans('main.get_in_touch')}}</a>
                                 </li>
                             </ul>
                         </li>

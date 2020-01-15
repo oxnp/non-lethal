@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="col">
-                    <img src="/images/function.png">
+                    <img src="/images/function2.png">
                     <div class="desc">
                         {!!trans('main.modern_function')!!}
                     </div>
