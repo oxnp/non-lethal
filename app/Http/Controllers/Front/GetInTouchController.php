@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Http\Models\Front\Contents\ProductsPageCategory;
-use App\Http\Models\Front\Contents\UserStories;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-class UserStoriesController extends Controller
+use App\Http\Models\Front\Contents\ProductsPageCategory;
+class GetInTouchController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +16,11 @@ class UserStoriesController extends Controller
     {
         $breadcrumbs = array();
 
-        $breadcrumbs[0]['url'] = '/'.env('USER_STORIES_URL');
-        $breadcrumbs[0]['text'] = trans('main.USER_STORIES');
+        $breadcrumbs[0]['url'] = '/support/get-in-touch';
+        $breadcrumbs[0]['text'] = trans('main.get_in_touch');
 
-        $user_stories = UserStories::getStories();
         $categories = ProductsPageCategory::getCategoriesTolist();
-        return view('Front.user_stories')->with([
-            'user_stories'=>$user_stories,
+        return view('Front.support')->with([
             'categories'=>$categories,
             'breadcrumbs' => $breadcrumbs
         ]);
@@ -37,7 +33,7 @@ class UserStoriesController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -57,26 +53,9 @@ class UserStoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id)
     {
-
-        $breadcrumbs = array();
-
-        $breadcrumbs[0]['url'] = '/'.env('USER_STORIES_URL');
-        $breadcrumbs[0]['text'] = trans('main.USER_STORIES');
-
-        $user_story = UserStories::getStory($slug);
-
-        $breadcrumbs[1]['url'] = '/'.env('USER_STORIES_URL').'/'.$slug;
-        $breadcrumbs[1]['text'] = $user_story[0]->title;
-
-
-        $categories = ProductsPageCategory::getCategoriesTolist();
-        return view('Front.story')->with([
-            'user_story'=>$user_story,
-            'categories'=>$categories,
-            'breadcrumbs' => $breadcrumbs
-        ]);
+        //
     }
 
     /**

@@ -84,7 +84,7 @@ class KnowledgeBase extends Model
     }
 
     public static function getItem($headcategory,$category,$subcategory,$item){
-        $page = KnowledgeBase::whereSlug($item)->whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get()->pluck('content')->toArray();
+        $page = KnowledgeBase::whereSlug($item)->whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get()->toArray();
 
         return $page;
     }

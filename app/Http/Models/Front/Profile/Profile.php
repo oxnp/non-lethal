@@ -53,13 +53,13 @@ class Profile extends Model
             try {
                 $buyer->update($request);
             } catch (QueryException $exception) {
-            dd($exception);
+            //dd($exception);
         }
         }else{
             try {
             Buyers::create($request);
             } catch (QueryException $exception) {
-                dd($exception);
+               // dd($exception);
             }
         }
     }

@@ -266,7 +266,7 @@ class Helper extends Model
             env('APP_URL'),
         ];
 
-        $mail_body = str_replace($fields,$fields_replace,$mailData[0]->mail_body);
+
         // Set subject and body
         if ($mailData[0]->ilok_code) {
 
@@ -299,125 +299,9 @@ class Helper extends Model
             $sender_info['email_reply'] = $mailData[0]->mail_address;
         }
 
-
-
         $job = dispatch(new SendEmail($recepient_info,$sender_info));
 
-
-        /*
-        // Abort, if no license was assigned
-        if (!$licenseID)
-            return false;
-
-        // Obtain mail data
-        $mailData = self::getMailData($licenseID);
-
-        // Init the Mailer with sender
-        JLoader::register('JAppActivationMailer', JPATH_COMPONENT_ADMINISTRATOR . '/classes/mailer.php');
-        $mailer = new JAppActivationMailer();
-
-        // Add sender and receivers
-        $mailer->addRecipient($mailData->email);
-        if ($mailData->ilok_code)
-        {
-            $config = JFactory::getConfig();
-            $globalMailFrom = $config->get( 'fromname' );
-            $globalMailAddress = $config->get( 'mailfrom' );
-
-            $mailer->setSender(array($globalMailAddress, $globalMailFrom));
-        }
-        else
-        {
-            $mailer->addBCC($mailData->mail_bcc);
-            $mailer->setSender(array($mailData->mail_address, $mailData->mail_from));
-        }
-
-        // Add buyer's BCC list
-        if(!empty($mailData->bcc_emails)) {
-            $cleanedBuyersBcc = preg_replace("/[\n\r ]/","",$mailData->bcc_emails);
-            $bccReceivers = explode(',', $cleanedBuyersBcc);
-            $mailer->addBCC($bccReceivers);
-        }
-
-        // Build license duration string
-        $licenseDurationString = 'unlimited';
-        if ($mailData->type == JAA_LICENSE_TYPE::SUPPORTED_BASE)
-            $licenseDurationString = $mailData->support_days.' days';
-        elseif ($mailData->type == JAA_LICENSE_TYPE::TEMP_BASE)
-            $licenseDurationString = $mailData->license_days.' days';
-
-        // Substitute body text fields
-        $mailer->setSubFieldKeys(array(
-            '[product.name]',
-            //'[product.options]',
-            '[customer.last]',
-            '[customer.first]',
-            '[customer.company]',
-            '[license.serial]',
-            '[license.ilok_code]',
-            '[license.majorversion]',
-            '[license.type]',
-            '[license.duration]',
-            '[license.seats]',
-            '[website]',
-        ));
-        $mailer->setSubFieldValues(array(
-            $mailData->name,
-            //JAppActivationHelper::featureNamesAsList($mailData->product_id, $mailData->options),
-            $mailData->last,
-            $mailData->first,
-            $mailData->company,
-            self::getFormattedString($mailData->serial, 5, '-'),
-            $mailData->ilok_code,
-            $mailData->max_majver,
-            self::licenseTypeIDtoString($mailData->type),
-            $licenseDurationString,
-            $mailData->seats,
-            '<a href="' . JUri::root() . '">' . JUri::root() . '</a>'
-        ));
-
-        // Set subject and body
-        if ($mailData->ilok_code)
-        {
-            // Assign global defined iLok texts (PACE activation)
-            $params = JComponentHelper::getParams('com_jappactivation');
-            if ($isIlokUpgrade)
-            {
-                $iLokMailSubject = $params->get('ilok_upgrade_mail_subject');
-                $iLokMailBody = $params->get('ilok_upgrade_mail_body');
-            }
-            else
-            {
-                $iLokMailSubject = $params->get('ilok_send_mail_subject');
-                $iLokMailBody = $params->get('ilok_send_mail_body');
-            }
-
-            $mailer->setSubject($iLokMailSubject);
-            $mailer->setBody($iLokMailBody);
-        }
-        else
-        {
-            // Assign texts attached to the product (LL_LicenseLib activation)
-            $mailer->setSubject($mailData->mail_subject);
-            $mailer->setBody($mailData->mail_body);
-        }
-
-
-        // Send mail
-        if( !$mailer->Send() ) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_JAPPACTIVATION_LICENSE_EMAIL_NOT_SENT').' '.$mailData->email, 'notice');
-            return false;
-        }
-
-        // Append admin message
-        JFactory::getApplication()->enqueueMessage(JText::_('COM_JAPPACTIVATION_LICENSE_EMAIL_SENT').' '.$mailData->email, 'message');
-
-        if(isset($bccReceivers) && !empty($bccReceivers)) {
-            JFactory::getApplication()->enqueueMessage(JText::_('COM_JAPPACTIVATION_LICENSE_EMAIL_SENT_BCC').' '.implode(', ', $bccReceivers), 'message');
-        }
-   */
         return true;
-
     }
 
 }

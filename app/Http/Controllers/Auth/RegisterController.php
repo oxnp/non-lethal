@@ -80,9 +80,16 @@ class RegisterController extends Controller
 
     public function showRegistrationForm ()
     {
+        $breadcrumbs = array();
+
+        $breadcrumbs[0]['url'] = '/register';
+        $breadcrumbs[0]['text'] = trans('main.my_account');
+
         $categories = ProductsPageCategory::getCategoriesTolist();
+
         return view('auth.register')->with([
-            'categories'=>$categories
+            'categories'=>$categories,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 

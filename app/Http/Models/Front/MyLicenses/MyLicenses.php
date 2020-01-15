@@ -112,8 +112,10 @@ class MyLicenses extends Model
             'licenses.paddle_sid',
             'licenses.paddle_status',
             'licenses.paddle_updateurl',
-            'licenses.paddle_queue_cancel')
+            'licenses.paddle_queue_cancel',
+            'ntl.user_notes')
             ->leftjoin('seats as s','s.license_id','licenses.id')
+            ->leftjoin('notes_to_license as ntl','ntl.license_id','licenses.id')
             ->leftjoin('buyers as b','licenses.buyer_id','b.id')
             ->where('b.user_id',Auth::ID())
             ->groupBy('licenses.id')
@@ -262,6 +264,8 @@ class MyLicenses extends Model
                 //type
 
                     $data[$product['name']][$i]['ilok'] = $license['ilok_code'];
+                    $data[$product['name']][$i]['license_id'] = $license['id'];
+                    $data[$product['name']][$i]['user_notes'] = $license['user_notes'];
                     $data[$product['name']][$i]['serial'] =  substr(chunk_split($license['serial'], 5, '-'), 0, -1);
                     $data[$product['name']][$i]['type'] = $type;
                     $data[$product['name']][$i]['purchase_date'] = Date('Y-m-d', strtotime($purchaseDate));
@@ -352,7 +356,8 @@ class MyLicenses extends Model
                 $i++;
             }
         }
-//dd($data);
+
+
         return $data;
     }
 
