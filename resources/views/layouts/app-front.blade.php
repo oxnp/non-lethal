@@ -160,45 +160,28 @@
     });
 </script>
 @if(!Auth::guest())
-    @if(isset($buyer[0]))
     <script>
-        // Holds the selected product ID
         var selectedProduct = null;
         var userData = null;
         var isSubscription = false;
         var checkoutData = null;
 
-
-        /**
-         * Entry point
-         */
         jQuery(document).ready(function () {
 
-            // Determine login status and init purchase functionality
-
-            // Get form token and make login call
             var formToken = '{{csrf_token()}}';
             if (formToken) {
-
-                // Append form token as login credential
                 var data = {};
                 data[formToken] = 1;
             }
 
-            // Buy button click handler - Show buy form
             jQuery('a[data-product]').on('click', function () {
-
-                // Wrap this for subfunction use
                 var that = jQuery(this);
 
-                // Show loader
                 Paddle.Spinner.show();
 
-                // Determine product published state
                 selectedProduct = jQuery(this).data('product');
                 isSubscription = jQuery(this).data('subscription');
 
-                // Get form token and make login call
                 var formToken = '{{csrf_token()}}';
                 if (formToken) {
                     // Append form token as login credential
@@ -232,15 +215,11 @@
             });
         });
 
-        /**
-         * This is the main checkout method that calls the paddle checkout
-         * after verification of some fields and/or user login was successful
-         */
         function startCheckout() {
             // Proceed to checkout immediately if user is logged in
             var checkoutData = {};
 
-            checkoutData['email'] = '{{$buyer[0]["email"]}}';
+            checkoutData['email'] = '{{Auth::user()->email}}';
             checkoutData['firstname'] = '';
             checkoutData['lastname'] = '';
             callPaddle(checkoutData);
@@ -248,25 +227,14 @@
 
         }
 
-
-        /**
-         * This method opens the Paddle checkout popup and
-         * passes user/registration data.
-         *
-         * @param data      Additional data, sent as passthrough
-         */
         function callPaddle(data) {
-
-            // Specify checkout email
-            var checkoutEmail = '{{$buyer[0]["email"]}}';
+            var checkoutEmail = '{{Auth::user()->email}}';
             var enableQuantity = false;
             if (!isSubscription) {
                 enableQuantity = true
             }
 
-            // Convert data to JSON and b64 encode the result
             var passthroughData = JSON.stringify(data);
-            // Create Base64 Object
             passthroughData = $.base64.encode(passthroughData);
             var checkoutOptions = {
                 product: selectedProduct,
@@ -279,38 +247,146 @@
             Paddle.Checkout.open(checkoutOptions);
         }
 
-        /**
-         * This method gets called when checkout was successful
-         */
         function checkoutSuccess() {
             finishCheckout();
         }
 
-        /**
-         * Checkout finish method
-         */
         function finishCheckout() {
             Paddle.Spinner.hide();
         }
     </script>
-    @endif
 @else
     <script>
-        $('a[data-product]').each(function(){
-            $(this).attr('href','{{ route("login") }}')
+        var selectedProduct = null;
+        var userData = null;
+        var isSubscription = false;
+        var checkoutData = null;
+
+        var formToken = '{{csrf_token()}}';
+        if (formToken) {
+            var data = {};
+            data[formToken] = 1;
+        }
+
+        $('a[data-product]').each(function () {
+            $(this).click(function () {
+                $('#prodlog').modal('show');
+                selectedProduct = jQuery(this).data('product');
+                isSubscription = jQuery(this).data('subscription');
+            })
         })
     </script>
+    <script>
+        jQuery('form#prlogin').submit(function (e) {
+            e.preventDefault();
+            jQuery.ajax({
+                url: '{{route('login')}}',
+                method: 'post',
+                data: jQuery(this).serialize(),
+                dataType: 'json'
+            })
+                .fail(function (data) {
+                    if (JSON.parse(data.responseText).errors.username != undefined) {
+                        $('form#prlogin button[type="submit"]').after('<div class="err">' + JSON.parse(data.responseText).errors.username[0] + '</div>');
+                    } else if (JSON.parse(data.responseText).errors.email != undefined) {
+                        $('form#prlogin button[type="submit"]').after('<div class="err">' + JSON.parse(data.responseText).errors.email[0] + '</div>');
+                    }
+                })
+                .done(function (data) {
+
+                    $('a#logbut').attr('href','{{ route("my-licenses") }}')
+
+                    $('#prodlog').modal('hide');
+                    let usermail = data.email;
+
+                    Paddle.Spinner.show();
+                    var formToken = '{{csrf_token()}}';
+                    if (formToken) {
+                        // Append form token as login credential
+                        var data = {};
+                        data['_token'] = '{{csrf_token()}}';
+                        data['paddle_pid'] = selectedProduct;
+
+                        console.log(data['_token']);
+
+                        jQuery.ajax({
+                            url: '{{route('getProductPublishedState')}}',
+                            method: 'post',
+                            data: data,
+                            dataType: 'json'
+                        })
+                            .done(function (response) {
+                                if (!response.isPublished) {
+                                    alert(response.message);
+                                    return;
+                                }
+                                startCheckout();
+                            })
+                            .fail(function () {
+                                alert('This purchase is temporary not available, please try again later');
+                            })
+                            .always(function () {
+                                Paddle.Spinner.hide();
+                            });
+                    } else {
+                        Paddle.Spinner.hide();
+                        alert('This purchase is temporary not available, please try again later');
+                    }
+
+                    function startCheckout() {
+                        // Proceed to checkout immediately if user is logged in
+                        var checkoutData = {};
+
+                        checkoutData['email'] = usermail;
+                        checkoutData['firstname'] = '';
+                        checkoutData['lastname'] = '';
+                        callPaddle(checkoutData);
+                        return;
+
+                    }
+
+                    function callPaddle(data) {
+                        var checkoutEmail = usermail;
+                        var enableQuantity = false;
+                        if (!isSubscription) {
+                            enableQuantity = true
+                        }
+
+                        var passthroughData = JSON.stringify(data);
+                        passthroughData = $.base64.encode(passthroughData);
+                        var checkoutOptions = {
+                            product: selectedProduct,
+                            passthrough: passthroughData,
+                            email: checkoutEmail,
+                            successCallback: checkoutSuccess,
+                            closeCallback: finishCheckout,
+                            allowQuantity: enableQuantity
+                        };
+                        Paddle.Checkout.open(checkoutOptions);
+                    }
+
+                    function checkoutSuccess() {
+                        finishCheckout();
+                    }
+
+                    function finishCheckout() {
+                        Paddle.Spinner.hide();
+                    }
+                });
+        });
+    </script>
 @endif
+
 <script>
     $('.gbg a.buy_but').click(function (e) {
         e.preventDefault();
         var $container = $("html,body");
         var $scrollTo = $('.pricing');
-        $container.animate({scrollTop: $scrollTo.offset().top, scrollLeft: 0},300);
+        $container.animate({scrollTop: $scrollTo.offset().top, scrollLeft: 0}, 300);
     })
 </script>
 <script>
-    jQuery('form[name="newsletter"]').submit(function(e){
+    jQuery('form[name="newsletter"]').submit(function (e) {
         e.preventDefault();
         jQuery.ajax({
             url: '{{route('newsletterSendFront')}}',
@@ -319,18 +395,18 @@
             dataType: 'json'
         })
             .done(function (data) {
-                if(data==true){
+                if (data == true) {
                     jQuery('form[name="newsletter"]').append('<div class="alert alert-success" role="alert">\n' +
                         ' {{trans("main.newsletter_confirmation")}}\n' +
                         '</div>');
-                }else{
+                } else {
                     jQuery('form[name="newsletter"]').append('<div class="alert alert-warning" role="alert">\n' +
                         '  {{trans("main.already_subscribed")}}\n' +
                         '</div>');
                 }
-                setTimeout(function(){
+                setTimeout(function () {
                     jQuery('form[name="newsletter"] .alert').fadeOut();
-                },3000)
+                }, 3000)
             })
     })
 </script>

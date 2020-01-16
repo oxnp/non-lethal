@@ -48,7 +48,7 @@
                         </li>
                         @if(Auth::guest())
                             <li>
-                                <a href="{{ route('login') }}">{{trans('main.my_account')}}</a>
+                                <a id="logbut" href="{{ route('login') }}">{{trans('main.my_account')}}</a>
                             </li>
                         @else
                             <li class="parent rt">

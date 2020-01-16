@@ -1439,6 +1439,13 @@ section#licenses {
 form[name="noteform"] textarea {
   margin-bottom: 15px; }
 
+.modal section.login-section {
+  background: none;
+  padding: 0; }
+  .modal section.login-section .err {
+    margin-top: 15px;
+    color: red; }
+
 #activation .modal-body {
   padding: 60px 15px; }
 
