@@ -5,7 +5,7 @@
         <h1>My account</h1>
     </section>
     <section class="login-section">
-        <form class="m-auto" method="POST" action="{{ route('login') }}">
+        <form id="logme" class="m-auto" method="POST" action="{{ route('login') }}">
             @csrf
             <div class="group">
                 <label for="email">{{ __('E-Mail Address') }} *</label>
@@ -58,4 +58,25 @@
             </div>
         </form>
     </section>
+    <script>
+        jQuery('form#logme').submit(function (e) {
+            e.preventDefault();
+            jQuery.ajax({
+                url: '{{route('login')}}',
+                method: 'post',
+                data: jQuery(this).serialize(),
+                dataType: 'json'
+            })
+                .fail(function (data) {
+                    if (JSON.parse(data.responseText).errors.username != undefined) {
+                        $('form#logme button[type="submit"]').after('<div class="err">' + JSON.parse(data.responseText).errors.username[0] + '</div>');
+                    } else if (JSON.parse(data.responseText).errors.email != undefined) {
+                        $('form#logme button[type="submit"]').after('<div class="err">' + JSON.parse(data.responseText).errors.email[0] + '</div>');
+                    }
+                })
+                .done(function (data) {
+                    window.location.href = "{{ route('my-licenses') }}";
+                })
+        });
+    </script>
 @endsection
