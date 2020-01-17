@@ -63,4 +63,7 @@ $(document).ready(function () {
         $('#subs,#perp').hide();
         $('#'+target+'').show();
     })
+    $('a.dlinks').click(function () {
+        $(this).closest('.item').find('.download_block').slideToggle();
+    })
 });

@@ -41,5 +41,7 @@ return [
     'newsletter_confirmation' => 'A confirmation e-mail has been sent, please click on the confirmation link in order to confirm your subscription',
     'already_subscribed' => 'You are already subscribed',
     'choose_files' => 'Choose files',
-    'download' => 'Download'
+    'download' => 'Download',
+    'thanks' => 'Thanks! We will contact you as soon as it\'s possible!',
+
 ];

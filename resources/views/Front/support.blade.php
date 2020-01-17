@@ -32,7 +32,7 @@
                     <label for="product" class="col-md-2 col-form-label">{{ __('Product') }}</label>
                     <div class="col">
                         <select id="product" class="form-control" name="product">
-                            <option selected>-- Please choose a product</option>
+                            <option value="" selected>-- Please choose a product</option>
                             <option value="Video Slave">Video Slave</option>
                             <option value="ADR Master">ADR Master</option>
                             <option value="Snapshot">Snapshot</option>
@@ -75,6 +75,7 @@
                 <div class="text-center">
                     <button class="m-auto" type="submit">Submit</button>
                 </div>
+                <div class="suc_mes">{{trans('main.thanks')}}</div>
             </form>
             <div class="alert alert-secondary" role="alert">
                 <img src="/images/info_icon.png"> Before sending an inquiry, please be sure to visit the <a
@@ -82,4 +83,21 @@
             </div>
         </div>
     </section>
+    <script>
+        jQuery('form[name="support"]').submit(function (e) {
+            e.preventDefault();
+            jQuery.ajax({
+                url: '{{route('sendMessage')}}',
+                method: 'post',
+                data: jQuery(this).serialize(),
+                dataType: 'json'
+            })
+                .done(function (data) {
+                    $('.suc_mes').fadeIn();
+                    setTimeout(function () {
+                        $('.suc_mes').fadeOut();
+                    },5000)
+                })
+        });
+    </script>
 @endsection

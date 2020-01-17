@@ -41,5 +41,6 @@ return [
     'newsletter_confirmation' => 'Eine Bestätigungs-E-Mail wurde gesendet. Klicken Sie auf den Bestätigungslink, um Ihr Abonnement zu bestätigen',
     'already_subscribed' => 'Sie sind bereits angemeldet',
     'choose_files' => 'Wähle Dateien',
-    'download' => 'Herunterladen'
+    'download' => 'Herunterladen',
+    'thanks' => 'Vielen Dank! Wir werden uns so schnell wie möglich bei Ihnen melden!',
 ];

@@ -33,7 +33,8 @@
                         @endif
                         </thead>
                         <tbody>
-                        @foreach($value as $license)
+                        @foreach($value['licenses'] as $license)
+
                             <tr>
                                 <td>
                                     <code data-html="true" data-toggle="tooltip" data-placement="top"
@@ -77,28 +78,28 @@
                         </tbody>
                     </table>
 
-                    @foreach($value as $license)
-                    <div class="modal fade" id="{{$license['serial']}}{{$license['ilok']}}"
-                         tabindex="-1" role="dialog"
-                         aria-labelledby="{{$license['serial']}}{{$license['ilok']}}"
-                         aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <form name="noteform" method="POST"
-                                          action="{{route('user-notes')}}">
-                                        {{csrf_field()}}
-                                        <input type="hidden" name="license_id"
-                                               value="{{$license['license_id']}}"/>
-                                        <textarea class="form-control" name="user_notes"
-                                                  value="{{$license['user_notes']}}">{{$license['user_notes']}}</textarea>
-                                        <input class="btn btn-primary" type="submit"
-                                               value="Edit notes"/>
-                                    </form>
+                    @foreach($value['licenses'] as $license)
+                        <div class="modal fade" id="{{$license['serial']}}{{$license['ilok']}}"
+                             tabindex="-1" role="dialog"
+                             aria-labelledby="{{$license['serial']}}{{$license['ilok']}}"
+                             aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <form name="noteform" method="POST"
+                                              action="{{route('user-notes')}}">
+                                            {{csrf_field()}}
+                                            <input type="hidden" name="license_id"
+                                                   value="{{$license['license_id']}}"/>
+                                            <textarea class="form-control" name="user_notes"
+                                                      value="{{$license['user_notes']}}">{{$license['user_notes']}}</textarea>
+                                            <input class="btn btn-primary" type="submit"
+                                                   value="Edit notes"/>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @endforeach
                     <div class="total text-center">
                         Total license count: {{count($value)}}
@@ -106,8 +107,71 @@
                     <a class="dlinks">
                         Download Links
                     </a>
+
+                    <div class="download_block">
+                        <div class="container-fluid latest">
+                            <div class="head_row row align-items-center">
+                                <div class="col-md-8">
+                                    Most recent
+                                </div>
+                                <div class="col-md-4">
+                                    Notes
+                                </div>
+                            </div>
+                            @foreach($value['downloads_links']['latest'] as $item)
+                                <div class="body_row row">
+                                    <div class="col-md-8 justify-content-between">
+                                        <div class="prod_title">
+                                            {{$item['zip']['name']}}
+                                        </div>
+                                        <div class="d_link">
+                                            <a target="_blank" href="{{$item['zip']['link']}}">Download</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a class="release" target="_blank" href="{{$item['changelog']}}">Release notes</a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="container-fluid legacy">
+                            <div class="head_row row align-items-center">
+                                <div class="col-md-8">
+                                    Legacy
+                                </div>
+                                <div class="col-md-4">
+                                    Notes
+                                </div>
+                            </div>
+                            @foreach($value['downloads_links']['legacy'] as $item)
+                                <div class="body_row row">
+                                    <div class="col-md-8 justify-content-between">
+                                        <div class="prod_title">
+                                            {{$item['zip']['name']}}
+                                        </div>
+                                        <div class="d_link">
+                                            <a target="_blank" href="{{$item['zip']['link']}}">Download</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <a class="release" target="_blank" href="{{$item['changelog']}}">Release notes</a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             @endforeach
+                <div class="modal fade" id="release" tabindex="-1" role="dialog"
+                     aria-labelledby="release" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-body text-center">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <div class="off_act text-center">
                 <h2>Activate code</h2>
                 <div class="activate_desc">
@@ -174,6 +238,14 @@
             $('[data-toggle="modal"]').click(function () {
                 jQuery(jQuery(this).attr('data-target')).modal('show');
             })
+        })
+        $('a.release').click(function (e) {
+            var src = $(this).attr('href');
+            console.log(src);
+            e.preventDefault();
+            $('#release').modal('show');
+            $('#release .modal-body').load(encodeURI(src));
+
         })
     </script>
 @endsection
