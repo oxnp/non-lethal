@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Http\Models\EmailsTemplates\EmailsTemplates;
+use App\Jobs\SendEmail;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Front\Contents\ProductsPageCategory;
@@ -24,6 +26,61 @@ class GetInTouchController extends Controller
             'categories'=>$categories,
             'breadcrumbs' => $breadcrumbs
         ]);
+    }
+    /**
+     * Send message to mail.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function sendMessage(Request $request)
+    {
+       //dd($request->all());
+        $storage_image = array();
+        $sender_info = array();
+        $recepient_info = array();
+        $links ='';
+        if ($request->file('attachment')) {
+            foreach($request->file('attachment') as $file){
+                $storage = $file->store('file_from_get_in_touch');
+                $name_file = explode('/', $storage);
+                $storage_image[] = '/storage/app/file_from_get_in_touch/'. $name_file[1];
+            }
+
+        }
+        if(!empty($storage_image)){
+
+            $i = 1;
+            foreach($storage_image as $image){
+                $links .= '<br>Files<a href="'.env('APP_URL').$image.'">File-'.$i.'</a><br>';
+                $i++;
+            }
+
+        }
+
+        $template = EmailsTemplates::where('alias_name','get_in_touch')->get();
+        $fields = ['[name]','[email]','[product]','[subject]','[message]','[link_attach_files]'];
+        $fields_replace = [
+            $request->name,
+            $request->email,
+            $request->product,
+            $request->subject,
+            $request->message,
+            $links
+        ];
+
+        $recepient_info['body_html'] = str_replace($fields,$fields_replace,$template[0]->body_html);
+
+        $recepient_info['email'] = env('MAIL_TO_GET_IN_TOUCH_MESSAGE');
+
+        $sender_info['name_from'] = $request->name;
+        $sender_info['email_from'] =  $request->email;
+        $sender_info['email_reply'] = $request->email;
+        $sender_info['subject'] = $template[0]->subject;
+
+        dispatch(new SendEmail($recepient_info,$sender_info));
+        return 'true';
+
     }
 
     /**

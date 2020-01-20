@@ -86,4 +86,9 @@ class LoginController extends Controller
             'breadcrumbs' => $breadcrumbs
         ]);
     }
+
+    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    {
+        return response()->json($user);
+    }
 }

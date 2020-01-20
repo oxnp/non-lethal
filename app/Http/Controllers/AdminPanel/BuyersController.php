@@ -70,7 +70,7 @@ class BuyersController extends Controller
      */
     public function store(Request $request)
     {
-        Helper::sendSerialMail(2258,false);
+       // Helper::sendSerialMail(2258,false);
 
 
         $buyer = Buyers::addBuyer($request);

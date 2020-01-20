@@ -19,6 +19,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        'paddle-gateway'
+        'paddle-gateway',
+        'get-product-published-state'
     ];
 }

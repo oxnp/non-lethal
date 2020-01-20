@@ -87,6 +87,7 @@ Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
 
     Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
     Route::get('/support/get-in-touch','Front\GetInTouchController@index')->name('support');
+    Route::post('/support/get-in-touch','Front\GetInTouchController@sendMessage')->name('sendMessage');
 
     //profile
     Route::get('/profile','Front\ProfileController@profile')->name('profile');

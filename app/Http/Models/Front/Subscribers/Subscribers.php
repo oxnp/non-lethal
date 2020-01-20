@@ -4,7 +4,7 @@ namespace App\Http\Models\Front\Subscribers;
 
 use App\User;
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
+
 
 class Subscribers extends Model
 {
