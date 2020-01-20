@@ -11,15 +11,15 @@ class StaticPageController extends Controller
 {
     public function page($slug){
         $content = StaticPages::getPage($slug);
-
+        if(empty($content)){
+            return abort(404);
+        }
         $breadcrumbs = array();
 
         $breadcrumbs[0]['url'] = '/'.$slug;
         $breadcrumbs[0]['text'] = $content[0]['title'];
 
-        if(empty($content)){
-            return abort(404);
-        }
+
 
         $categories = ProductsPageCategory::getCategoriesTolist();
         return view('Front.static_page')->with([
