@@ -20,11 +20,11 @@
                                             <a href="{{localeMiddleware::getLocaleFront()}}/{{env('PRODUCTS_URL')}}/{{$cat['slug']}}">{{$cat['name']}}</a>
                                         </li>
                                     @elseif($cat['auth_visible']==1)
-                                        @if(!Auth::guest())
+                                        <!--@if(!Auth::guest())
                                             <li>
                                                 <a href="{{localeMiddleware::getLocaleFront()}}/{{env('PRODUCTS_URL')}}/{{$cat['slug']}}">{{$cat['name']}}</a>
                                             </li>
-                                        @endif
+                                        @endif-->
                                     @endif
                                 @endforeach
                             </ul>
@@ -39,7 +39,7 @@
                                     <a href="{{localeMiddleware::getLocaleFront()}}/support/knowledge-base">{{trans('main.knowledge_base')}}</a>
                                 </li>
                                 <li>
-                                    <a href="{{localeMiddleware::getLocaleFront()}}/support">{{trans('main.get_in_touch')}}</a>
+                                    <a href="{{localeMiddleware::getLocaleFront()}}/support/get-in-touch">{{trans('main.get_in_touch')}}</a>
                                 </li>
                             </ul>
                         </li>
@@ -48,17 +48,22 @@
                         </li>
                         @if(Auth::guest())
                             <li>
-                                <a href="{{ route('login') }}">{{trans('main.my_account')}}</a>
+                                <a id="logbut" href="{{ route('login') }}">{{trans('main.my_account')}}</a>
                             </li>
                         @else
                             <li class="parent rt">
                                 <a href="{{ route('my-licenses') }}">{{trans('main.my_account')}}</a>
                                 <ul class="child">
+                                    @if(Auth::user()->role_id=1)
+                                        <li>
+                                            <a href="{{ route('licenses.index') }}">Admin panel</a>
+                                        </li>
+                                    @endif
                                     <li>
                                         <a href="{{ route('my-licenses') }}">{{trans('main.my_licenses')}}</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('profile') }}">{{trans('main.my_account')}}</a>
+                                        <a href="{{ route('profile') }}">{{trans('main.my_profile')}}</a>
                                     </li>
                                     <li>
                                         <a href="{{route('logout')}}">{{trans('main.logout')}}</a>

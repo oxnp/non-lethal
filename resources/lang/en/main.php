@@ -9,6 +9,7 @@ return [
     'get_in_touch' => 'Get in touch',
     'partners' => 'Partners',
     'my_account' => 'My account',
+    'my_profile' => 'My profile',
     'my_licenses' => 'My licenses',
     'edit_profile' => 'Edit profile',
     'logout' => 'Log out',
@@ -39,5 +40,13 @@ return [
     'articles' => 'Articles',
     'all' => 'All',
     'newsletter_confirmation' => 'A confirmation e-mail has been sent, please click on the confirmation link in order to confirm your subscription',
-    'already_subscribed' => 'You are already subscribed'
+    'already_subscribed' => 'You are already subscribed',
+    'choose_files' => 'Choose files',
+    'download' => 'Download',
+    'thanks' => 'Thanks! We will contact you as soon as it\'s possible!',
+    'homepagetitle' => 'Non-Lethal Applications - Homepage',
+    'my_licenses_title' => 'My licenses',
+    'profile_title' => 'My profile',
+    'login_please' => 'Please log in to continue'
+
 ];

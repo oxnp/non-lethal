@@ -14,12 +14,22 @@
                 <h2 class="text-center">{!!trans('main.articles')!!}</h2>
                 <div class="cats row justify-content-around">
                     <div class="col text-center">
-                        <a href="{{localeMiddleware::getLocaleFront()}}{{$data['all_item_url']}}">{!!trans('main.all')!!}</a>
+                        <a
+                            @if(localeMiddleware::getLocaleFront().$data['all_item_url']==$_SERVER['REQUEST_URI'])
+                            class="active"
+                            @endif
+                            href="{{localeMiddleware::getLocaleFront()}}{{$data['all_item_url']}}">{!!trans('main.all')!!}</a>
                     </div>
                     @foreach($data['categories'] as $cat)
+                        @if($cat['visible']!=0)
                         <div class="col text-center">
-                            <a href="{{localeMiddleware::getLocaleFront()}}{{$cat['url']}}">{{$cat['name']}}</a>
+                            <a
+                                @if(localeMiddleware::getLocaleFront().$cat['url']==$_SERVER['REQUEST_URI'])
+                                    class="active"
+                                @endif
+                                href="{{localeMiddleware::getLocaleFront()}}{{$cat['url']}}">{{$cat['name']}}</a>
                         </div>
+                        @endif
                     @endforeach
                 </div>
                 <div class="items">
@@ -35,7 +45,7 @@
                                     {{$item['title']}}
                                 </div>
                                 <div class="minidesc">
-                                    {{$item['content']}}
+                                    {{str_replace($item['title'],'',$item['content'])}}
                                 </div>
                                 <a class="readmore" href="{{localeMiddleware::getLocaleFront()}}{{$item['url']}}">
                                     {!!trans('main.see_more')!!} <img src="/images/blue_arr.png">
@@ -45,7 +55,6 @@
                     @endforeach
                 </div>
             </div>
-
         </div>
     </section>
 @endsection

@@ -139,7 +139,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <input class="btn btn-primary" type="submit">
+                <input class="btn btn-primary" type="submit" value="Save and close">
             </div>
         </form>
     </div>

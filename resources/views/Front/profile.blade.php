@@ -1,7 +1,7 @@
 @extends('layouts.app-front')
 @section('app-front-content')
     <section class="intro lic">
-        <h1>Profile</h1>
+        <h1>My Profile</h1>
     </section>
     <section class="profile">
         <div class="container">
@@ -10,14 +10,14 @@
                 {{csrf_field()}}
                 <div class="prof_group">
                     <div class="group_title">
-                        Profile
+                        My Profile
                     </div>
                     <div class="row align-items-center">
                         <div class="col-md-3">
-                            <label for="name">Name *</label>
+                            <label for="name">Name</label>
                         </div>
                         <div class="col-md-4">
-                            <input name="name" value="{{$user->name}}" required="required" type="text" placeholder="Name" />
+                            <input name="name" value="{{$user->name}}" type="text" placeholder="Name" />
                         </div>
                     </div>
                     <div class="row align-items-center">
@@ -51,18 +51,18 @@
                     </div>
                     <div class="row align-items-center">
                         <div class="col-md-3">
-                            <label for="last">Last name</label>
+                            <label for="last">Last name *</label>
                         </div>
                         <div class="col-md-4">
-                            <input name="last" value="{{$buyers['last']}}" type="text" placeholder="No information entered" />
+                            <input name="last" value="{{$buyers['last']}}" required="required" type="text" placeholder="No information entered" />
                         </div>
                     </div>
                     <div class="row align-items-center">
                         <div class="col-md-3">
-                            <label for="first">First name</label>
+                            <label for="first">First name *</label>
                         </div>
                         <div class="col-md-4">
-                            <input name="first" value="{{$buyers['first']}}" type="text" placeholder="No information entered" />
+                            <input name="first" value="{{$buyers['first']}}" required="required" type="text" placeholder="No information entered" />
                         </div>
                     </div>
                     <div class="row align-items-center">

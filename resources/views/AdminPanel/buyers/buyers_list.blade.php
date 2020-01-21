@@ -4,6 +4,10 @@
 @section('content')
 
     <div class="pads">
+        <form name="search" method="GET" action="">
+            <input value="{{$filter['search_string']}}" class="form-control" type="text" name="searchstring" placeholder="Search..."/>
+            <input type="submit" class="btn btn-primary" value="Search"/>
+        </form>
         <form action="{{route('exportBuyers')}}" method="POST" name="export_codes">
             {{csrf_field()}}
             <input type="submit" class="btn btn-primary btn-md" value="Export Buyers" />

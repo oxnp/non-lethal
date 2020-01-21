@@ -1,12 +1,17 @@
-@if (Route::getCurrentRoute()->uri() !== '/')
+@if(isset($breadcrumbs))
     <section id="breadcrumbs">
         <div class="container">
-                {!!trans('main.you_are_here')!!}:
+            {!!trans('main.you_are_here')!!}:
+            <span class="divider"> <img src="/images/bread_divider.png"> </span>
+            <a href="{{localeMiddleware::getLocaleFront()}}/">{!!trans('main.homepage')!!}</a>
+            @foreach($breadcrumbs as $breadcrumb)
                 <span class="divider"> <img src="/images/bread_divider.png"> </span>
-                <a href="/">{!!trans('main.homepage')!!}</a>
+                <a href="{{localeMiddleware::getLocaleFront()}}{{$breadcrumb['url']}}">{{$breadcrumb['text']}}</a>
+            @endforeach
         </div>
     </section>
 @endif
+
 <footer>
     <div class="about_nla">
         <div class="container">
@@ -21,7 +26,8 @@
                     <a href="{{localeMiddleware::getLocaleFront()}}/impressum">{!!trans('main.impressum')!!}</a>
                 </div>
                 <div class="col">
-                    <a href="{{localeMiddleware::getLocaleFront()}}/disclaimer">{!!trans('main.disclaimer')!!}/{!!trans('main.privacy_policy')!!}</a>
+                    <a href="{{localeMiddleware::getLocaleFront()}}/disclaimer">{!!trans('main.disclaimer')!!}
+                        /{!!trans('main.privacy_policy')!!}</a>
                 </div>
             </div>
             <div class="row social">
