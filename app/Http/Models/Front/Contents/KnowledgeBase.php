@@ -78,6 +78,7 @@ class KnowledgeBase extends Model
         foreach($cats->toArray() as $key=>$cat){
             $data['categories'][$key]['url'] = '/'.$array_cats_head[0]['slug'].'/'.$array_cats_head[1]['slug'].'/'.$cat['slug'];
             $data['categories'][$key]['name'] = ucfirst($cat['title']);
+            $data['categories'][$key]['visible'] = $cat['visible'];
         }
 
         return $data;

@@ -25,7 +25,8 @@ class StaticPageController extends Controller
         return view('Front.static_page')->with([
             'content'=>$content,
             'categories'=>$categories,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'meta_title' =>  $content[0]['title']
         ]);
     }
     /**

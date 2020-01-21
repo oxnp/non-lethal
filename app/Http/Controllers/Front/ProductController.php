@@ -32,7 +32,8 @@ class ProductController extends Controller
             'product_data'=>$page,
             'categories'=>$categories,
             'buyer'=>$buyer,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'meta_title' => $page[0]->title
         ]);
     }
 
@@ -50,13 +51,14 @@ class ProductController extends Controller
         $buyer = Buyers::getBuyer();
 
 
-        //dd($breadcrumbs);
+      //  dd($category_data);
         return view('Front.product_category')->with([
             'category_data'=>$category_data,
             'category'=>$category,
             'categories'=>$categories,
             'buyer'=>$buyer,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'meta_title' => $category_data['category'][0]->name
         ]);
 
     }

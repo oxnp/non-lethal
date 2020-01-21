@@ -57,6 +57,10 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
     Route::resource('knowledge-base-categories','AdminPanel\KnowledgeBaseCategoriesController');
     //contents
 
+    //sliders
+    Route::resource('sliders','AdminPanel\SlidersController');
+    //sliders
+
 });
 
 //Front

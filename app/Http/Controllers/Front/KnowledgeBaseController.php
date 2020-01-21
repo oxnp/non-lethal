@@ -17,12 +17,14 @@ class KnowledgeBaseController extends Controller
         $breadcrumbs[0]['url'] = '/support/'.$category;
         $breadcrumbs[0]['text'] = trans('main.knowledge_base');
         $data= KnowledgeBase::getCategoryPage($headcategory,$category);
+
         $categories = ProductsPageCategory::getCategoriesTolist();
 
         return view('Front.knowledge_base_category')->with([
             'data'=>$data,
             'categories'=>$categories,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'meta_title' => $data['title_page']
         ]);
     }
 
@@ -41,7 +43,8 @@ class KnowledgeBaseController extends Controller
          return view('Front.knowledge_base_category')->with([
              'data'=>$data,
              'categories'=>$categories,
-             'breadcrumbs' => $breadcrumbs
+             'breadcrumbs' => $breadcrumbs,
+             'meta_title' =>$data['title_page'].' - '.$data['sub_title_page']
          ]);
     }
     public function item($headcategory,$category,$subcategory,$item){
@@ -65,7 +68,8 @@ class KnowledgeBaseController extends Controller
          return view('Front.knowledge_base_item')->with([
              'content'=>$content[0]['content'],
              'categories'=>$categories,
-             'breadcrumbs' => $breadcrumbs
+             'breadcrumbs' => $breadcrumbs,
+             'meta_title' =>$data['title_page'].' - '.$data['sub_title_page'].' - '.$content[0]['title']
          ]);
     }
 }

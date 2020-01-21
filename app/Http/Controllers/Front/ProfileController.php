@@ -58,7 +58,8 @@ class ProfileController extends Controller
             'user' => $user,
             'buyers'=>$buyers,
             'categories'=>$categories,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'meta_title' => trans('main.profile_title')
         ]);
     }
 

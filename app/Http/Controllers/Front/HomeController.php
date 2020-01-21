@@ -20,10 +20,12 @@ class HomeController extends Controller
         $news = News::getNews();
         $user_stories = UserStories::getStories();
         $categories = ProductsPageCategory::getCategoriesTolist();
+        $meta_title = trans('main.homepagetitle');
         return view('Front.homepage')->with([
             'categories'=>$categories,
             'news'=>$news,
-            'user_stories'=>$user_stories
+            'user_stories'=>$user_stories,
+            'meta_title'=> $meta_title
         ]);
     }
 

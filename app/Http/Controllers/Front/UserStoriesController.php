@@ -26,7 +26,8 @@ class UserStoriesController extends Controller
         return view('Front.user_stories')->with([
             'user_stories'=>$user_stories,
             'categories'=>$categories,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'meta_title' =>  trans('main.USER_STORIES')
         ]);
     }
 
@@ -75,7 +76,8 @@ class UserStoriesController extends Controller
         return view('Front.story')->with([
             'user_story'=>$user_story,
             'categories'=>$categories,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'meta_title' =>  $user_story[0]->title
         ]);
     }
 

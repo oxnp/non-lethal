@@ -42,7 +42,8 @@ class MyLicensesController extends Controller
         return view('Front.my_licenses')->with([
             'categories' => $categories,
             'licenses'=>$licenses,
-            'breadcrumbs' => $breadcrumbs
+            'breadcrumbs' => $breadcrumbs,
+            'meta_title' => trans('main.my_licenses_title')
         ]);
     }
 
