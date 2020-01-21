@@ -33,9 +33,14 @@ class ForgotPasswordController extends Controller
 
     public function showLinkRequestForm ()
     {
+        $breadcrumbs = array();
+
+        $breadcrumbs[0]['url'] = '/password/reset';
+        $breadcrumbs[0]['text'] = trans('main.my_account');
         $categories = ProductsPageCategory::getCategoriesTolist();
         return view('auth.passwords.email')->with([
-            'categories'=>$categories
+            'categories'=>$categories,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
 }

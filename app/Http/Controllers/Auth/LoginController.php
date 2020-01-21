@@ -77,8 +77,18 @@ class LoginController extends Controller
     public function showLoginForm ()
     {
         $categories = ProductsPageCategory::getCategoriesTolist();
+        $breadcrumbs = array();
+
+        $breadcrumbs[0]['url'] = '/login';
+        $breadcrumbs[0]['text'] = trans('main.my_account');
         return view('auth.login')->with([
-            'categories'=>$categories
+            'categories'=>$categories,
+            'breadcrumbs' => $breadcrumbs
         ]);
+    }
+
+    protected function authenticated(\Illuminate\Http\Request $request, $user)
+    {
+        return response()->json($user);
     }
 }

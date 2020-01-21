@@ -49,10 +49,17 @@ class ProfileController extends Controller
 
         $categories = ProductsPageCategory::getCategoriesTolist();
 
+        $breadcrumbs = array();
+
+        $breadcrumbs[0]['url'] = '/profile';
+        $breadcrumbs[0]['text'] = trans('main.my_account');
+
         return view('Front.profile')->with([
             'user' => $user,
             'buyers'=>$buyers,
-            'categories'=>$categories
+            'categories'=>$categories,
+            'breadcrumbs' => $breadcrumbs,
+            'meta_title' => trans('main.profile_title')
         ]);
     }
 

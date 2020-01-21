@@ -16,12 +16,18 @@ class UserStoriesController extends Controller
      */
     public function index()
     {
+        $breadcrumbs = array();
+
+        $breadcrumbs[0]['url'] = '/'.env('USER_STORIES_URL');
+        $breadcrumbs[0]['text'] = trans('main.USER_STORIES');
 
         $user_stories = UserStories::getStories();
         $categories = ProductsPageCategory::getCategoriesTolist();
         return view('Front.user_stories')->with([
             'user_stories'=>$user_stories,
-            'categories'=>$categories
+            'categories'=>$categories,
+            'breadcrumbs' => $breadcrumbs,
+            'meta_title' =>  trans('main.USER_STORIES')
         ]);
     }
 
@@ -54,9 +60,25 @@ class UserStoriesController extends Controller
      */
     public function show($slug)
     {
+
+        $breadcrumbs = array();
+
+        $breadcrumbs[0]['url'] = '/'.env('USER_STORIES_URL');
+        $breadcrumbs[0]['text'] = trans('main.USER_STORIES');
+
         $user_story = UserStories::getStory($slug);
+
+        $breadcrumbs[1]['url'] = '/'.env('USER_STORIES_URL').'/'.$slug;
+        $breadcrumbs[1]['text'] = $user_story[0]->title;
+
+
         $categories = ProductsPageCategory::getCategoriesTolist();
-        return view('Front.story')->with(['user_story'=>$user_story,'categories'=>$categories]);
+        return view('Front.story')->with([
+            'user_story'=>$user_story,
+            'categories'=>$categories,
+            'breadcrumbs' => $breadcrumbs,
+            'meta_title' =>  $user_story[0]->title
+        ]);
     }
 
     /**

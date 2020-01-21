@@ -21,14 +21,19 @@ class BuyersController extends Controller
      */
     public function index(Request $request)
     {
+    $filter['search_string'] = '';
+
     if ($request->searchstring != null){
         $buyers = Buyers::getBuyers($request)->appends(['searchstring'=>$request->searchstring]);
+        $filter['search_string'] = $request->searchstring;
     }else{
         $buyers = Buyers::getBuyers($request);
     }
 
+
     return view('AdminPanel.buyers.buyers_list')->with([
-            'buyers' => $buyers
+            'buyers' => $buyers,
+            'filter'=>$filter
     ]);
     }
 
@@ -65,7 +70,7 @@ class BuyersController extends Controller
      */
     public function store(Request $request)
     {
-        Helper::sendSerialMail(2258,false);
+       // Helper::sendSerialMail(2258,false);
 
 
         $buyer = Buyers::addBuyer($request);

@@ -6,6 +6,7 @@ use App\Http\Models\Front\Contents\ProductsPageCategory;
 use App\User;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -80,10 +81,18 @@ class RegisterController extends Controller
 
     public function showRegistrationForm ()
     {
+        $breadcrumbs = array();
+
+        $breadcrumbs[0]['url'] = '/register';
+        $breadcrumbs[0]['text'] = trans('main.my_account');
+
         $categories = ProductsPageCategory::getCategoriesTolist();
+
         return view('auth.register')->with([
-            'categories'=>$categories
+            'categories'=>$categories,
+            'breadcrumbs' => $breadcrumbs
         ]);
     }
+
 
 }

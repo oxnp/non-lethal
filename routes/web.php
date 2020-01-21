@@ -11,7 +11,7 @@
 |
 */
 
-use App\Http\Models\Front\Contents\ProductsPageCategory;
+
 
 
 Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
@@ -33,23 +33,19 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
 
     Route::resource('products','AdminPanel\ProductsController');
 
-
     Route::resource('precodes','AdminPanel\PrecodeController');
     Route::resource('ilok_codes','AdminPanel\IlokCodesController');
     Route::post('remove_ilok_codes','AdminPanel\IlokCodesController@remove')->name('removeIlokCodes');
     Route::post('import_ilok_codes','AdminPanel\IlokCodesController@import')->name('importIlokCodes');
 
-
     Route::resource('licenses','AdminPanel\LicenseController');
 
     Route::post('transfer_license','AdminPanel\LicenseController@transferLicense')->name('transferLicense');
-
 
     Route::post('feature_precode','AdminPanel\PrecodeController@generateFeaturePreCodeAJAX')->name('generateFeaturePreCodeAJAX');
     Route::post('pre_activation_code','AdminPanel\PrecodeController@generate')->name('generatePreActivationCodes');
     Route::get('export_precodes','AdminPanel\PrecodeController@exportPrecodes')->name('exportPrecodes');
     Route::get('purge_precodes','AdminPanel\PrecodeController@purgeEmpty')->name('purgeEmpty');
-
 
     //contents
     Route::resource('static-pages','AdminPanel\StaticPagesController');
@@ -61,8 +57,9 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
     Route::resource('knowledge-base-categories','AdminPanel\KnowledgeBaseCategoriesController');
     //contents
 
-
-
+    //sliders
+    Route::resource('sliders','AdminPanel\SlidersController');
+    //sliders
 
 });
 
@@ -71,75 +68,70 @@ Route::group(['prefix'=> 'admin','middleware' => ['admin']], function () {
 
 Route::group(['prefix' => LocaleMiddleware::getLocale()],function(){
     Auth::routes();
-//subscribe
+
+    //subscribe
     Route::post('newsletter-send-mail','Front\SubscribeController@sendMSubscribeMail')->name('newsletterSendFront');
-//subscribe
-//mainpage
+    //subscribe
+
+    //mainpage
     Route::get('/','Front\HomeController@index')->name('index');
-//mainpage
+    //mainpage
 
-
-//paddle checkout
+    //paddle checkout
     Route::post('paddle-gateway','Front\PaddleCheckoutController@paddle_gateway')->name('paddle_gateway');
-//paddle checkout
+    //paddle checkout
 
-//subscriber
+    //subscriber
     Route::resource('subscriber','Front\SubscribersCategoriesController');
-//subscriber
+    //subscriber
 
-//download
+    //download
     Route::get('/nlalib/download.php','Front\DownloadController@getFile');
-//download
+    //download
 
     Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
-    Route::get('/support',function(){
-        $categories = ProductsPageCategory::getCategoriesTolist();
-        return view('Front.support')->with([
-            'categories'=>$categories
-        ]);
+    Route::get('/support/get-in-touch','Front\GetInTouchController@index')->name('support');
+    Route::post('/support/get-in-touch','Front\GetInTouchController@sendMessage')->name('sendMessage');
 
-    })->name('support');
-
-//profile
+    //profile
     Route::get('/profile','Front\ProfileController@profile')->name('profile');
     Route::put('/profile','Front\ProfileController@updateProfile')->name('profile-update');
 
     Route::get('/my-licenses','Front\MyLicensesController@index')->name('my-licenses');
+
+    Route::post('/user-notes','Front\MyLicensesController@updateUserNotes')->name('user-notes');
+
     Route::get('/queue-cancel-subscription','Front\MyLicensesController@queueCancelSubscription')->name('queueCancelSubscription');
     Route::post('/get-product-published-state','Front\MyLicensesController@getProductPublishedState')->name('getProductPublishedState');
 
     Route::post('/fulfillment','Front\MyLicensesController@fulfillment')->name('fulfillment');
-//profile
+    //profile
 
-
-
-
-//products
+    //products
     Route::get('/'.env('PRODUCTS_URL').'/{category}','Front\ProductController@category');
     Route::get('/'.env('PRODUCTS_URL').'/{category}/{page}','Front\ProductController@page');
-//products
+    //products
 
 
-//user stories
+    //user stories
     Route::get('/'.env('USER_STORIES_URL'),'Front\UserStoriesController@index');
     Route::get('/'.env('USER_STORIES_URL').'/{stories}','Front\UserStoriesController@show');
-//user stories
+    //user stories
 
-//news
+    //news
     Route::get('/'.env('NEWS_URL'),'Front\NewsController@index');
     Route::get('/'.env('NEWS_URL').'/{news}','Front\NewsController@show');
-//news
+    //news
 
-//static
+    //static
     Route::get('/{page}','Front\StaticPageController@page');
-//static
+    //static
 
-//knowledge base
+    //knowledge base
     Route::get('/{headcategory}/{category}','Front\KnowledgeBaseController@category');
     Route::get('/{headcategory}/{category}/{subcategory}','Front\KnowledgeBaseController@subcategory');
     Route::get('/{headcategory}/{category}/{subcategory}/{item}','Front\KnowledgeBaseController@item');
-//knowledge base
+    //knowledge base
 
 });
 
-//Route::get('/home', 'HomeController@index')->name('home');

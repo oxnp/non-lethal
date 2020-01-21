@@ -78,13 +78,14 @@ class KnowledgeBase extends Model
         foreach($cats->toArray() as $key=>$cat){
             $data['categories'][$key]['url'] = '/'.$array_cats_head[0]['slug'].'/'.$array_cats_head[1]['slug'].'/'.$cat['slug'];
             $data['categories'][$key]['name'] = ucfirst($cat['title']);
+            $data['categories'][$key]['visible'] = $cat['visible'];
         }
 
         return $data;
     }
 
     public static function getItem($headcategory,$category,$subcategory,$item){
-        $page = KnowledgeBase::whereSlug($item)->whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get()->pluck('content')->toArray();
+        $page = KnowledgeBase::whereSlug($item)->whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get()->toArray();
 
         return $page;
     }

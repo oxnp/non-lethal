@@ -85,9 +85,76 @@ class MyLicenses extends Model
         }
     }
 
+    public static function getDownloadLinks($id){
+        $array_products_dir = [
+            '30' => 'adrmaster',
+            '33' => 'adrmaster',
+            '34' => 'adrmaster',
+            '38' => 'adrmaster',
+            '31' => 'adrmaster',
+            '35' => 'adrmaster',
+            '36' => 'adrmaster',
+            '37' => 'adrmaster',
+            '39' => 'adrmaster',
+            '9' => 'videoslave3',
+            '11' => 'videoslave3',
+            '23' => 'videoslave3',
+            '24' => 'videoslave3',
+            '10' => 'videoslave3',
+            '22' => 'videoslave3',
+            '28' => 'videoslave4',
+            '29' => 'videoslave4',
+            '32' => 'videoslave4',
+            '28' => 'videoslave4',
+            '28' => 'videoslave4',
+            '28' => 'videoslave4',
+        ];
+        $path_latest = $_SERVER['DOCUMENT_ROOT'].'/public/nla_files/latest_version/';
+        $path_legacy = $_SERVER['DOCUMENT_ROOT'].'/public/nla_files/';
 
+        $i=0;
+
+            $tmp_array = array();
+            $files = scandir($path_latest.$array_products_dir[$id]);
+            unset($files[0]);
+            unset($files[1]);
+
+            foreach($files as $file){
+                if (substr($file,0,1) != '.') {
+                    if(!strpos($file,'html')) {
+                        $tmp_array[$i]['zip']['link'] = '/nla_files/latest_version/' . $array_products_dir[$id] . '/' . $file;
+                        $tmp_array[$i]['zip']['name'] = substr($file,0,-4);
+
+                        $tmp_array[$i]['changelog'] = '/nla_files/latest_version/' . $array_products_dir[$id] . '/' . substr($file,0,-4).'_changelog.html';
+                        //$tmp_array[$i]['file']['changelog']['name'] = $file;
+                    }
+                    }
+                $i++;
+            }
+
+        $tmp_array_legacy = array();
+        $files = scandir($path_legacy.$array_products_dir[$id]);
+        unset($files[0]);
+        unset($files[1]);
+        foreach($files as $file){
+            if (substr($file,0,1) != '.') {
+                if(!strpos($file,'html')) {
+                $tmp_array_legacy[$i]['zip']['link'] = '/nla_files/'.$array_products_dir[$id].'/'.$file;
+                $tmp_array_legacy[$i]['zip']['name'] = substr($file,0,-4);
+                $tmp_array_legacy[$i]['changelog'] = '/nla_files/' . $array_products_dir[$id] . '/' . substr($file,0,-4).'_changelog.html';
+            }
+            }
+            $i++;
+        }
+
+        $result['latest'] = $tmp_array;
+        $result['legacy'] = $tmp_array_legacy;
+        return $result;
+    }
     public static function getLicensesByUser(){
         $data = array();
+
+
         $buyer_data = Buyers::whereUserId(Auth::ID())->get()->toArray();
 
         if (!isset($buyer_data[0]['id'])){
@@ -112,8 +179,10 @@ class MyLicenses extends Model
             'licenses.paddle_sid',
             'licenses.paddle_status',
             'licenses.paddle_updateurl',
-            'licenses.paddle_queue_cancel')
+            'licenses.paddle_queue_cancel',
+            'ntl.user_notes')
             ->leftjoin('seats as s','s.license_id','licenses.id')
+            ->leftjoin('notes_to_license as ntl','ntl.license_id','licenses.id')
             ->leftjoin('buyers as b','licenses.buyer_id','b.id')
             ->where('b.user_id',Auth::ID())
             ->groupBy('licenses.id')
@@ -261,15 +330,20 @@ class MyLicenses extends Model
                 }
                 //type
 
-                    $data[$product['name']][$i]['ilok'] = $license['ilok_code'];
-                    $data[$product['name']][$i]['serial'] =  substr(chunk_split($license['serial'], 5, '-'), 0, -1);
-                    $data[$product['name']][$i]['type'] = $type;
-                    $data[$product['name']][$i]['purchase_date'] = Date('Y-m-d', strtotime($purchaseDate));
-                    $data[$product['name']][$i]['expire_date'] = $exp_date;
-                    $data[$product['name']][$i]['notes'] = $license['notes'];
-                    $data[$product['name']][$i]['product_id'] = $product['id'];
-                    $data[$product['name']][$i]['status_title'] = $statusTitle;
-                    $data[$product['name']][$i]['status'] = $status;
+
+                    $data[$product['name']]['downloads_links'] = self::getDownloadLinks($product['id']);
+
+                    $data[$product['name']]['licenses'][$i]['ilok'] = $license['ilok_code'];
+                    $data[$product['name']]['licenses'][$i]['license_id'] = $license['id'];
+                    $data[$product['name']]['licenses'][$i]['user_notes'] = $license['user_notes'];
+                    $data[$product['name']]['licenses'][$i]['serial'] =  substr(chunk_split($license['serial'], 5, '-'), 0, -1);
+                    $data[$product['name']]['licenses'][$i]['type'] = $type;
+                    $data[$product['name']]['licenses'][$i]['purchase_date'] = Date('Y-m-d', strtotime($purchaseDate));
+                    $data[$product['name']]['licenses'][$i]['expire_date'] = $exp_date;
+                    $data[$product['name']]['licenses'][$i]['notes'] = $license['notes'];
+                    $data[$product['name']]['licenses'][$i]['product_id'] = $product['id'];
+                    $data[$product['name']]['licenses'][$i]['status_title'] = $statusTitle;
+                    $data[$product['name']]['licenses'][$i]['status'] = $status;
 
                     if($license['seats'] <= 1) {
 
@@ -342,8 +416,9 @@ class MyLicenses extends Model
 
                             }
                         }
-                        $data[$product['name']][$i]['upgrade_targets'] = $tmp_upgrade;
-                        $data[$product['name']][$i]['select_id'] = $dropdownID;
+                        $data[$product['name']]['licenses'][$i]['upgrade_targets'] = $tmp_upgrade;
+                        $data[$product['name']]['licenses'][$i]['select_id'] = $dropdownID;
+
                     }else {
                         $data[$product['name']][$i]['upgrade_targets'] = 'Upgrading multi-seat licenses is not supported at the moment. Please contact us for assistance.';
                     }
@@ -352,7 +427,7 @@ class MyLicenses extends Model
                 $i++;
             }
         }
-//dd($data);
+
         return $data;
     }
 

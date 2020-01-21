@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Front;
+namespace App\Http\Controllers\AdminPanel;
 
-use App\Http\Models\Front\Contents\News;
-use App\Http\Models\Front\Contents\ProductsPageCategory;
+use App\Http\Models\Sliders\Sliders;
 use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 
-class NewsController extends Controller
+class SlidersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,13 +16,9 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::getNews();
-        $categories = ProductsPageCategory::getCategoriesTolist();
+        $slides = Sliders::getAllSlides();
 
-        return view('Front.news_list')->with([
-            'news' => $news,
-            'categories'=>$categories
-        ]);
+        return view('AdminPanel.sliders.slides-list')->with(['slides'=>$slides]);
     }
 
     /**
@@ -32,7 +28,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //
+        return view('AdminPanel.sliders.slides-add');
     }
 
     /**
@@ -43,7 +39,17 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $next_id = Sliders::getLastid();
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $storage = $file->store('image/slides/' . $next_id);
+            $name_file = explode('/', $storage);
+            $storage_image = '/storage/app/image/slides/' . $next_id . '/' . $name_file[3];
+        }else{
+            $storage_image = '';
+        }
+        Sliders::storeSlide($request,$storage_image);
+        return  redirect()->back();
     }
 
     /**
@@ -52,15 +58,11 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($slug)
+    public function show($id)
     {
-        $news = News::getNewsBySlug($slug);
-        $categories = ProductsPageCategory::getCategoriesTolist();
-        return view('Front.news_show')->with([
-            'news' => $news,
-            'categories'=>$categories,
-            'meta_title' => $news[0]->title
-        ]);
+        $slide = Sliders::getSlide($id);
+
+        return view('AdminPanel.sliders.slides-show')->with(['slide'=>$slide]);
     }
 
     /**
@@ -83,7 +85,17 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $storage = $file->store('image/slides/' . $id);
+            $name_file = explode('/', $storage);
+            $storage_image = '/storage/app/image/slides/' . $id . '/' . $name_file[3];
+        }else{
+            $storage_image = '';
+        }
+
+        Sliders::updateSlide($request,$storage_image,$id);
+        return  redirect()->back();
     }
 
     /**
