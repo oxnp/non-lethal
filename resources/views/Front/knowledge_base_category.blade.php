@@ -21,6 +21,7 @@
                             href="{{localeMiddleware::getLocaleFront()}}{{$data['all_item_url']}}">{!!trans('main.all')!!}</a>
                     </div>
                     @foreach($data['categories'] as $cat)
+                        @if($cat['visible']!=0)
                         <div class="col text-center">
                             <a
                                 @if(localeMiddleware::getLocaleFront().$cat['url']==$_SERVER['REQUEST_URI'])
@@ -28,6 +29,7 @@
                                 @endif
                                 href="{{localeMiddleware::getLocaleFront()}}{{$cat['url']}}">{{$cat['name']}}</a>
                         </div>
+                        @endif
                     @endforeach
                 </div>
                 <div class="items">

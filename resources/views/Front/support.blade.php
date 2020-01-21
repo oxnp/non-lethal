@@ -67,7 +67,7 @@
                         <label for="attachment">Choose files</label>
                         <span>If you want to send us a screenshot, please attach it here.<br />
                             Supported file formats are: .pdf | .jpg | .png</span>
-                        <input type="file" multiple="multiple" name="attachment[]" id="attachment"/>
+                        <input accept="image/jpeg,image/png,application/pdf" type="file" multiple="multiple" name="attachment[]" id="attachment"/>
                         </div>
                         <div class="file_val"></div>
                     </div>

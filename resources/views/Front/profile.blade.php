@@ -1,7 +1,7 @@
 @extends('layouts.app-front')
 @section('app-front-content')
     <section class="intro lic">
-        <h1>Profile</h1>
+        <h1>My Profile</h1>
     </section>
     <section class="profile">
         <div class="container">
@@ -10,7 +10,7 @@
                 {{csrf_field()}}
                 <div class="prof_group">
                     <div class="group_title">
-                        Profile
+                        My Profile
                     </div>
                     <div class="row align-items-center">
                         <div class="col-md-3">

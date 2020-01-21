@@ -20,11 +20,11 @@
                                             <a href="{{localeMiddleware::getLocaleFront()}}/{{env('PRODUCTS_URL')}}/{{$cat['slug']}}">{{$cat['name']}}</a>
                                         </li>
                                     @elseif($cat['auth_visible']==1)
-                                        @if(!Auth::guest())
+                                        <!--@if(!Auth::guest())
                                             <li>
                                                 <a href="{{localeMiddleware::getLocaleFront()}}/{{env('PRODUCTS_URL')}}/{{$cat['slug']}}">{{$cat['name']}}</a>
                                             </li>
-                                        @endif
+                                        @endif-->
                                     @endif
                                 @endforeach
                             </ul>
@@ -63,7 +63,7 @@
                                         <a href="{{ route('my-licenses') }}">{{trans('main.my_licenses')}}</a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('profile') }}">{{trans('main.my_account')}}</a>
+                                        <a href="{{ route('profile') }}">{{trans('main.my_profile')}}</a>
                                     </li>
                                     <li>
                                         <a href="{{route('logout')}}">{{trans('main.logout')}}</a>

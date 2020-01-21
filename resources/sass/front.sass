@@ -586,6 +586,11 @@ section#pp
         p
             font-size: 15px
             color: #838383
+.modal-header
+    background: #333
+    color: #fff
+    font-size: 20px
+    text-transform: uppercase
 section#company
     padding: 20px 0 120px
     .cv
@@ -604,6 +609,8 @@ section#company
         .position
             font-size: 20px
             margin-bottom: 25px
+        .minidesc
+            padding-right: 30px
     p
         color: #838383
         font-size: 15px
@@ -697,7 +704,7 @@ section#support
             font-weight: 600
             font-size: 29px
             line-height: 35px
-            color: #4282FF
+            color: #000
             font-family: 'Montserrat',sans-serif
             margin-bottom: 20px
         .minidesc
@@ -1224,6 +1231,8 @@ section#kb_item
         line-height: 24px!important
         color: #838383
         font-family: 'Lato', sans-serif!important
+        li,a,h4,[style^='font']
+            font-family: "Lato", sans-serif!important
 .pagination
     justify-content: center
     li
@@ -1261,6 +1270,26 @@ section.profile
         margin-bottom: 30px
 .mobmenu
     display: none
+.modal-header
+    div
+        padding-left: 60px
+        line-height: 40px
+        background-size: 40px auto!important
+.nimg11
+    div
+        background: url('/images/timecode_calculator_icon.png')no-repeat left
+.nimg7
+    div
+        background: url('/images/DAWLink-icon-two-lines.png')no-repeat left
+.nimg5
+    div
+        background: url('/images/Snapshot_Icon.png')no-repeat left
+.pnimg5,.pnimg7
+    div
+        background: url('/images/adrm-icon.png')no-repeat left
+.pnimg1,.pnimg3
+    div
+        background: url('/images/vs4-icon.png')no-repeat left
 a.lang
     font-weight: bold
     font-size: 16px
@@ -1323,9 +1352,11 @@ section#licenses
 form[name="noteform"]
     textarea
         margin-bottom: 15px
+.modal-body
+    section.login-section
+        padding: 0
 section.login-section
     background: none
-    padding: 0
     .err
         margin-top: 15px
         color: red

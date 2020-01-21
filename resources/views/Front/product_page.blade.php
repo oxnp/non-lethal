@@ -13,6 +13,9 @@
          aria-labelledby="activation" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <div class="modal-content">
+                <div class="modal-header pnimg{{$product_data[0]['id']}}">
+                    <div>Download {{$product_data[0]['title']}}</div>
+                </div>
                 <div class="modal-body text-center">
                     <div class="alert alert-primary" role="alert">
                         We would love to stay in touch!<br />
@@ -38,12 +41,15 @@
          aria-labelledby="prodlog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-md" role="document">
             <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    {{trans('main.login_please')}}
+                </div>
                 <div class="modal-body text-center">
                     <section class="login-section">
                     <form class="m-auto" method="POST" id="prlogin" action="{{ route('login') }}">
                         @csrf
                         <div class="group">
-                            <label for="email">{{ __('E-Mail Address') }} *</label>
+                            <label for="email">{{ __('E-Mail Address') }}</label>
                             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="login"
                                    value="{{ old('email') }}" required autocomplete="email" autofocus>
                             @error('email')
@@ -53,7 +59,7 @@
                             @enderror
                         </div>
                         <div class="group">
-                            <label for="password">{{ __('Password') }} *</label>
+                            <label for="password">{{ __('Password') }}</label>
                             <input id="password" type="password"
                                    class="form-control @error('password') is-invalid @enderror" name="password"
                                    required autocomplete="current-password">
@@ -86,7 +92,7 @@
                                 @endif
                                 <div>
                                     <a href="{{ route('register') }}">
-                                        {{ __('Create new account?') }}
+                                        {{ __('Create new account') }}
                                     </a>
                                 </div>
                             </div>

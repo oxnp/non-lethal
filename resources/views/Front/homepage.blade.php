@@ -22,19 +22,24 @@
                     </div>
                 </div>
                 <div class="social">
-                    <a href="#" target="_blank" rel="nofollow">
+                    <a href="https://twitter.com/nonlethalapp" target="_blank" rel="nofollow">
                         <svg width="26" height="24" viewBox="0 0 26 24">
-                            <use xlink:href="#youtube" x="0" y="0" />
+                            <use xlink:href="#twitter" x="0" y="0"/>
                         </svg>
                     </a>
-                    <a href="#" target="_blank" rel="nofollow">
-                        <svg width="24" height="24" viewBox="0 0 24 24">
-                            <use xlink:href="#instagram" x="0" y="0" />
+                    <a href="https://www.linkedin.com/company/10368426/" target="_blank" rel="nofollow">
+                        <svg width="26" height="24" viewBox="0 0 26 24">
+                            <use xlink:href="#linkedin" x="0" y="0"/>
                         </svg>
                     </a>
-                    <a href="#" target="_blank" rel="nofollow">
+                    <a href="https://www.instagram.com/nonlethalapplications/" target="_blank" rel="nofollow">
                         <svg width="24" height="24" viewBox="0 0 24 24">
-                            <use xlink:href="#facebook" x="0" y="0" />
+                            <use xlink:href="#instagram" x="0" y="0"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.facebook.com/NonLethalApplications/" target="_blank" rel="nofollow">
+                        <svg width="24" height="24" viewBox="0 0 24 24">
+                            <use xlink:href="#facebook" x="0" y="0"/>
                         </svg>
                     </a>
                 </div>
@@ -141,7 +146,7 @@
             <div class="col-lg-6 m-auto">
                 <form name="newsletter" method="POST" action="javascript:void(0)">
                     {{csrf_field()}}
-                    <input @if(!Auth::guest()) value="{{Auth::user()->email}}" readonly="readonly" @endif type="email" name="email" required="required" placeholder="{!!trans('main.enter_email')!!}"/>
+                    <input type="email" name="email" required="required" placeholder="{!!trans('main.enter_email')!!}"/>
                     <button type="submit">
                         <svg width="20" height="20" viewBox="0 0 20 20">
                             <use xlink:href="#mail-envelope" x="0" y="0"/>

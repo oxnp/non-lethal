@@ -9,6 +9,7 @@ return [
     'get_in_touch' => 'In Kontakt kommen',
     'partners' => 'Partner',
     'my_account' => 'Mein Konto',
+    'my_profile' => 'Mein Profil',
     'my_licenses' => 'Meine Lizenzen',
     'edit_profile' => 'Profil bearbeiten',
     'logout' => 'Ausloggen',
@@ -43,4 +44,9 @@ return [
     'choose_files' => 'Wähle Dateien',
     'download' => 'Herunterladen',
     'thanks' => 'Vielen Dank! Wir werden uns so schnell wie möglich bei Ihnen melden!',
+    'homepagetitle' => 'Non-Lethal Applications - Homepage',
+    'my_licenses_title' => 'My licenses',
+    'profile_title' => 'My profile',
+    'login_please' => 'Please log in to continue'
+
 ];
