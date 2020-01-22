@@ -1,6 +1,7 @@
 @extends('layouts.app-admin')
 @extends('layouts.app-admin-leftsidebar')
 @section('content')
+    <h1>Knowledge base categories</h1>
     <div style="padding: 15px">
         <a class="btn btn-primary btn-md" href="{{route('knowledge-base-categories.create')}}">
             Add category

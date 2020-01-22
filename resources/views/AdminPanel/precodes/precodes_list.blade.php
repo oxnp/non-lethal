@@ -2,7 +2,7 @@
 @extends('layouts.app-admin-leftsidebar')
 @extends('layouts.app-admin-header')
 @section('content')
-
+    <h1>Pre-codes</h1>
     <div class="pads">
         <form action="{{route('purgeEmpty')}}" method="GET" name="purge_codes">
             {{csrf_field()}}

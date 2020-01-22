@@ -1,6 +1,7 @@
 @extends('layouts.app-admin')
 @extends('layouts.app-admin-leftsidebar')
 @section('content')
+    <h1>Mail templates</h1>
     <div class="list">
         <div class="list_head">
             <div class="col-md-1">ID</div>

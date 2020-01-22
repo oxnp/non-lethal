@@ -2,7 +2,7 @@
 @extends('layouts.app-admin-leftsidebar')
 @extends('layouts.app-admin-header')
 @section('content')
-
+    <h1>Buyers</h1>
     <div class="pads">
         <form name="search" method="GET" action="">
             <input value="{{$filter['search_string']}}" class="form-control" type="text" name="searchstring" placeholder="Search..."/>

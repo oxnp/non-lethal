@@ -2,6 +2,7 @@
 @extends('layouts.app-admin-leftsidebar')
 
 @section('content')
+    <h1>Subscriber</h1>
     <div class="topmenu row">
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">

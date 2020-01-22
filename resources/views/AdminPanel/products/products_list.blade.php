@@ -2,7 +2,7 @@
 @extends('layouts.app-admin-leftsidebar')
 @extends('layouts.app-admin-header')
 @section('content')
-
+    <h1>Products</h1>
     <div id="import" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">

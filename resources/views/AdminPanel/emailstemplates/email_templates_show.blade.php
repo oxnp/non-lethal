@@ -1,6 +1,7 @@
 @extends('layouts.app-admin')
 @extends('layouts.app-admin-leftsidebar')
 @section('content')
+    <h1>Mail template</h1>
     <form action="{{route('emails-templates.update',$template->id)}}" method="POST">
         {{csrf_field()}}
         <input name="_method" type="hidden" value="PUT">

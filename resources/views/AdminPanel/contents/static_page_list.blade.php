@@ -1,6 +1,7 @@
 @extends('layouts.app-admin')
 @extends('layouts.app-admin-leftsidebar')
 @section('content')
+    <h1>Static pages</h1>
     <div style="padding: 15px">
         <!--<a class="btn btn-primary btn-md" href="{{route('static-pages.create')}}">
             Add item
