@@ -67,7 +67,7 @@
                         <label for="attachment">Choose files</label>
                         <span>If you want to send us a screenshot, please attach it here.<br />
                             Supported file formats are: .pdf | .jpg | .png</span>
-                        <input accept="image/jpeg,image/png,application/pdf" type="file" multiple="multiple" name="attachment[]" id="attachment"/>
+                        <input accept="image/jpeg,image/png,application/pdf" data-max-size="2048000" type="file" multiple="multiple" name="attachment[]" id="attachment"/>
                         </div>
                         <div class="file_val"></div>
                     </div>
@@ -86,18 +86,41 @@
     <script>
         jQuery('form[name="support"]').submit(function (e) {
             e.preventDefault();
-            jQuery.ajax({
-                url: '{{route('sendMessage')}}',
-                method: 'post',
-                data: jQuery(this).serialize(),
-                dataType: 'json'
-            })
-                .done(function (data) {
-                    $('.suc_mes').fadeIn();
-                    setTimeout(function () {
-                        $('.suc_mes').fadeOut();
-                    },5000)
+            var fileInput = $('input#attachment');
+            var maxSize = fileInput.data('max-size');
+            if(fileInput.get(0).files.length) {
+                var fileSize = fileInput.get(0).files[0].size; // in bytes
+                if(fileSize>maxSize) {
+                    alert('File size is more then 20 mb');
+                    return false;
+                }else{
+                    jQuery.ajax({
+                        url: '{{route('sendMessage')}}',
+                        method: 'post',
+                        data: jQuery(this).serialize(),
+                        dataType: 'json'
+                    })
+                        .done(function (data) {
+                            $('.suc_mes').fadeIn();
+                            setTimeout(function () {
+                                $('.suc_mes').fadeOut();
+                            }, 5000)
+                        })
+                }
+            }else {
+                jQuery.ajax({
+                    url: '{{route('sendMessage')}}',
+                    method: 'post',
+                    data: jQuery(this).serialize(),
+                    dataType: 'json'
                 })
+                    .done(function (data) {
+                        $('.suc_mes').fadeIn();
+                        setTimeout(function () {
+                            $('.suc_mes').fadeOut();
+                        }, 5000)
+                    })
+            }
         });
     </script>
 @endsection

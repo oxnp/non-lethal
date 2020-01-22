@@ -7,7 +7,7 @@
     @endif
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,500,600,700,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600 ,700&display=swap" rel="stylesheet">
-    <link href="/images/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
+    <link href="/images/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon"/>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/owl.carousel.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/front.css"/>
@@ -181,43 +181,60 @@
             jQuery('a[data-product]').on('click', function () {
                 var that = jQuery(this);
 
-                Paddle.Spinner.show();
-
                 selectedProduct = jQuery(this).data('product');
                 isSubscription = jQuery(this).data('subscription');
 
-                var formToken = '{{csrf_token()}}';
-                if (formToken) {
-                    // Append form token as login credential
-                    var data = {};
-                    data['_token'] = '{{csrf_token()}}';
-                    data['paddle_pid'] = selectedProduct;
-
-                    jQuery.ajax({
-                        url: '{{route('getProductPublishedState')}}',
-                        method: 'post',
-                        data: data,
-                        dataType: 'json'
-                    })
-                        .done(function (response) {
-                            if (!response.isPublished) {
-                                alert(response.message);
-                                return;
-                            }
-                            startCheckout();
-                        })
-                        .fail(function () {
-                            alert('This purchase is temporary not available, please try again later');
-                        })
-                        .always(function () {
-                            Paddle.Spinner.hide();
-                        });
+                if (isSubscription == true) {
+                    $('#subs_text').modal('show');
+                    $('.remodal-cancel').click(function () {
+                        $('#subs_text').modal('hide');
+                    });
+                    $('.remodal-confirm').click(function () {
+                        $('#subs_text').modal('hide');
+                        Paddle.Spinner.show();
+                        paddleStart();
+                    });
                 } else {
-                    Paddle.Spinner.hide();
-                    alert('This purchase is temporary not available, please try again later');
+                    Paddle.Spinner.show();
+                    paddleStart();
+                }
+
+
+                function paddleStart() {
+                    var formToken = '{{csrf_token()}}';
+                    if (formToken) {
+                        // Append form token as login credential
+                        var data = {};
+                        data['_token'] = '{{csrf_token()}}';
+                        data['paddle_pid'] = selectedProduct;
+
+                        jQuery.ajax({
+                            url: '{{route('getProductPublishedState')}}',
+                            method: 'post',
+                            data: data,
+                            dataType: 'json'
+                        })
+                            .done(function (response) {
+                                if (!response.isPublished) {
+                                    alert(response.message);
+                                    return;
+                                }
+                                startCheckout();
+                            })
+                            .fail(function () {
+                                alert('This purchase is temporary not available, please try again later');
+                            })
+                            .always(function () {
+                                Paddle.Spinner.hide();
+                            });
+                    } else {
+                        Paddle.Spinner.hide();
+                        alert('This purchase is temporary not available, please try again later');
+                    }
                 }
             });
         });
+
 
         function startCheckout() {
             // Proceed to checkout immediately if user is logged in
@@ -274,9 +291,20 @@
 
         $('a[data-product]').each(function () {
             $(this).click(function () {
-                $('#prodlog').modal('show');
                 selectedProduct = jQuery(this).data('product');
                 isSubscription = jQuery(this).data('subscription');
+                if (isSubscription == true) {
+                    $('#subs_text').modal('show');
+                    $('.remodal-cancel').click(function () {
+                        $('#subs_text').modal('hide');
+                    });
+                    $('.remodal-confirm').click(function () {
+                        $('#subs_text').modal('hide');
+                        $('#prodlog').modal('show');
+                    });
+                } else {
+                    $('#prodlog').modal('show');
+                }
             })
         })
     </script>
@@ -298,7 +326,102 @@
                 })
                 .done(function (data) {
 
-                    $('a#logbut').attr('href','{{ route("my-licenses") }}')
+                    $('a#logbut').attr('href', '{{ route("my-licenses") }}')
+
+                    $('#prodlog').modal('hide');
+                    let usermail = data.email;
+
+                    Paddle.Spinner.show();
+                    var formToken = '{{csrf_token()}}';
+                    if (formToken) {
+                        // Append form token as login credential
+                        var data = {};
+                        data['_token'] = '{{csrf_token()}}';
+                        data['paddle_pid'] = selectedProduct;
+
+                        console.log(data['_token']);
+
+                        jQuery.ajax({
+                            url: '{{route('getProductPublishedState')}}',
+                            method: 'post',
+                            data: data,
+                            dataType: 'json'
+                        })
+                            .done(function (response) {
+                                if (!response.isPublished) {
+                                    alert(response.message);
+                                    return;
+                                }
+                                startCheckout();
+                            })
+                            .fail(function () {
+                                alert('This purchase is temporary not available, please try again later');
+                            })
+                            .always(function () {
+                                Paddle.Spinner.hide();
+                            });
+                    } else {
+                        Paddle.Spinner.hide();
+                        alert('This purchase is temporary not available, please try again later');
+                    }
+
+                    function startCheckout() {
+                        // Proceed to checkout immediately if user is logged in
+                        var checkoutData = {};
+
+                        checkoutData['email'] = usermail;
+                        checkoutData['firstname'] = '';
+                        checkoutData['lastname'] = '';
+                        callPaddle(checkoutData);
+                        return;
+
+                    }
+
+                    function callPaddle(data) {
+                        var checkoutEmail = usermail;
+                        var enableQuantity = false;
+                        if (!isSubscription) {
+                            enableQuantity = true
+                        }
+
+                        var passthroughData = JSON.stringify(data);
+                        passthroughData = $.base64.encode(passthroughData);
+                        var checkoutOptions = {
+                            product: selectedProduct,
+                            passthrough: passthroughData,
+                            email: checkoutEmail,
+                            successCallback: checkoutSuccess,
+                            closeCallback: finishCheckout,
+                            allowQuantity: enableQuantity
+                        };
+                        Paddle.Checkout.open(checkoutOptions);
+                    }
+
+                    function checkoutSuccess() {
+                        finishCheckout();
+                    }
+
+                    function finishCheckout() {
+                        Paddle.Spinner.hide();
+                    }
+                });
+        });
+    </script>
+    <script>
+        jQuery('form#ajaxreg').submit(function (e) {
+            e.preventDefault();
+            jQuery.ajax({
+                url: '{{route('register')}}',
+                method: 'post',
+                data: jQuery(this).serialize(),
+                dataType: 'json'
+            })
+                .fail(function (data) {
+                    $('form#ajaxreg button[type="submit"]').after('<div class="err">E-mail already exist!</div>');
+                })
+                .done(function (data) {
+                    $('a#logbut').attr('href', '{{ route("my-licenses") }}')
+
 
                     $('#prodlog').modal('hide');
                     let usermail = data.email;

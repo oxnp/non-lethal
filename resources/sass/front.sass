@@ -211,13 +211,21 @@ footer
                 fill: #838383
                 +transition(all .3s ease)
 #slider
-    height: 100vh
+    min-height: 100vh
+    padding: 140px 0 75px
     background: url("/images/slider_bg.png")no-repeat center center
     background-size: cover
     color: #fff
+    .item
+        padding-bottom: 60px
+        img
+            max-width: 800px
+            margin: 0 auto
+    .owl-nav
+        bottom: -10px
     .social
         position: absolute
-        bottom: 75px
+        bottom: 0
         left: 0
         a
             display: inline-block
@@ -253,6 +261,16 @@ footer
         font-size: 21px
         line-height: 29px
         color: #474747
+.remodal-cancel
+    background: #e57373
+    color: #fff
+    padding: 10px 30px
+    border: 0
+.remodal-confirm
+    background: #81c784
+    color: #fff
+    padding: 10px 30px
+    border: 0
 #latest_news
     background: #070707
     padding: 55px 0 75px
@@ -1352,9 +1370,27 @@ section#licenses
 form[name="noteform"]
     textarea
         margin-bottom: 15px
+.err
+    color: red
 .modal-body
+    .tab-content
+        border: 1px solid #dee2e6
+        border-top: 0
+    ul.nav
+        border-bottom: 0
+        position: relative
+        bottom: -1px
+        li
+            width: 50%
+            a
+                border-bottom: 1px solid  #dee2e6
+            a.active
+                border-bottom: 0
+                background: #fff
     section.login-section
         padding: 0
+        form
+            border-radius: 0
 section.login-section
     background: none
     .err

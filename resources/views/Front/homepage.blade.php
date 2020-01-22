@@ -4,22 +4,19 @@
         <div class="container h-100">
             <div class="row h-100 align-content-center">
                 <div class="owl-carousel slider col">
-                    <div class="item">
-                        <div class="text">
-                            {!!trans('main.six_programs')!!}
+                    @foreach($slides as $slide)
+                        <div class="item">
+                            <div class="text">
+                                {{$slide->title}}
+                            </div>
+                            <div class="subtext">
+                                {{$slide->sub_title}}
+                            </div>
+                            <div class="text-center">
+                                <img src="{{$slide->image}}">
+                            </div>
                         </div>
-                        <div class="subtext">
-                            {!!trans('main.choose_for_yourself')!!}
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="text">
-                            {!!trans('main.six_programs')!!}
-                        </div>
-                        <div class="subtext">
-                            {!!trans('main.choose_for_yourself')!!}
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="social">
                     <a href="https://twitter.com/nonlethalapp" target="_blank" rel="nofollow">
