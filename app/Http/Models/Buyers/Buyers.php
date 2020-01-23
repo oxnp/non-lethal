@@ -39,7 +39,7 @@ class Buyers extends Model
 
         if($request->searchstring != null){
             $filter['search_string'] = $request->searchstring;
-            $buyers->whereLike(['buyers.last','buyers.first','buyers.email',DB::raw("CONCAT(buyers.last,' ',buyers.first)")],$filter['search_string']);
+            $buyers->whereLike(['buyers.last','buyers.first','buyers.email',DB::raw("CONCAT(buyers.first,' ',buyers.last)")],$filter['search_string']);
         }
 
         $buyers = $buyers->paginate($per_page);
@@ -55,6 +55,8 @@ class Buyers extends Model
         $buyer  =  Buyers::find($id);
         return $buyer;
     }
+
+
 
     /**
      * Add buyers and register new user on system

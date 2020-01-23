@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\SendEmail;
 use App\Http\Models\Subscribers\Subscribers;
+use \Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Artisan;
 
 class SubscribeNewsletterController extends Controller
@@ -127,14 +128,13 @@ class SubscribeNewsletterController extends Controller
             }
         }
 
-
+        $i = 1;
         foreach ($data_subscribers as $subscriber) {
-            dispatch(new SendEmail($subscriber,$data_sender));
+            $job = (new SendEmail($subscriber,$data_sender))->delay($i);
+            dispatch($job);
+            $i=$i+2;
         }
 
-       // Artisan::call('queue:work',['--stop-when-empty' => 'foo']);
-       // dd($ed);
-        //popen('php '.base_path().'/artisan queue:work database --sleep=3 --tries=3','r');
         return redirect()->back();
     }
 }

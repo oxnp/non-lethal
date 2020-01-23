@@ -48,7 +48,6 @@ class Subscribers extends Model
 
     public static function updateUserSubscribe($request, $id)
     {
-
         $result = Subscribers::find($id)->update([
             'name'=>$request->name,
             'email'=>$request->email,
@@ -58,5 +57,31 @@ class Subscribers extends Model
             'subscription_group_ids'=> implode(',',$request->subscription_group_ids)
         ]);
        // dd($result);
+    }
+    public static function createUserSubscribe($request)
+    {
+        $result = Subscribers::create([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'subscription_group_ids'=> implode(',',$request->subscription_group_ids)
+        ]);
+        return $result;
+    }
+
+    public static function deleted($id)
+    {
+        Subscribers::find($id)->delete();
+
+    }
+
+    /**
+     * Get buyer By ID
+     * @param   array   $request
+     * @return collection
+     */
+    public static function addSubscriberAfterRegister($data, $groups_id){
+        $data['subscription_group_ids'] = $groups_id;
+        $buyer  =  Subscribers::create($data);
+        return $buyer;
     }
 }

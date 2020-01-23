@@ -31,7 +31,8 @@ class SubscribeController extends Controller
      */
     public function create()
     {
-
+        $subscriber_groups = SubscribersGroups::all()->toArray();
+        return view('AdminPanel.subscriber.subscriber_add')->with(['subscriber_groups'=>$subscriber_groups]);;
     }
     /**
      * Store a newly created resource in storage.
@@ -41,7 +42,10 @@ class SubscribeController extends Controller
      */
     public function store(Request $request)
     {
-
+        $result = Subscribers::createUserSubscribe($request);
+        //dd($result);
+        return redirect(route('subscribers.index'));
+        //return redirect(route('subscribers.show',$result->id));
     }
     /**
      * Display the specified resource.
@@ -75,7 +79,7 @@ class SubscribeController extends Controller
     public function update(Request $request, $id)
     {
         Subscribers::updateUserSubscribe($request, $id);
-        return redirect()->back();
+        return redirect(route('subscribers.index'));
     }
     /**
      * Remove the specified resource from storage.
@@ -85,6 +89,7 @@ class SubscribeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Subscribers::deleted($id);
+        return redirect(route('subscribers.index'));
     }
 }

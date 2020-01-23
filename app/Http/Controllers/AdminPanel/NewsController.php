@@ -53,7 +53,7 @@ class NewsController extends Controller
             $storage_image = '';
         }
 
-        News::addNews($request,$storage_image);
+        News::addNews($request,$storage_image,$request->created_at,$request->published);
         return redirect()->back();
     }
 
@@ -104,7 +104,7 @@ class NewsController extends Controller
             $storage_image = '';
         }
 
-        News::updateNews($request,$storage_image);
+        News::updateNews($request,$storage_image,$request->created_at,$request->published);
         return redirect()->back();
     }
 

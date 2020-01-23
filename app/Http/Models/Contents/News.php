@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class News extends Model
 {
-    protected $fillable = ['title','image','short_text','lang_id','content','slug'];
+    protected $fillable = ['title','image','short_text','lang_id','content','slug','created_at','published'];
     public $timestamps = false;
 
     public static function getNews(){
-        $news = News::whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get();
+        $news = News::whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->orderBy('created_at','DESC')->get();
         return $news;
     }
     public static function getNewsById($id){
@@ -20,7 +20,7 @@ class News extends Model
         $news_data = News::whereSlug($news->slug)->get();
         return $news_data;
     }
-    public static function updateNews($request,$storage_image){
+    public static function updateNews($request,$storage_image,$created_at,$published){
         $data = array();
         $page_ids=  array();
         foreach($request->all() as $key=>$value){
@@ -28,6 +28,8 @@ class News extends Model
                 foreach($value as $lang_id=>$val){
                     $data[array_key_first($val)][$key] = $request->$key[$lang_id][array_key_first($val)];
                     $page_ids[array_key_first($val)] = array_key_first($val);
+                    $data[array_key_first($val)]['created_at'] = $created_at;
+                    $data[array_key_first($val)]['published'] = $published;
                 }
             }
         }
@@ -40,7 +42,7 @@ class News extends Model
         }
     }
 
-    public static function addNews($request,$storage_image){
+    public static function addNews($request,$storage_image,$created_at,$published){
 
         $data = array();
         foreach($request->all() as $key=>$value){
@@ -48,6 +50,10 @@ class News extends Model
                 foreach($value as $lang_id=>$val){
                     $data[$lang_id][$key] = $val;
                     $data[$lang_id]['lang_id'] = $lang_id;
+
+                    $data[$lang_id]['created_at'] = $created_at;
+                    $data[$lang_id]['published'] = $published;
+
                     if($storage_image != ''){
                         $data[$lang_id]['image'] = $storage_image;
                     }

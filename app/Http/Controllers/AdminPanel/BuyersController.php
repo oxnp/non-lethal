@@ -126,7 +126,7 @@ class BuyersController extends Controller
     public function update(Request $request, $id)
     {
         Buyers::updateBuyerById($request,$id);
-        return redirect()->back();
+        return redirect(route('buyers.index'));
     }
 
     /**
