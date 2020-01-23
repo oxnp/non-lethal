@@ -2,12 +2,18 @@
 @extends('layouts.app-admin-leftsidebar')
 
 @section('content')
+    <h1>Add newsletter</h1>
     <div class="topmenu row">
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('subscribers.index')}}">
                         Subscribers
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('subscribers.create')}}">
+                        Add Subscriber
                     </a>
                 </li>
                 <li class="nav-item d-inline">

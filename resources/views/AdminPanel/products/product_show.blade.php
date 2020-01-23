@@ -2,7 +2,7 @@
 @extends('layouts.app-admin-leftsidebar')
 @extends('layouts.app-admin-header')
 @section('content')
-
+    <h1>Product</h1>
     <ul class="nav nav-tabs" id="toptab" role="tablist">
         <li class="nav-item active">
             <a class="nav-link active" id="home-tab" data-toggle="tab" href="#t1" role="tab" aria-controls="t1"

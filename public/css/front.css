@@ -231,13 +231,21 @@ footer .about_nla {
       transition: all 0.3s ease; }
 
 #slider {
-  height: 100vh;
+  min-height: 100vh;
+  padding: 140px 0 75px;
   background: url("/images/slider_bg.png") no-repeat center center;
   background-size: cover;
   color: #fff; }
+  #slider .item {
+    padding-bottom: 60px; }
+    #slider .item img {
+      max-width: 800px;
+      margin: 0 auto; }
+  #slider .owl-nav {
+    bottom: -10px; }
   #slider .social {
     position: absolute;
-    bottom: 75px;
+    bottom: 0;
     left: 0; }
     #slider .social a {
       display: inline-block;
@@ -277,6 +285,18 @@ footer .about_nla {
     font-size: 21px;
     line-height: 29px;
     color: #474747; }
+
+.remodal-cancel {
+  background: #e57373;
+  color: #fff;
+  padding: 10px 30px;
+  border: 0; }
+
+.remodal-confirm {
+  background: #81c784;
+  color: #fff;
+  padding: 10px 30px;
+  border: 0; }
 
 #latest_news {
   background: #070707;
@@ -1469,8 +1489,29 @@ section#licenses {
 form[name="noteform"] textarea {
   margin-bottom: 15px; }
 
+.err {
+  color: red; }
+
+.modal-body .tab-content {
+  border: 1px solid #dee2e6;
+  border-top: 0; }
+
+.modal-body ul.nav {
+  border-bottom: 0;
+  position: relative;
+  bottom: -1px; }
+  .modal-body ul.nav li {
+    width: 50%; }
+    .modal-body ul.nav li a {
+      border-bottom: 1px solid  #dee2e6; }
+    .modal-body ul.nav li a.active {
+      border-bottom: 0;
+      background: #fff; }
+
 .modal-body section.login-section {
   padding: 0; }
+  .modal-body section.login-section form {
+    border-radius: 0; }
 
 section.login-section {
   background: none; }

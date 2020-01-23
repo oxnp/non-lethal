@@ -9,6 +9,7 @@
             <li><a href="{{route('knowledge-base.index')}}">Knowledge base</a></li>
             <li><a href="{{route('subscribers.index')}}">Newsletters</a></li>
             <li><a href="{{route('emails-templates.index')}}">Mail templates</a></li>
+            <li><a href="{{route('sliders.index')}}">Slider</a></li>
         </ul>
     </nav>
 @stop

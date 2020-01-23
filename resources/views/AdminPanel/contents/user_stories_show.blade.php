@@ -1,6 +1,7 @@
 @extends('layouts.app-admin')
 @extends('layouts.app-admin-leftsidebar')
 @section('content')
+    <h1>User story</h1>
     <div class="container-fluid">
         <ul class="nav nav-tabs">
             @foreach($langs as $lang)

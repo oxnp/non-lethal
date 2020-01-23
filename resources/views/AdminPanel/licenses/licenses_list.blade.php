@@ -2,7 +2,7 @@
 @extends('layouts.app-admin-leftsidebar')
 @extends('layouts.app-admin-header')
 @section('content')
-
+    <h1>Licenses</h1>
 
     <div id="transfer" class="modal fade">
         <div class="modal-dialog">

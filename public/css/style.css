@@ -36,6 +36,9 @@ img{
     align-items: center;
     clear:both;
 }
+.note-handle .note-control-selection{
+    display: none!important;
+}
 .list .list_body .item>.idcol{
     font-weight:bold;
     display: flex;
@@ -48,7 +51,10 @@ img{
     border-right: 1px solid #bebebe;
 }
 .header{
-    padding:30px 0;
+    padding:30px 0 0;
+}
+.content>h1{
+    margin-bottom: 30px;
 }
 .content{
     padding-bottom:60px;

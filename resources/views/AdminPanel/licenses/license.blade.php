@@ -2,7 +2,7 @@
 @extends('layouts.app-admin-leftsidebar')
 @extends('layouts.app-admin-header')
 @section('content')
-
+    <h1>License</h1>
     <div class="row formgroup">
         <form action="{{route('licenses.update',$license[0]['id'])}}" method="POST">
             {{csrf_field()}}

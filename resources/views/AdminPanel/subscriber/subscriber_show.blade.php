@@ -2,12 +2,18 @@
 @extends('layouts.app-admin-leftsidebar')
 
 @section('content')
+    <h1>Subscriber</h1>
     <div class="topmenu row">
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('subscribers.index')}}">
                         Subscribers
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('subscribers.create')}}">
+                        Add Subscriber
                     </a>
                 </li>
                 <li class="nav-item d-inline">
@@ -46,6 +52,7 @@
                 </div>
             </div>
             <div class="col-lg-6 form-group">
+               <div class="hide">
                 <div class="form-group">
                     <label class="control-label">Enabled</label>
                     <select class="form-control" name="enabled">
@@ -67,6 +74,7 @@
                         <option @if($subscriber->receive_html == 1) selected @endif value="1">Yes</option>
                     </select>
                 </div>
+               </div>
                 <div class="form-group">
                     <label class="control-label">Subscription groups</label>
                     @php

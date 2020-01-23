@@ -4,7 +4,7 @@
 @section('content')
 
 
-
+<h1>Ilok codes</h1>
     <div class="pads">
         <form action="{{route('removeIlokCodes')}}" method="POST" name="delete_codes">
             {{csrf_field()}}

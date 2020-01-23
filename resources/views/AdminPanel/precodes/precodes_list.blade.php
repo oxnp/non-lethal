@@ -2,7 +2,7 @@
 @extends('layouts.app-admin-leftsidebar')
 @extends('layouts.app-admin-header')
 @section('content')
-
+    <h1>Pre-codes</h1>
     <div class="pads">
         <form action="{{route('purgeEmpty')}}" method="GET" name="purge_codes">
             {{csrf_field()}}
@@ -12,8 +12,11 @@
             {{csrf_field()}}
             <input type="submit" class="btn btn-primary btn-md" value="Export Pre-codes" />
         </form>
+        <a id="clear_codes" class="btn btn-primary btn-md">Clear selected codes</a>
     </div>
-
+<div class="codes_list" style="margin-bottom: 15px;font-size:18px;">
+    Selected codes: <span></span>
+</div>
 
     <div class="list">
         <div class="list_head">
@@ -69,5 +72,59 @@
         </div>
     </div>
     {{$precodes->links()}}
+
+    <script>
+        console.log(localStorage.getItem("ids"));
+        if(localStorage.getItem("ids")==null){
+            let arr = [];
+            localStorage.setItem("ids", JSON.stringify(arr));
+        }
+
+        let idArray = JSON.parse(localStorage.getItem("ids"));
+        $('.codes_list span').text(JSON.parse(localStorage.getItem("ids")));
+
+        jQuery.map(idArray,function (a) {
+            $('input[value="'+a+'"]').attr('checked','checked');
+        })
+
+        $('input[name="precode_id"]').each(function () {
+            var inp = $(this);
+            $(this).change(function () {
+               if($(this).is(':checked')){
+                   idArray.push($(this).val());
+               }else{
+                   idArray = jQuery.grep(idArray, function (value) {
+                       return value != $(inp).val()
+                   })
+               }
+               localStorage.setItem("ids", JSON.stringify(idArray));
+               $('.codes_list span').text(JSON.parse(localStorage.getItem("ids")));
+            });
+        });
+
+        $('form[name="export_codes"]').submit(function (e) {
+            if(idArray.length === 0){
+                alert('Choose one product from list!');
+                e.preventDefault();
+            }else{
+                jQuery.map(idArray,function (a) {
+                    $('form[name="export_codes"]').append('<input value="' + a + '" type="hidden" name="cid[]"/>');
+                })
+
+                var status = confirm("Click OK to continue?");
+                if(status == false){
+                    $('form[name="export_codes"] input[name^="cid"]').remove();
+                    return false;
+                }
+                else{
+                    return true;
+                }
+            }
+        });
+        $('a#clear_codes').click(function () {
+            localStorage.removeItem("ids");
+            window.location.reload();
+        });
+    </script>
 @stop
 

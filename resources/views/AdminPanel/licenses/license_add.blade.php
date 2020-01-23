@@ -2,7 +2,7 @@
 @extends('layouts.app-admin-leftsidebar')
 @extends('layouts.app-admin-header')
 @section('content')
-
+    <h1>Add license</h1>
     <div class="row formgroup">
         <form action="{{route('licenses.store',['buyer_id'=>$buyer['id']])}}" method="POST">
             {{csrf_field()}}

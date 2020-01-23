@@ -2,6 +2,7 @@
 @extends('layouts.app-admin-leftsidebar')
 @extends('layouts.app-admin-header')
 @section('content')
+    <h1>Add buyer</h1>
     <div class="row formgroup">
         <form action="{{route('buyers.store')}}" method="POST">
             {{csrf_field()}}
@@ -68,7 +69,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <input class="btn btn-primary" type="submit">
+                <input value="Save" class="btn btn-primary" type="submit">
             </div>
         </form>
     </div>

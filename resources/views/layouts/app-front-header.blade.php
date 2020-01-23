@@ -54,7 +54,7 @@
                             <li class="parent rt">
                                 <a href="{{ route('my-licenses') }}">{{trans('main.my_account')}}</a>
                                 <ul class="child">
-                                    @if(Auth::user()->role_id=1)
+                                    @if(Auth::user()->role_id==1)
                                         <li>
                                             <a href="{{ route('licenses.index') }}">Admin panel</a>
                                         </li>
