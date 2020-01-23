@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <input class="btn btn-primary" type="submit">
+                <input value="Save" class="btn btn-primary" type="submit">
             </div>
         </form>
     </div>

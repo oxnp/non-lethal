@@ -11,6 +11,11 @@
                         Subscribers
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('subscribers.create')}}">
+                        Add Subscriber
+                    </a>
+                </li>
                 <li class="nav-item d-inline">
                     <a class="nav-link" href="{{route('newsletters.index')}}">
                         Newsletters
@@ -27,16 +32,24 @@
 
     <div class="list">
         <div class="list_head">
-            <div class="col-md-4">Name</div>
+            <div class="col-md-2">Name</div>
             <div class="col-md-4">Email</div>
             <div class="col-md-4">Subscription</div>
+            <div class="col-md-2">Actions</div>
         </div>
         <div class="list_body">
             @foreach($data_subscriber['subscribers'] as $subscriber)
                 <div class="item">
-                    <div class="col-md-4"><a href="{{route('subscribers.show',$subscriber['id'])}}">{{$subscriber['name']}}</a></div>
+                    <div class="col-md-2"><a href="{{route('subscribers.show',$subscriber['id'])}}">{{$subscriber['name']}}</a></div>
                     <div class="col-md-4">{{$subscriber['email']}}</div>
                     <div class="col-md-4">{{implode(',',$subscriber['group_name'])}}</div>
+                    <div class="col-md-2">
+                    <form style="float:right" method="POST" action="{{route('subscribers.destroy',$subscriber['id'])}}">
+                        @csrf
+                        <input type="hidden" name="_method" value="DELETE" />
+                        <input type="submit" class="btn btn-primary" value="Delete" />
+                    </form>
+                    </div>
                 </div>
             @endforeach
         </div>

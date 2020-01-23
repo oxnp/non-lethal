@@ -36,6 +36,9 @@ img{
     align-items: center;
     clear:both;
 }
+.note-handle .note-control-selection{
+    display: none!important;
+}
 .list .list_body .item>.idcol{
     font-weight:bold;
     display: flex;

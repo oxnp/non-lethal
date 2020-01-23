@@ -12,12 +12,25 @@
         <form enctype="multipart/form-data" action="{{route('news.store')}}" method="POST">
             {{csrf_field()}}
             <div style="overflow: hidden;">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <br/><br/>
                     <div style="overflow:auto;">
                         <label>Image</label>
                         <input class="form-control" name="image" type="file"/>
                     </div>
+                </div>
+                <div class="col-md-4">
+                    <br/><br/>
+                    <label>Status</label>
+                    <select class="form-control" name="published">
+                        <option selected value="1">Published</option>
+                        <option value="0">Unpublished</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <br/><br/>
+                    <label>Publish date</label>
+                    <input class="form-control" type="date" name="created_at" value="{{date('Y-m-d')}}" />
                 </div>
             </div>
             <div class="tab-content">

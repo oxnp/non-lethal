@@ -11,6 +11,11 @@
                         Subscribers
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('subscribers.create')}}">
+                        Add Subscriber
+                    </a>
+                </li>
                 <li class="nav-item d-inline">
                     <a class="nav-link" href="{{route('newsletters.index')}}">
                         Newsletters
@@ -47,6 +52,7 @@
                 </div>
             </div>
             <div class="col-lg-6 form-group">
+               <div class="hide">
                 <div class="form-group">
                     <label class="control-label">Enabled</label>
                     <select class="form-control" name="enabled">
@@ -68,6 +74,7 @@
                         <option @if($subscriber->receive_html == 1) selected @endif value="1">Yes</option>
                     </select>
                 </div>
+               </div>
                 <div class="form-group">
                     <label class="control-label">Subscription groups</label>
                     @php

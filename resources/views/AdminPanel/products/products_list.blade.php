@@ -16,8 +16,17 @@
                         <div class="form-group">
                             <input class="form-control" accept=".csv" type="file" name="import_file" />
                         </div>
-                        <input class="btn btn-primary" type="submit" />
+                        <input class="btn btn-primary" onClick="return empty()" type="submit" />
                     </form>
+                    <script>
+                        function empty() {
+                            var file = $('form[name="import_codes"] input[name="import_file"]').val();
+                            if (file == "") {
+                                alert('Please select iLok Code file first!')
+                                return false;
+                            };
+                        }
+                    </script>
                 </div>
             </div>
         </div>
@@ -46,11 +55,35 @@
                                 <option value="3">Temp</option>
                             </select>
                         </div>
+                        <div class="form-group tdays hide">
+                            <label>Temp days</label>
+                            <input type="number" name="temp_days" id="precode_temp_days" value="30" class="form-control" step="1" min="1">
+                        </div>
+                        <div class="form-group amount hide">
+                            <label>Amount</label>
+                            <input type="number" name="license_count" id="precode_license_count" value="50" class="form-control" step="1" min="1">
+                        </div>
                         <div class="form-group">
+                            <label>Reference</label>
                             <input placeholder="reference" class="form-control" type="text" name="reference" value=""/>
                         </div>
                         <input class="btn btn-primary" type="submit" value="Generate">
                     </form>
+                    <script>
+                        $('select[name="license_type"]').change(function () {
+                            let val = $(this).val();
+                            if(val!==0){
+                                $('.amount').removeClass('hide');
+                            }else{
+                                $('.amount').addClass('hide');
+                            }
+                            if(val==3){
+                                $('.tdays').removeClass('hide');
+                            }else{
+                                $('.tdays').addClass('hide');
+                            }
+                        })
+                    </script>
                 </div>
             </div>
         </div>

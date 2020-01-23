@@ -10,11 +10,25 @@
             Categories
         </a>
     </div>
+    @php
+        $cats = array();
+    @endphp
+    @foreach($knowledge_base as $item)
+        @php array_push($cats,$item->name_category) @endphp
+    @endforeach
+    @php
+        $cats = array_unique($cats);
+    @endphp
     <div class="container-fluid">
-        @foreach($knowledge_base as $item)
-            <div class="item">
-                <a href="{{route('knowledge-base.show',$item->id)}}">{{$item->title}}</a>
-            </div>
+        @foreach($cats as $key=>$value)
+            <h3>{{$value}}</h3>
+            @foreach($knowledge_base as $item)
+                @if($item->name_category == $value)
+                <div class="item">
+                    <a href="{{route('knowledge-base.show',$item->id)}}">{{$item->title}}</a>
+                </div>
+                @endif
+            @endforeach
         @endforeach
     </div>
 @endsection

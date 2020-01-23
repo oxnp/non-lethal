@@ -13,7 +13,7 @@
             {{csrf_field()}}
             <input type="hidden" value="PUT" name="_method"/>
             <div style="overflow: hidden;">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <br/><br/>
                     <div style="float: left">
                         <img style="max-height: 90px;margin-right: 15px" src="{{$news[0]['image']}}">
@@ -22,6 +22,20 @@
                         <label>Image</label>
                         <input class="form-control" name="image" type="file"/>
                     </div>
+
+                </div>
+                <div class="col-md-4">
+                    <br/><br/>
+                    <label>Status</label>
+                    <select class="form-control" name="published">
+                        <option @if($news[0]['published']==1) selected @endif value="1">Published</option>
+                        <option @if($news[0]['published']==0) selected @endif value="0">Unpublished</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <br/><br/>
+                    <label>Publish date</label>
+                    <input class="form-control" name="created_at" type="date" value="{{date('Y-m-d',strtotime($news[0]['created_at']))}}">
                 </div>
             </div>
             <div class="tab-content">

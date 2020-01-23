@@ -11,6 +11,11 @@
                         Subscribers
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('subscribers.create')}}">
+                        Add Subscriber
+                    </a>
+                </li>
                 <li class="nav-item d-inline">
                     <a class="nav-link" href="{{route('newsletters.index')}}">
                         Newsletters
