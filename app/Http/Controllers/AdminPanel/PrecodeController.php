@@ -81,6 +81,7 @@ class PrecodeController extends Controller
         }else{
             $reference = '';
         }
+
         // Get the model and create precodes
         $result = Precode::generatePreActivationCodes($selectedPIDs, $licenseType, $licenseCount, $codeData, $reference);
 

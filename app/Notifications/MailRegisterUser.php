@@ -44,7 +44,7 @@ class MailRegisterUser extends Notification
 
         $template = EmailsTemplates::where('alias_name','register')->get();
 
-        $body = str_replace(array('{name}','{username}','{password}'),array($this->user_data['name'],$this->user_data['username'],$this->user_data['password']),$template[0]['body_html']);
+        $body = str_replace(array('{name}','{username}','{password}'),array($this->user_data['name'],$this->user_data['email'],$this->user_data['password']),$template[0]['body_html']);
 
         return (new MailMessage)
             ->subject($template[0]['subject'])

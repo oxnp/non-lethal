@@ -7,7 +7,7 @@ use App\Http\Models\Front\Contents\ProductsPageCategory;
 use App\Http\Models\Front\Contents\UserStories;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Http\Models\Front\Sliders\Sliders;
 class HomeController extends Controller
 {
     /**
@@ -18,6 +18,7 @@ class HomeController extends Controller
     public function index()
     {
         $news = News::getNews();
+        $slides = Sliders::getSlides();
         $user_stories = UserStories::getStories();
         $categories = ProductsPageCategory::getCategoriesTolist();
         $meta_title = trans('main.homepagetitle');
@@ -25,6 +26,7 @@ class HomeController extends Controller
             'categories'=>$categories,
             'news'=>$news,
             'user_stories'=>$user_stories,
+            'slides'=>$slides,
             'meta_title'=> $meta_title
         ]);
     }

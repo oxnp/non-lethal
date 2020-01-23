@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Models\Front\Contents\ProductsPageCategory;
+use App\Http\Models\Subscribers\Subscribers;
 use App\User;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -33,7 +34,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/my-license';
 
     /**
      * Create a new controller instance.
@@ -55,7 +56,6 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255','unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -72,7 +72,8 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'username' => $data['username'],
+            'username' =>  $data['email'],
+            'last_name' =>  $data['last_name'],
             'registerDate' => Carbon::now(),
             'lastvisitDate' => Carbon::now(),
             'password' => Hash::make($data['password']),
@@ -92,6 +93,20 @@ class RegisterController extends Controller
             'categories'=>$categories,
             'breadcrumbs' => $breadcrumbs
         ]);
+    }
+
+    protected function registered(Request $request, $user)
+    {
+
+        $data['name'] = $request->name;
+        $data['user_id'] = $user->id;
+        $data['email'] = $request->email;
+        $group = '5';
+
+        Subscribers::addSubscriberAfterRegister($data,$group);
+
+        $user->notify(new MailRegisterUser($request->all(),$user));
+        return response()->json($user);
     }
 
 

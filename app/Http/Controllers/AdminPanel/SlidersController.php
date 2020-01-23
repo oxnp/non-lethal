@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AdminPanel;
 
+use App\Http\Models\Front\Contents\Languages;
 use App\Http\Models\Sliders\Sliders;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,10 @@ class SlidersController extends Controller
      */
     public function create()
     {
-        return view('AdminPanel.sliders.slides-add');
+        $langs = Languages::all();
+        return view('AdminPanel.sliders.slides-add')->with([
+            'langs'=>$langs
+        ]);
     }
 
     /**
@@ -48,8 +52,8 @@ class SlidersController extends Controller
         }else{
             $storage_image = '';
         }
-        Sliders::storeSlide($request,$storage_image);
-        return  redirect()->back();
+        Sliders::storeSlide($request,$storage_image,$request->link);
+        return  redirect(route('sliders.index'));
     }
 
     /**
@@ -61,8 +65,11 @@ class SlidersController extends Controller
     public function show($id)
     {
         $slide = Sliders::getSlide($id);
-
-        return view('AdminPanel.sliders.slides-show')->with(['slide'=>$slide]);
+        $langs = Languages::all();
+        return view('AdminPanel.sliders.slides-show')->with([
+            'slide'=>$slide,
+            'langs'=>$langs
+        ]);
     }
 
     /**
@@ -94,7 +101,8 @@ class SlidersController extends Controller
             $storage_image = '';
         }
 
-        Sliders::updateSlide($request,$storage_image,$id);
+
+        Sliders::updateSlide($request,$storage_image,$request->link);
         return  redirect()->back();
     }
 

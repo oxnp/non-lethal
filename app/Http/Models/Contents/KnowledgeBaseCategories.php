@@ -19,7 +19,7 @@ class KnowledgeBaseCategories extends Model
     }
 
     public static function getKnowledgeBaseCategoriesTolist(){
-        $knowledge_list = KnowledgeBaseCategories::where('lang_id',DB::raw('(select id from languages where locale = "'.App::getLocale().'")'))->get();
+        $knowledge_list = KnowledgeBaseCategories::where('lang_id',DB::raw('(select id from languages where locale = "'.App::getLocale().'")'))->where('relation','<>',null)->get();
         return $knowledge_list;
     }
 
