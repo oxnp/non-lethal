@@ -44,10 +44,11 @@
                     <div class="col-md-4">{{$subscriber['email']}}</div>
                     <div class="col-md-4">{{implode(',',$subscriber['group_name'])}}</div>
                     <div class="col-md-2">
+                        <a style="margin-right: 15px" class="btn btn-primary" href="{{route('subscribers.show',$subscriber['id'])}}"><i class="fa fa-edit"></i></a>
                     <form style="float:right" method="POST" action="{{route('subscribers.destroy',$subscriber['id'])}}">
                         @csrf
                         <input type="hidden" name="_method" value="DELETE" />
-                        <input type="submit" class="btn btn-primary" value="Delete" />
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-trash"></i></button>
                     </form>
                     </div>
                 </div>
