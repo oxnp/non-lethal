@@ -58,7 +58,7 @@
                     </div>
                     <div class="form-group">
                         <label class="control-label">Sent date</label><br/>
-                        {{date('d.m.Y',strtotime($newsletter->send_date))}}
+                        {{date('d.m.Y H:i',strtotime($newsletter->send_date))}}
                     </div>
                     <div class="form-group">
                         <label class="control-label">Sent by</label><br/>
@@ -148,6 +148,18 @@
                     <label class="control-label">Reply-to address</label>
                     <input class="form-control" type="text" value="{{$newsletter->reply_to_adress}}" name="reply_to_adress"/>
                 </div>
+            </div>
+            <div class="col-md-12">
+                <input type="hidden" name="redirect" value="0" />
+                <input class="btn btn-primary" type="submit" value="Save">
+                <a class="btn btn-primary" id="redir">Save and close</a>
+                <script>
+                    $('a#redir').click(function () {
+                        $('input[name="redirect"]').val('1');
+                        $(this).closest('form').submit();
+                    })
+                </script>
+                <a href="{{route('newsletters.index')}}" class="btn btn-primary">Close</a>
             </div>
         </form>
 

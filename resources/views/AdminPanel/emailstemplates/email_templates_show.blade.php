@@ -48,8 +48,17 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-12" style="margin-bottom:120px">
-            <input class="btn btn-primary" value="Save" type="submit">
+        <div class="col-md-12">
+            <input type="hidden" name="redirect" value="0" />
+            <input class="btn btn-primary" type="submit" value="Save">
+            <a class="btn btn-primary" id="redir">Save and close</a>
+            <script>
+                $('a#redir').click(function () {
+                    $('input[name="redirect"]').val('1');
+                    $(this).closest('form').submit();
+                })
+            </script>
+            <a href="{{route('emails-templates.index')}}" class="btn btn-primary">Close</a>
         </div>
     </form>
 @stop
