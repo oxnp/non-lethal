@@ -105,7 +105,11 @@ class NewsController extends Controller
         }
 
         News::updateNews($request,$storage_image,$request->created_at,$request->published);
-        return redirect()->back();
+        if ($request->redirect != 0){
+            return redirect(route('news.index'));
+        }else{
+            return redirect(route('news.show',$id));
+        }
     }
 
     /**

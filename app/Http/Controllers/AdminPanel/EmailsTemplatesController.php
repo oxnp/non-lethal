@@ -75,7 +75,13 @@ class EmailsTemplatesController extends Controller
     public function update(Request $request, $id)
     {
         EmailsTemplates::updateTemplate($request, $id);
-        return redirect(route('emails-templates.index'));
+
+        if ($request->redirect != 0){
+            return redirect(route('emails-templates.index'));
+        }else{
+            return redirect(route('emails-templates.show',$id));
+        }
+
     }
 
     /**

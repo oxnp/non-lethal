@@ -445,7 +445,7 @@ class PaddleCheckoutController extends Controller
 
             // Detect buyer checkout mode (register or login)
             // Try to get buyer even if he wants to signup as a new user
-            $passthroughData->email = 'dmitriy.yakynin@gmail.com';
+           // $passthroughData->email = 'dmitriy.yakynin@gmail.com';
             $buyer = \App\Http\Models\Front\Buyers\Buyers::buyerLookupByMail($passthroughData->email);
 
             if(empty($buyer)) {
@@ -455,7 +455,7 @@ class PaddleCheckoutController extends Controller
 
                     //$passthroughData->email = 'Dima';
                    // $passthroughData->email = 'Yakunin';
-                     $user_data = User::whereEmail('dmitriy.yakynin@gmail.com')->get()->toArray();
+                     $user_data = User::whereEmail($passthroughData->email)->get()->toArray();
                     // Create new buyer
                     $buyerData = array(
                         'first' =>  $passthroughData->firstname,

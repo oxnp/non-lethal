@@ -103,7 +103,11 @@ class SlidersController extends Controller
 
 
         Sliders::updateSlide($request,$storage_image,$request->link);
-        return  redirect()->back();
+        if ($request->redirect != 0){
+            return redirect(route('sliders.index'));
+        }else{
+            return redirect(route('sliders.show',$id));
+        }
     }
 
     /**

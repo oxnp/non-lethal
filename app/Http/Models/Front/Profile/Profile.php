@@ -27,7 +27,7 @@ class Profile extends Model
 
         $user = User::find(Auth::ID());
         $user->username = $request['username'];
-        $user->name = $request['name'];
+        $user->name = $request['first'];
 
         if($request['password'] != '') {
             $user->password = Hash::make($request['password']);

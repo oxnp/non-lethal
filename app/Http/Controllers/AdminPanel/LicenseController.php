@@ -101,7 +101,14 @@ class LicenseController extends Controller
     public function update(Request $request, $id)
     {
         License::updateLicense($request,$id);
-        return redirect(route('licenses.index'));
+
+        if ($request->redirect != 0){
+            return redirect(route('licenses.index'));
+        }else{
+            return redirect(route('licenses.show',$id));
+        }
+
+
     }
 
     /**

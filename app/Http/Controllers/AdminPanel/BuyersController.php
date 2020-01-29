@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminPanel;
 use App\Http\Models\EmailsTemplates\EmailsTemplates;
 use App\Http\Models\Helper\Helper;
 use App\Notifications\MailRegisterUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Models\Buyers\Buyers;
@@ -12,6 +13,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Notification;
+use DB;
 class BuyersController extends Controller
 {
     /**
@@ -30,7 +32,6 @@ class BuyersController extends Controller
         $buyers = Buyers::getBuyers($request);
     }
 
-
     return view('AdminPanel.buyers.buyers_list')->with([
             'buyers' => $buyers,
             'filter'=>$filter
@@ -48,8 +49,6 @@ class BuyersController extends Controller
                 'Cache-Control' => 'no-store, no-cache',
                 'Content-Disposition' => 'attachment; filename="buyers.csv"',
             ]);
-
-
     }
 
     /**
@@ -78,11 +77,23 @@ class BuyersController extends Controller
 
 
         if($buyer['new_client'] == 1) {
+            $rand_string = str_random(34);
+            $hash_make = Hash::make($rand_string);
+            $arr_add_reset_pwd = array([
+               'email'=>$buyer['email'],
+               'token'=>$hash_make,
+               'created_at'=>Carbon::now()
+            ]);
+
+            DB::table('password_resets')->insert($arr_add_reset_pwd);
+
             $data = [
                 'email'=> $buyer['email'],
                 'name'=> $buyer['first'],
                 'username'=> $buyer['email'],
-                'password'=>$buyer['password']
+                'password'=> $buyer['password'],
+                'from_admin'=> 1,
+                'link_change_password' => '<a href="'.(route('password.reset',$rand_string)).'"> Reset password</a>'
             ];
             $user->notify(new MailRegisterUser($data));
         }
@@ -126,7 +137,13 @@ class BuyersController extends Controller
     public function update(Request $request, $id)
     {
         Buyers::updateBuyerById($request,$id);
-        return redirect(route('buyers.index'));
+
+        if ($request->redirect != 0){
+            return redirect(route('buyers.index'));
+        }else{
+            return redirect(route('buyers.show',$id));
+        }
+
     }
 
     /**
@@ -137,6 +154,7 @@ class BuyersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Buyers::deleteBuyerById($id);
+        return redirect(route('buyers.index'));
     }
 }

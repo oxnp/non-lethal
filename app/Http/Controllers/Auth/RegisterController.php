@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use App\Notifications\UserRegisteredNotification;
 use App\Notifications\MailRegisterUser;
+use App\Http\Models\Buyers\Buyers;
 
 class RegisterController extends Controller
 {
@@ -69,6 +70,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -102,6 +105,14 @@ class RegisterController extends Controller
         $data['user_id'] = $user->id;
         $data['email'] = $request->email;
         $group = '5';
+
+
+        Buyers::create([
+            'first' => $data['name'],
+            'email' => $data['email'],
+            'last' =>  $request->last_name,
+            'user_id'=>$user->id
+        ]);
 
         Subscribers::addSubscriberAfterRegister($data,$group);
 

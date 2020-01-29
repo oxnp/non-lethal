@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminPanel;
 
 use App\Http\Models\Subscribers\SubscribersGroups;
 use App\Http\Models\Subscribers\SubscribersNewsLetter;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobs\SendEmail;
@@ -83,7 +84,14 @@ class SubscribeNewsletterController extends Controller
     public function update(Request $request, $id)
     {
         SubscribersNewsLetter::updateSubscriberNewsLetter($request, $id);
-        return redirect()->back();
+
+        if ($request->redirect != 0){
+            return redirect(route('newsletters.index'));
+        }else{
+            return redirect(route('newsletters.show',$id));
+        }
+
+
     }
 
     /**
@@ -103,6 +111,8 @@ class SubscribeNewsletterController extends Controller
 
 
         $newsletter = SubscribersNewsLetter::getSubscriberNewsLetter($newsletter_id);
+
+        SubscribersNewsLetter::find($newsletter_id)->update(['send_date'=>Carbon::now()]);
 
         $subscribers = Subscribers::all();
 

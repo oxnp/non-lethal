@@ -101,8 +101,11 @@ class StaticPagesController extends Controller
             $storage_image = '';
         }
         StaticPages::updatePage($request,$storage_image);
-
-        return redirect()->back();
+        if ($request->redirect != 0){
+            return redirect(route('static-pages.index'));
+        }else{
+            return redirect(route('static-pages.show',$id));
+        }
     }
 
     /**

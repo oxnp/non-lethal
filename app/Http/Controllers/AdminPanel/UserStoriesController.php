@@ -103,7 +103,12 @@ class UserStoriesController extends Controller
         }
 
         UserStories::updateUserStories($request,$storage_image);
-        return redirect()->back();
+
+        if ($request->redirect != 0){
+            return redirect(route('user-stories.index'));
+        }else{
+            return redirect(route('user-stories.show',$id));
+        }
     }
 
     /**

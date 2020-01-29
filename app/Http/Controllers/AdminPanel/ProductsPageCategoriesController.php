@@ -75,7 +75,11 @@ class ProductsPageCategoriesController extends Controller
     public function update(Request $request, $id)
     {
         ProductsPageCategories::updateCategory($request);
-        return redirect()->back();
+        if ($request->redirect != 0){
+            return redirect(route('products-pages-categories.index'));
+        }else{
+            return redirect(route('products-pages-categories.show',$id));
+        }
     }
 
     /**

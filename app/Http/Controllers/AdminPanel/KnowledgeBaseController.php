@@ -109,7 +109,11 @@ class KnowledgeBaseController extends Controller
         }
 
         KnowledgeBase::updateKnowledgeBase($request,$storage_image);
-        return redirect()->back();
+        if ($request->redirect != 0){
+            return redirect(route('knowledge-base.index'));
+        }else{
+            return redirect(route('knowledge-base.show',$id));
+        }
     }
 
     /**

@@ -153,4 +153,8 @@ class Buyers extends Model
         }
         return $text;
     }
+
+    public static function deleteBuyerById($id){
+        Buyers::find($id)->delete();
+    }
 }

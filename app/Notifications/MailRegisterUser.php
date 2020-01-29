@@ -42,9 +42,16 @@ class MailRegisterUser extends Notification
     public function toMail($notifiable)
     {
 
-        $template = EmailsTemplates::where('alias_name','register')->get();
 
-        $body = str_replace(array('{name}','{username}','{password}'),array($this->user_data['name'],$this->user_data['email'],$this->user_data['password']),$template[0]['body_html']);
+        if (isset($this->user_data['from_admin']) && $this->user_data['from_admin'] == 1){
+            $template = EmailsTemplates::where('alias_name','send_email_after_add_byuer')->get();
+            $body = str_replace(array('{name}','{email}','{link_change_password}'),array($this->user_data['name'],$this->user_data['email'],$this->user_data['link_change_password']),$template[0]['body_html']);
+
+        }else{
+            $template = EmailsTemplates::where('alias_name','register')->get();
+            $body = str_replace(array('{name}','{username}','{password}'),array($this->user_data['name'],$this->user_data['email'],$this->user_data['password']),$template[0]['body_html']);
+        }
+
 
         return (new MailMessage)
             ->subject($template[0]['subject'])

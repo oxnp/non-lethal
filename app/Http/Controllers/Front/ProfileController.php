@@ -15,6 +15,7 @@ class ProfileController extends Controller
     }
     public function profile()
     {
+
         $user = Profile::getUser();
         $data_buyers = Profile::getBuyers();
 

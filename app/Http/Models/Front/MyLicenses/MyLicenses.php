@@ -12,6 +12,7 @@ use App\Http\Models\Front\Buyers\Buyers;
 use App\Http\Models\Front\MyLicenses\Seats;
 use Auth;
 use DB;
+use Exception;
 
 class MyLicenses extends Model
 {
@@ -86,6 +87,10 @@ class MyLicenses extends Model
     }
 
     public static function getDownloadLinks($id){
+
+        $result['latest'] = array();
+        $result['legacy'] = array();
+
         $array_products_dir = [
             '30' => 'adrmaster',
             '33' => 'adrmaster',
@@ -96,6 +101,7 @@ class MyLicenses extends Model
             '36' => 'adrmaster',
             '37' => 'adrmaster',
             '39' => 'adrmaster',
+            '3' => 'videoslave2',
             '9' => 'videoslave3',
             '11' => 'videoslave3',
             '23' => 'videoslave3',
@@ -114,23 +120,28 @@ class MyLicenses extends Model
 
         $i=0;
 
-            $tmp_array = array();
-            $files = scandir($path_latest.$array_products_dir[$id]);
-            unset($files[0]);
-            unset($files[1]);
+        try {
+            $files = scandir($path_latest . $array_products_dir[$id]);
+        }catch (Exception $e){
+            return $result;
+        }
 
-            foreach($files as $file){
-                if (substr($file,0,1) != '.') {
-                    if(!strpos($file,'html')) {
-                        $tmp_array[$i]['zip']['link'] = '/nla_files/latest_version/' . $array_products_dir[$id] . '/' . $file;
-                        $tmp_array[$i]['zip']['name'] = substr($file,0,-4);
+        $tmp_array = array();
+        unset($files[0]);
+        unset($files[1]);
 
-                        $tmp_array[$i]['changelog'] = '/nla_files/latest_version/' . $array_products_dir[$id] . '/' . substr($file,0,-4).'_changelog.html';
-                        //$tmp_array[$i]['file']['changelog']['name'] = $file;
-                    }
-                    }
-                $i++;
-            }
+        foreach($files as $file){
+            if (substr($file,0,1) != '.') {
+                if(!strpos($file,'html')) {
+                    $tmp_array[$i]['zip']['link'] = '/nla_files/latest_version/' . $array_products_dir[$id] . '/' . $file;
+                    $tmp_array[$i]['zip']['name'] = substr($file,0,-4);
+
+                    $tmp_array[$i]['changelog'] = '/nla_files/latest_version/' . $array_products_dir[$id] . '/' . substr($file,0,-4).'_changelog.html';
+                    //$tmp_array[$i]['file']['changelog']['name'] = $file;
+                }
+                }
+            $i++;
+        }
 
         $tmp_array_legacy = array();
         $files = scandir($path_legacy.$array_products_dir[$id]);
@@ -329,7 +340,6 @@ class MyLicenses extends Model
                     $type .= '<i class="fa fa-files-o hasTip" style="margin-left: 7px;" title="Multi-Seat license"></i>';
                 }
                 //type
-
 
                     $data[$product['name']]['downloads_links'] = self::getDownloadLinks($product['id']);
 

@@ -66,7 +66,7 @@ class Products extends Model
     }
 
     public static function updateProductById($request,$id){
-        //dd(json_encode($request->upgradeable_products));
+       // dd(json_encode($request->upgradeable_products));
         $product = Products::find($id)->update([
             'published'=>$request->published,
             'upgrade_link_page'=>$request->upgrade_link_page,
@@ -88,7 +88,7 @@ class Products extends Model
             'mail_bcc'=>$request->mail_bcc,
             'mail_subject'=>$request->mail_subject,
             'mail_body'=>$request->mail_body,
-            'upgradeable_products'=>json_encode($request->upgradeable_products),
+            'upgradeable_products'=>$request->upgradeable_products != '' ? json_encode($request->upgradeable_products):"",
             'paddle_pid'=>$request->paddle_pid,
             'paddle_upgrade_pid'=>$request->paddle_upgrade_pid,
             'notes'=>$request->notes

@@ -79,7 +79,13 @@ class SubscribeController extends Controller
     public function update(Request $request, $id)
     {
         Subscribers::updateUserSubscribe($request, $id);
-        return redirect(route('subscribers.index'));
+
+
+        if ($request->redirect != 0){
+            return redirect(route('subscribers.index'));
+        }else{
+            return redirect(route('subscribers.show',$id));
+        }
     }
     /**
      * Remove the specified resource from storage.

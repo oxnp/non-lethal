@@ -177,10 +177,16 @@ class ProductsController extends Controller
     {
         try  {
             Products::updateProductById($request,$id);
-            return redirect()->back();
         }catch(RuntimeException $e){
 
         }
+
+        if ($request->redirect != 0){
+            return redirect(route('products.index'));
+        }else{
+            return redirect(route('products.show',$id));
+        }
+
 
     }
 

@@ -82,7 +82,11 @@ class KnowledgeBaseCategoriesController extends Controller
     public function update(Request $request, $id)
     {
         KnowledgeBaseCategories::updateKnowledgeBaseCategory($request);
-        return redirect()->back();
+        if ($request->redirect != 0){
+            return redirect(route('knowledge-base-categories.index'));
+        }else{
+            return redirect(route('knowledge-base-categories.show',$id));
+        }
     }
 
     /**
