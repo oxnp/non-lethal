@@ -160,10 +160,10 @@ header
                     ul
                         position: absolute
                         left: -20px
-                        top: 60px
+                        top: 66px
                         width: 280px
-                        border-radius: 10px
-                        background: rgba(10, 10, 10, 0.95)
+                        border-radius: 0 0 10px 10px
+                        background: rgba(0, 5, 15, 0.8)
                         padding: 0 20px
                         display: none
                         li
@@ -226,6 +226,7 @@ footer
     .social
         position: absolute
         bottom: 0
+        z-index: 1
         left: 0
         a
             display: inline-block
@@ -246,7 +247,6 @@ footer
         letter-spacing: 0.03em
         text-transform: uppercase
         margin-bottom: 60px
-        text-shadow: 3px 3px 15px rgba(115, 166, 252, 0.6)
     .subtext
         font-size: 18px
         letter-spacing: 0.6em
@@ -758,6 +758,19 @@ section#stories
         border-radius: 15px
     .item
         margin-bottom: 45px
+        .user_image
+            position: relative
+            width: 100%
+            overflow: hidden
+            a
+                display: block
+                height: 200px
+                background-size: cover!important
+                background-position: center!important
+            img
+                height: 100%
+                width: auto
+                max-width: 200%
         img
             border-radius: 15px
             height: auto

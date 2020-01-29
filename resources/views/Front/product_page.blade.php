@@ -163,6 +163,7 @@
                                     @php $passrand = str_random(12); @endphp
                                     <input type="hidden" value="{{$passrand}}" name="password">
                                     <input type="hidden" value="{{$passrand}}" name="password_confirmation">
+                                    <div class="req text-left" style="margin-bottom: 10px;">* Required fields</div>
                                     <div class="group">
                                         <button type="submit">
                                             {{ __('Register') }}
@@ -203,6 +204,8 @@
                             jQuery('form[name="newsletter_prod"]').append('<div class="alert alert-warning" role="alert">\n' +
                                 '  {{trans("main.already_subscribed")}}\n' +
                                 '</div>');
+                            window.location.href = file;
+                            $('#activation_prod').modal('hide');
                         }
                         setTimeout(function () {
                             jQuery('form[name="newsletter_prod"] .alert').fadeOut();

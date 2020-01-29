@@ -8,7 +8,7 @@
         <form id="logme" class="m-auto" method="POST" action="{{ route('login') }}">
             @csrf
             <div class="group">
-                <label for="email">{{ __('E-Mail Address') }} *</label>
+                <label for="email">{{ __('E-Mail Address') }}</label>
                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="login"
                        value="{{ old('email') }}" required autocomplete="email" autofocus>
                 @error('email')
@@ -18,7 +18,7 @@
                 @enderror
             </div>
             <div class="group">
-                <label for="password">{{ __('Password') }} *</label>
+                <label for="password">{{ __('Password') }}</label>
                 <input id="password" type="password"
                        class="form-control @error('password') is-invalid @enderror" name="password"
                        required autocomplete="current-password">
@@ -51,7 +51,7 @@
                     @endif
                     <div>
                         <a href="{{ route('register') }}">
-                            {{ __('Create new account?') }}
+                            {{ __('Create new account') }}
                         </a>
                     </div>
                 </div>

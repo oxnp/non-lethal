@@ -156,6 +156,8 @@
                                     jQuery('form[name="newsletter_prod"]').append('<div class="alert alert-warning" role="alert">\n' +
                                         '  {{trans("main.already_subscribed")}}\n' +
                                         '</div>');
+                                    window.location.href = file;
+                                    $('#activation_prod').modal('hide');
                                 }
                                 setTimeout(function () {
                                     jQuery('form[name="newsletter_prod"] .alert').fadeOut();
