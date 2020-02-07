@@ -50,8 +50,8 @@
                         <div class="form-group">
                             <label class="control-label">Status</label>
                             <select class="form-control" name="published">
-                                <option value="1" @if($product['published'] == 0) selected @endif>Published</option>
-                                <option value="0" @if($product['published'] == 1) selected @endif>Unpublished</option>
+                                <option value="1" @if($product['published'] == 1) selected @endif>Published</option>
+                                <option value="0" @if($product['published'] == 0) selected @endif>Unpublished</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -133,9 +133,6 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <input class="btn btn-primary" type="submit" value="Save">
-                    </div>
                 </div>
                 <div class="tab-pane fade" id="t2" role="t2" aria-labelledby="t2">
                     <div class="col-lg-3 form-group">
@@ -154,7 +151,6 @@
                             <input class="form-control" type="text" name="prefix_temp"
                                    value="{{$product['prefix_temp']}}"/>
                         </div>
-                        <input class="btn btn-primary" type="submit" value="Save">
                     </div>
                     <div class="col-md-6">
                         @php $futures = explode(',',$product['features']) @endphp
@@ -198,7 +194,6 @@
                             <input class="form-control" type="text" name="mail_subject"
                                    value="{{$product['mail_subject']}}"/>
                         </div>
-                        <input class="btn btn-primary" type="submit" value="Save">
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
@@ -207,6 +202,18 @@
                                       value="{{$product['mail_body']}}">{{$product['mail_body']}}</textarea>
                         </div>
                     </div>
+                </div>
+                <div class="col-md-12">
+                    <input type="hidden" name="redirect" value="0" />
+                    <input class="btn btn-primary" type="submit" value="Save">
+                    <a class="btn btn-primary" id="redir">Save and close</a>
+                    <script>
+                        $('a#redir').click(function () {
+                            $('input[name="redirect"]').val('1');
+                            $(this).closest('form').submit();
+                        })
+                    </script>
+                    <a href="{{route('products.index')}}" class="btn btn-primary">Close</a>
                 </div>
             </form>
         </div>

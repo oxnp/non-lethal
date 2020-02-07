@@ -178,10 +178,10 @@ header {
         header .topmenu ul li.parent ul {
           position: absolute;
           left: -20px;
-          top: 60px;
+          top: 66px;
           width: 280px;
-          border-radius: 10px;
-          background: rgba(10, 10, 10, 0.95);
+          border-radius: 0 0 10px 10px;
+          background: rgba(0, 5, 15, 0.8);
           padding: 0 20px;
           display: none; }
           header .topmenu ul li.parent ul li:last-child a {
@@ -246,6 +246,7 @@ footer .about_nla {
   #slider .social {
     position: absolute;
     bottom: 0;
+    z-index: 1;
     left: 0; }
     #slider .social a {
       display: inline-block;
@@ -268,8 +269,7 @@ footer .about_nla {
     line-height: 82px;
     letter-spacing: 0.03em;
     text-transform: uppercase;
-    margin-bottom: 60px;
-    text-shadow: 3px 3px 15px rgba(115, 166, 252, 0.6); }
+    margin-bottom: 60px; }
   #slider .subtext {
     font-size: 18px;
     letter-spacing: 0.6em;
@@ -832,6 +832,19 @@ section#stories {
     border-radius: 15px; }
   section#stories .item {
     margin-bottom: 45px; }
+    section#stories .item .user_image {
+      position: relative;
+      width: 100%;
+      overflow: hidden; }
+      section#stories .item .user_image a {
+        display: block;
+        height: 200px;
+        background-size: cover !important;
+        background-position: center !important; }
+      section#stories .item .user_image img {
+        height: 100%;
+        width: auto;
+        max-width: 200%; }
     section#stories .item img {
       border-radius: 15px;
       height: auto;

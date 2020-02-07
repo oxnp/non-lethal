@@ -2,7 +2,24 @@
 @extends('layouts.app-admin-leftsidebar')
 @extends('layouts.app-admin-header')
 @section('content')
+    <form name="delete_buyer" style="float: right" action="{{route('buyers.destroy',$buyer['id'])}}" method="POST">
+        {{csrf_field()}}
+        <input name="_method" type="hidden" value="DELETE">
+        <input type="submit" class="btn btn-danger" value="DELETE BUYER" />
+    </form>
+    <script>
+        $('form[name="delete_buyer"]').submit(function (e) {
+            var status = confirm("Click OK to continue?");
+            if(status == false){
+                return false;
+            }
+            else{
+                return true;
+            }
+        })
+    </script>
     <h1>Buyer</h1>
+
     <div class="row formgroup">
         <form action="{{route('buyers.update',$buyer['id'])}}" method="POST">
             {{csrf_field()}}
@@ -75,7 +92,16 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <input class="btn btn-primary" type="submit">
+                <input type="hidden" name="redirect" value="0" />
+                <input class="btn btn-primary" type="submit" value="Save">
+                <a class="btn btn-primary" id="redir">Save and close</a>
+                <script>
+                    $('a#redir').click(function () {
+                        $('input[name="redirect"]').val('1');
+                        $(this).closest('form').submit();
+                    })
+                </script>
+                <a href="{{route('buyers.index')}}" class="btn btn-primary">Close</a>
             </div>
         </form>
     </div>

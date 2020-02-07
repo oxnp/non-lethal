@@ -12,7 +12,7 @@
                     <div class="group_title">
                         My Profile
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row align-items-center d-none">
                         <div class="col-md-3">
                             <label for="name">Name</label>
                         </div>
@@ -65,7 +65,7 @@
                             <input name="first" value="{{$buyers['first']}}" required="required" type="text" placeholder="No information entered" />
                         </div>
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row align-items-center d-none">
                         <div class="col-md-3">
                             <label for="company">Company</label>
                         </div>
@@ -73,7 +73,7 @@
                             <input name="company" value="{{$buyers['company']}}" type="text" placeholder="No information entered" />
                         </div>
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row align-items-center d-none">
                         <div class="col-md-3">
                             <label for="street1">Street (1)</label>
                         </div>
@@ -81,7 +81,7 @@
                             <input name="street1" value="{{$buyers['street1']}}" type="text" placeholder="No information entered" />
                         </div>
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row align-items-center d-none">
                         <div class="col-md-3">
                             <label for="street2">Street (2)</label>
                         </div>
@@ -89,7 +89,7 @@
                             <input name="street2" value="{{$buyers['street2']}}" type="text" placeholder="No information entered" />
                         </div>
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row align-items-center d-none">
                         <div class="col-md-3">
                             <label for="zip">Postal code/ZIP</label>
                         </div>
@@ -97,7 +97,7 @@
                             <input name="zip" value="{{$buyers['zip']}}" type="text" placeholder="No information entered" />
                         </div>
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row align-items-center d-none">
                         <div class="col-md-3">
                             <label for="city">City</label>
                         </div>
@@ -105,7 +105,7 @@
                             <input name="city" value="{{$buyers['city']}}" type="text" placeholder="No information entered" />
                         </div>
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row align-items-center d-none">
                         <div class="col-md-3">
                             <label for="country">Country</label>
                         </div>
@@ -113,7 +113,7 @@
                             <input name="country" value="{{$buyers['country']}}" type="text" placeholder="No information entered" />
                         </div>
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row align-items-center d-none">
                         <div class="col-md-3">
                             <label for="state">State/Province</label>
                         </div>
@@ -121,7 +121,7 @@
                             <input name="state" value="{{$buyers['state']}}" type="text" placeholder="No information entered" />
                         </div>
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row align-items-center d-none">
                         <div class="col-md-3">
                             <label for="phone">Phone</label>
                         </div>
@@ -129,7 +129,7 @@
                             <input name="phone" value="{{$buyers['phone']}}" type="text" placeholder="No information entered" />
                         </div>
                     </div>
-                    <div class="row align-items-center">
+                    <div class="row align-items-center d-none">
                         <div class="col-md-3">
                             <label for="website">Website</label>
                         </div>

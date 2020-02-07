@@ -44,6 +44,10 @@ $(document).ready(function () {
     $('.topmenu li.parent>a').click(function(e){
         e.preventDefault();
         $(this).parent().find('ul').slideToggle();
+        e.stopPropagation();
+    });
+    $(document).click(function () {
+        $('.topmenu ul.child').slideUp();
     })
     $('.mobmenu').click(function () {
         $(this).toggleClass('toggled');

@@ -417,9 +417,11 @@
                 dataType: 'json'
             })
                 .fail(function (data) {
+                    $('form#ajaxreg .err').hide();
                     $('form#ajaxreg button[type="submit"]').after('<div class="err">E-mail already exist!</div>');
                 })
                 .done(function (data) {
+                    $('form#ajaxreg .err').hide();
                     $('a#logbut').attr('href', '{{ route("my-licenses") }}')
 
 
