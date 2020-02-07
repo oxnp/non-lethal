@@ -44,4 +44,30 @@ class ProductsPage extends Model
 
         return true;
     }
+
+    public static function store($request,$storage_image){
+        $data = array();
+        $page_ids=  array();
+        foreach($request->all() as $key=>$value){
+            if (is_array($value)){
+                foreach($value as $lang_id=>$val){
+                    $data[$lang_id][$key] = $val;
+                    $data[$lang_id]['lang_id'] = $lang_id;
+                    if($storage_image != ''){
+                        $data[$lang_id]['image'] = $storage_image;
+                    }
+
+                }
+            }
+        }
+
+        ProductsPage::insert($data);
+
+        return true;
+    }
+
+    public static function getLastid(){
+        $last_id = ProductsPage::select(DB::raw('max(id) as last_id'))->pluck('last_id')->toArray();
+        return $last_id[0] + 1;
+    }
 }

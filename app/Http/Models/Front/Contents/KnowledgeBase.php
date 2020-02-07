@@ -34,9 +34,9 @@ class KnowledgeBase extends Model
         $merge = $cats_head->merge($cats)->toArray();
 
 
+      //
 
-
-        $pages = KnowledgeBase::whereIn('category_id',$cats->pluck('id')->toArray())->get()->toArray();
+        $pages = KnowledgeBase::where('published',1)->whereIn('category_id',$cats->pluck('id')->toArray())->get()->toArray();
 
 
 
@@ -86,7 +86,6 @@ class KnowledgeBase extends Model
 
     public static function getItem($headcategory,$category,$subcategory,$item){
         $page = KnowledgeBase::whereSlug($item)->whereLangId(DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))->get()->toArray();
-
         return $page;
     }
 

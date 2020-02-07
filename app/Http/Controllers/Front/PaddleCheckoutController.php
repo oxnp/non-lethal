@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 class PaddleCheckoutController extends Controller
 {
     public  function paddle_gateway(Request $request){
-
+//var_dump($request->all());
         $alert_name = 'ps_'.$request->alert_name;
 
         self::$alert_name($request);
@@ -62,12 +62,13 @@ class PaddleCheckoutController extends Controller
 
         // Get license information
         $license = License::lookupByPaddleSID($request->subscription_id);
-        $licenseData = License::find($license[0]['id']);
         if($license->isEmpty()) {
             //JAppActivationHelper::log('No License found to update!');
             //JAppActivationHelper::log('-> Paddle Subscription ID: ' . $postData->subscription_id);
             return false;
         }
+        $licenseData = License::find($license[0]['id']);
+
 
         // If license will expire within the next month, send a mail to the customer
         $daysLeft = Helper::getDaysTillSubscriptionRenewal($licenseData->date_purchase);
@@ -140,8 +141,8 @@ class PaddleCheckoutController extends Controller
         return true;
     }
 
-    public  function ps_subscription_created(){
-
+    public  function ps_subscription_created(Request $request){
+        self::ps_payment_succeeded($request);
     }
 
     public  function ps_subscription_cancelled(Request $request){
@@ -177,6 +178,8 @@ class PaddleCheckoutController extends Controller
     }
 
     public  function ps_payment_succeeded(Request $request){
+
+
         // Get required backend models
 /*      JModelLegacy::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models/');
         $buyerModel = JModelLegacy::getInstance('Buyer', 'JAppActivationModel');
@@ -344,6 +347,7 @@ class PaddleCheckoutController extends Controller
                 //$seats = $seatsModel->getItems();
 
                 $seats = Seats::whereId($oldLicenseData[0]['id'])->get();
+
                 if(!$seats->isEmpty()) {
                     //JAppActivationHelper::log('Old license/subscription currently in use, removal failed!', JAppActivationLog::NOTICE);
                     return false;
@@ -496,7 +500,7 @@ class PaddleCheckoutController extends Controller
             $licenseData['notes'] = sprintf('This license was remotely added by the Paddle checkout with the order ID: %s
 Total was paid with %s.', $request->order_id, $request->payment_method);
 
-            var_dump($licenseData); die();
+           // var_dump($licenseData); die();
         } else {
             $licenseData['date_activate'] = $licenseData['date_purchase'];
             $licenseData['type'] = env('SUBSCRIPTION_BASE');
@@ -510,6 +514,7 @@ Total was paid with %s.', $request->order_id, $request->payment_method);
 
         // Take over old serial if upgrade
         $isiLokProduct = intval($product[0]['licsystem']) === env('LICENSE_SYSTEM_PACE');
+
         if($isiLokUpgrade)
         {
             if(!isset($legacyProductID)) {
@@ -553,7 +558,13 @@ Total was paid with %s.', $request->order_id, $request->payment_method);
             // Send a serial mail only, if no iLok upgrade is processed
             $sendSerialMail = !$isiLokUpgrade;
            // $result = $licenseModel->save($licenseData, true, $sendSerialMail);
-            $result = License::create($licenseData);
+
+
+            $licenseData['license_days'] = 30;
+            $licenseData['support_days'] = 30;
+          //  $result = License::create($licenseData);
+            $result = License::savelic($licenseData, true, $sendSerialMail);
+
             if(!$result){
                 //JAppActivationHelper::log('Error creating new license!', JAppActivationLog::ERROR);
                 //JAppActivationHelper::log('Received data: ' . json_encode($postData));
@@ -579,7 +590,7 @@ Total was paid with %s.', $request->order_id, $request->payment_method);
             {
                 // Invalidate iLok code (mark as used)
                 if (isset($licenseData['ilok_code'])) {
-                    if(intval($product->debug_mode) == 0) {
+                    if(intval($product[0]->debug_mode) == 0) {
                         IlokCodes::consumeCode($licenseData['ilok_code']);
                         //JAppActivationHelper::log('Mmmhhhh: Used iLok code tastes perfect!', JLog::INFO);
                     } else {

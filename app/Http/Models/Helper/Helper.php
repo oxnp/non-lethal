@@ -219,6 +219,7 @@ class Helper extends Model
 
         $sender_info = array();
         $recepient_info = array();
+
         $recepient_info['email'] = $mailData[0]->email;
 
         if ($mailData[0]->ilok_code){

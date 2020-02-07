@@ -19,7 +19,7 @@ class ProductsPageController extends Controller
     {
        $products_pages = ProductsPage::getPages();
 
-       return view('AdminPanel.contents.products_page_list')->with(['products_pages'=>$products_pages]);;
+       return view('AdminPanel.contents.products_page_list')->with(['products_pages'=>$products_pages]);
     }
 
     /**
@@ -29,7 +29,9 @@ class ProductsPageController extends Controller
      */
     public function create()
     {
-        //
+        $langs = Languages::all();
+        $categories = ProductsPageCategories::getCategories();
+        return view('AdminPanel.contents.products_page_add')->with(['langs'=>$langs,'categories'=>$categories]);
     }
 
     /**
@@ -40,7 +42,22 @@ class ProductsPageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $next_id = ProductsPage::getLastid();
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $storage = $file->store('image/product-page/' . $next_id);
+            $name_file = explode('/', $storage);
+            $storage_image = '/storage/app/image/product-page/' . $next_id . '/' . $name_file[3];
+        }else{
+            $storage_image = '';
+        }
+
+        ProductsPage::store($request,$storage_image);
+        if ($request->redirect != 0){
+            return redirect(route('products-pages.index'));
+        }else{
+            return redirect(route('products-pages.show',$next_id));
+        }
     }
 
     /**

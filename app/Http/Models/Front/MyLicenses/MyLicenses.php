@@ -106,14 +106,13 @@ class MyLicenses extends Model
             '11' => 'videoslave3',
             '23' => 'videoslave3',
             '24' => 'videoslave3',
+            '25' => 'videoslave3',
             '10' => 'videoslave3',
             '22' => 'videoslave3',
             '28' => 'videoslave4',
             '29' => 'videoslave4',
             '32' => 'videoslave4',
-            '28' => 'videoslave4',
-            '28' => 'videoslave4',
-            '28' => 'videoslave4',
+            '28' => 'videoslave4'
         ];
         $path_latest = $_SERVER['DOCUMENT_ROOT'].'/public/nla_files/latest_version/';
         $path_legacy = $_SERVER['DOCUMENT_ROOT'].'/public/nla_files/';
@@ -123,7 +122,7 @@ class MyLicenses extends Model
         try {
             $files = scandir($path_latest . $array_products_dir[$id]);
         }catch (Exception $e){
-            return $result;
+            return $e;
         }
 
         $tmp_array = array();
@@ -240,7 +239,6 @@ class MyLicenses extends Model
                                 } elseif (empty($status)) {
                                     $status = ('paddle_unknown');
                                 }
-
                                 break;
 
                             case env('LICENSE_TYPE_INVALID'):
@@ -475,20 +473,6 @@ class MyLicenses extends Model
         $pks = (array)$pks;
         License::whereIn('licenses.id',implode(',', $pks))
             ->leftjoin('seats as s','s.license_id','licenses.id')->delete();
-
-/*
-        //Get database instance
-        $db = JFactory::getDbo();
-
-        //create query to delete the license(s) including all assigned seats
-        $query = "DELETE l.*,s.* FROM ";
-        $query .= "#__jappactivation_licenses AS l ";
-        $query .= "LEFT JOIN #__jappactivation_seats AS s ON s.license_id=l.id ";
-        $query .= 'WHERE l.id IN (' . implode(',', $pks) . ')';
-        $db->setQuery($query);
-
-        return $db->execute();
-*/
     }
 
 

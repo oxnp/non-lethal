@@ -10,12 +10,12 @@ class KnowledgeBase extends Model
 {
     public $timestamps = false;
     protected $table = 'knowledge_base';
-    protected $fillable = ['category_id','lang_id','content','title','slug','image','short_text'];
+    protected $fillable = ['category_id','lang_id','content','title','slug','image','short_text','published'];
 
     public static function getKnowledgeBases(){
         $knowledge_bases= KnowledgeBase::where('knowledge_base.lang_id',DB::raw('(select id from languages where locale = "' . App::getLocale() . '")'))
             ->leftjoin('knowledge_base_categories','knowledge_base_categories.id','knowledge_base.category_id')
-            ->select(DB::raw('knowledge_base_categories.title as name_category'),'knowledge_base.title','knowledge_base.id')
+            ->select(DB::raw('knowledge_base_categories.title as name_category'),'knowledge_base.title','knowledge_base.id','knowledge_base.published')
             ->get();
         return $knowledge_bases;
     }
@@ -23,6 +23,7 @@ class KnowledgeBase extends Model
     public static function getKnowledgeBase($id){
         $knowledge_base = KnowledgeBase::find($id);
         $knowledge_base_item = KnowledgeBase::whereSlug($knowledge_base->slug)->get();
+
         return $knowledge_base_item;
     }
 
@@ -31,10 +32,13 @@ class KnowledgeBase extends Model
         $data = array();
         $page_ids=  array();
         foreach($request->all() as $key=>$value){
+
             if (is_array($value)){
+
                 foreach($value as $lang_id=>$val){
                     $data[array_key_first($val)][$key] = $request->$key[$lang_id][array_key_first($val)];
                     $page_ids[array_key_first($val)] = array_key_first($val);
+                    $data[array_key_first($val)]['published'] = $request->published;
                 }
             }
         }
@@ -56,6 +60,7 @@ class KnowledgeBase extends Model
                 foreach($value as $lang_id=>$val){
                     $data[$lang_id][$key] = $val;
                     $data[$lang_id]['lang_id'] = $lang_id;
+                    $data[$lang_id]['published'] = $request->published;
                     if($storage_image != ''){
                         $data[$lang_id]['image'] = $storage_image;
                     }

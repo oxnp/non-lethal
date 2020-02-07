@@ -27,7 +27,8 @@ class ProductsPageCategoriesController extends Controller
      */
     public function create()
     {
-        //
+        $langs = Languages::all();
+        return view('AdminPanel.contents.products_page_categories_add')->with(['langs'=>$langs]);
     }
 
     /**
@@ -38,7 +39,14 @@ class ProductsPageCategoriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $result = ProductsPageCategories::store($request);
+        $id = ProductsPageCategories::getLastid();
+
+        if ($request->redirect != 0){
+            return redirect(route('products-pages-categories.index'));
+        }else{
+            return redirect(route('products-pages-categories.show',$id));
+        }
     }
 
     /**

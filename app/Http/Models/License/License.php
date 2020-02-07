@@ -3,6 +3,7 @@
 namespace App\Http\Models\License;
 
 use App\Http\Models\Helper\Helper;
+use App\Http\Models\IlokCodes\IlokCodes;
 use App\Http\Models\Precode\Precode;
 use http\Env\Request;
 use Illuminate\Database\Eloquent\Model;
@@ -276,10 +277,9 @@ class License extends Model
         // Clean serial
         $serial = str_replace('-', '',trim($serial));
 
-        $query = License::where(DB::raw("BINARY licenses.serial ='".$serial."'"))
+        $query = License::where('licenses.serial',$serial)->select('licenses.id as id','p.id as product_id','p.*','licenses.*')
             ->leftjoin('buyers as b','b.id','licenses.buyer_id')
-            ->leftjoin('products as p','p.id','licenses.product_id')->get();
-
+            ->leftjoin('products as p','p.id','licenses.product_id');
         if(!empty($features)) {
             $query->where('licenses.prod_features=' . Helper::feature2bitmask($features));
         }
@@ -348,4 +348,146 @@ class License extends Model
         $result = License::wherePaddleOid($pOID)->get();
         return $result;
     }
+
+
+    /**
+     * Method to prepare the form data before saving
+     */
+
+    public static function savelic($data, $returnInsertID = false, $sendSerialMail = true ) {
+
+        // Make sure, data is array
+        $data = (array)$data;
+
+        // Generate iLok code only if it is not set already
+        $newiLokCode = false;
+        if (empty($data['ilok_code']))
+        {
+            // Check used licensing system
+            $productID = $data['product_id'];
+           // $productModel = JModelLegacy::getInstance('Product', 'JAppActivationModel');
+            $product = Products::getProductById($productID);
+            //var_dump($product); die();
+            $isiLokProduct = $product->licsystem ==  env('LICENSE_SYSTEM_PACE');
+
+            // Generate ilok code for new ilok product license,
+            // but only if it is no test (temporary) license
+            $isTempLicense = $data['type'] == env('TEMP_BASE');
+            if ($isiLokProduct && !$isTempLicense) {
+                //$ilokModel = JModelLegacy::getInstance('IlokCode', 'JAppActivationModel');
+                $newiLokCode = IlokCodes::getFreeCode($productID);
+
+
+                if (!$newiLokCode)
+                {
+                   // JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_JAPPACTIVATION_ILOK_STOCK_WARNING_EMPTY', $product->name), 'error');
+                    //JFactory::getApplication()->redirect('index.php?option=com_jappactivation&view=buyers');
+                    return;
+                }
+
+                $data['ilok_code'] = $newiLokCode;
+            }
+        }
+
+        // If ilok code is still empty, use legacy serial
+        //$db = JFactory::getDbo();
+        $isNew = empty($data['id']);
+        if (!isset($data['ilok_code']))
+        {
+            // Clean Serial or create new if not set
+            if (isset($data['serial']) && !empty($data['serial']))
+                $data['serial'] = str_replace('-','',$data['serial']);
+            else
+                $data['serial'] = str_replace('-','',self::generateSerialNumber());
+
+            // If this is a new record, check for duplicate serial
+            if ($isNew) {
+              //  $query = $db->getQuery(true);
+              //  $query->select('COUNT(*)');
+              //  $query->from('#__jappactivation_licenses');
+              //  $query->where('serial='.$db->quote($data['serial']));
+               // $db->setQuery($query);
+                $license_count = License::where('serial',$data['serial'])->get();
+
+                if (!$license_count->isEmpty()) {
+                    //JFactory::getApplication()->enqueueMessage(JText::_('COM_JAPPACTIVATION_LICENSE_SERIAL_ALREADY_IN_DB'), 'error');
+                    //JFactory::getApplication()->redirect('index.php?option=com_jappactivation&view=license&layout=edit&buyer_id=' . $data['buyer_id']);
+                }
+            }
+        }
+
+        // Delete seats, if required
+        //$input = $request;
+       // $delSeatCID = $input->get('delete_seat', null, 'array');
+       /* $delSeatCID = $request->delete_seat;
+
+        if ($delSeatCID) {
+            Seats::whereIn('id',implode(',', $delSeatCID))->delete();
+          //  $query = $db->getQuery(true);
+          //  $query->delete('#__jappactivation_seats');
+           // $query->where('id IN ('.implode(',', $delSeatCID).')');
+          //  $db->setQuery($query);
+
+           // if (!$db->execute())
+              //  return false;
+        }
+*/
+        // Convert features to a bitmask
+        if(isset($data['prod_features'])) {
+            if(is_array($data['prod_features'])) {
+                $data['prod_features'] = Helper::feature2bitmask($data['prod_features']);
+            }
+        } else {
+            $data['prod_features'] = 0;
+        }
+
+       /* // Convert Purchasedate
+        if (isset($data['date_purchase'])) {
+            $date = JDate::getInstance($data['date_purchase']);
+            $data['date_purchase'] = $date->toSql();
+        }
+*/
+        // Store the data
+      //  var_dump($data); die();
+        if(!License::create($data))
+            return false;
+
+        // Invalidate previousely generated iLok code
+        if ($newiLokCode) {
+           // $ilokModel = JModelLegacy::getInstance('IlokCode', 'JAppActivationModel');
+            IlokCodes::consumeCode($data['ilok_code']);
+        }
+
+        // Retrieve license ID of the new record
+        $licenseID = (isset($data['id']) ? $data['id'] : null);
+
+
+
+        if (!$licenseID) {
+            if (!isset($data['ilok_code']))
+            {
+                $license = self::lookupBySerial($data['serial']);
+
+                $licenseID = $license[0]['id'];
+            }
+            else
+            {
+                $license = self::lookupByilokCode($data['ilok_code']);
+                $licenseID = $license[0]['id'];
+            }
+        }
+
+        // Send email, if license is new
+        // Do this here because license ID is needed
+        if($sendSerialMail && $isNew) {
+            Helper::sendSerialMail($licenseID);
+        }
+
+        if($returnInsertID) {
+            return $licenseID;
+        }
+        return true;
+    }
+
+
 }
