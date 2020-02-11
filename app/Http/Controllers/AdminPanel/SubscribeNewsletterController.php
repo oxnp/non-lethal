@@ -22,7 +22,6 @@ class SubscribeNewsletterController extends Controller
     public function index()
     {
         $newsletters = SubscribersNewsLetter::getSubscriberNewsLetters();
-
         return view('AdminPanel.subscriber.subscriber_newsletter_list')->with(['newsletters'=>$newsletters]);
     }
 
@@ -59,7 +58,6 @@ class SubscribeNewsletterController extends Controller
     {
         $subscriber_groups = SubscribersGroups::all()->toArray();
         $newsletter = SubscribersNewsLetter::getSubscriberNewsLetter($id);
-
         return view('AdminPanel.subscriber.subscriber_newsletter_show')->with(['newsletter'=>$newsletter,'subscriber_groups'=>$subscriber_groups]);
     }
 
@@ -84,7 +82,6 @@ class SubscribeNewsletterController extends Controller
     public function update(Request $request, $id)
     {
         SubscribersNewsLetter::updateSubscriberNewsLetter($request, $id);
-
         if ($request->redirect != 0){
             return redirect(route('newsletters.index'));
         }else{
@@ -106,16 +103,9 @@ class SubscribeNewsletterController extends Controller
     }
 
     public function sendMessage($newsletter_id){
-
-
-
-
         $newsletter = SubscribersNewsLetter::getSubscriberNewsLetter($newsletter_id);
-
         SubscribersNewsLetter::find($newsletter_id)->update(['send_date'=>Carbon::now()]);
-
         $subscribers = Subscribers::all();
-
         $array_groups = explode(',',$newsletter->subscription_group_ids);
         $data_subscribers = array();
         $data_sender = array();
@@ -124,7 +114,6 @@ class SubscribeNewsletterController extends Controller
         $data_sender['email_from'] = $newsletter->from_adress;
         $data_sender['email_reply'] = $newsletter->reply_to_adress;
         $data_sender['subject'] = $newsletter->subject;
-
 
         foreach($array_groups as $id_group) {
             foreach ($subscribers as $subscriber) {
@@ -140,11 +129,10 @@ class SubscribeNewsletterController extends Controller
 
         $i = 1;
         foreach ($data_subscribers as $subscriber) {
-            $job = (new SendEmail($subscriber,$data_sender))->delay($i);
+            $job = (new SendEmail($subscriber,$data_sender))->delay($i); //add to queue email
             dispatch($job);
             $i=$i+2;
         }
-
         return redirect()->back();
     }
 }

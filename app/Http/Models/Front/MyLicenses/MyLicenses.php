@@ -148,7 +148,7 @@ class MyLicenses extends Model
         unset($files[1]);
         foreach($files as $file){
             if (substr($file,0,1) != '.') {
-                if(!strpos($file,'html')) {
+                if(!strpos($file,'html') && $file != 'dSYM') {
                 $tmp_array_legacy[$i]['zip']['link'] = '/nla_files/'.$array_products_dir[$id].'/'.$file;
                 $tmp_array_legacy[$i]['zip']['name'] = substr($file,0,-4);
                 $tmp_array_legacy[$i]['changelog'] = '/nla_files/' . $array_products_dir[$id] . '/' . substr($file,0,-4).'_changelog.html';

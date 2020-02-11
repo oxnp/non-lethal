@@ -149,18 +149,13 @@ class MyLicensesController extends Controller
             if(!empty($buyer))
             {
                 $buyerID = $buyer[0]['id'];     // Get existing buyer's ID
-
             }
             else {
 
                 // Try to get buyer data from joomla profile (On manual pre-code redemption)
                 if ($UserID) {
                     $userData =  User::find($UserID)->toArray();
-
-
                     $joomlaProfile = Buyers::whereUserId($userData['id'])->get()->toArray();
-
-
                     $buyerData = array_merge($joomlaProfile, $buyerData);
                     $buyerData['user_id'] = intval($UserID);
                 }
@@ -173,7 +168,6 @@ class MyLicensesController extends Controller
                 if(!isset($buyerData['last'])) {
                     $buyerData['last'] = $userData['name'];
                 }
-
 
                 if(!isset($buyerData['last']) || empty($buyerData['last'])) {
 
@@ -221,8 +215,6 @@ class MyLicensesController extends Controller
                 $licenseData['license_days'] = $codeData->temp_days;
             }
 
-
-
             // Generate serial or get iLok code
             if ($activationMode == env('JAA_PRE_ACTIVATION_TEMP') || intval($productData['0']['licsystem']) == intval(env('LL_LicenseLib')))
             {
@@ -235,7 +227,6 @@ class MyLicensesController extends Controller
                 if (empty($licenseData['ilok_code']))
                 {
                    //Hepler::sendIlokStockWarningMail();
-
                     $result_array['status'] = false;
                     $result_array['text'] = 'Component error 2';
                     return $result_array;
@@ -247,11 +238,9 @@ class MyLicensesController extends Controller
 
             if(empty($result))
             {
-
                 $result_array['status'] = false;
                 $result_array['text'] = 'Component error 3';
                 return $result_array;
-
             }
             else
             {
@@ -285,7 +274,6 @@ class MyLicensesController extends Controller
            // dd($licenseData);
         }else {
             // Upgrade mode handler (feature & product)
-
             // Try to get license data by serial or iLok code, also try old activation component
             if ($upgradeiLokCode) {
                 $licenseData = (array)License::lookupByilokCode($upgradeiLokCode);
@@ -322,11 +310,9 @@ class MyLicensesController extends Controller
                     $checkResult = false;
                 }
                 if(!$checkResult) {
-
                     $result_array['status'] = false;
                     $result_array['text'] = 'Upgrade not possible';
                     return $result_array;
-
                 }
 
                 // Check if license is currently used
@@ -340,7 +326,6 @@ class MyLicensesController extends Controller
 
                 }
             } else {
-
                 // Check if license is active or invalid
                 if(!empty($licenseData['activation_code'])) {
                     $result_array['status'] = false;
@@ -351,13 +336,11 @@ class MyLicensesController extends Controller
                     $result_array['status'] = false;
                     $result_array['text'] = 'This license is marked as invalid';
                     return $result_array;
-
                 }
             }
 
             // Perform some last checks before upgrade, distinguish between product and feature upgrade
             if($activationMode === env('JAA_PRE_ACTIVATION_UPGRADE')) {
-
                 // Is old product in list of upgradeable products?
                 $upgradeableProductIDs = json_decode($productData[0]['upgradeable_products']);
                 if(!in_array($licenseData['product_id'], $upgradeableProductIDs)) {
@@ -368,7 +351,6 @@ class MyLicensesController extends Controller
 
                 // Try to get buyer data of legacy license
                 if($isLegacyLicense) {
-
                     // Try to get legacy buyer before creating new
                     $legacyBuyer = Buyers::getOldBuyer($licenseData['buyer_id']);
                     if(empty($legacyBuyer)) {
@@ -380,7 +362,6 @@ class MyLicensesController extends Controller
                     // Try to get buyer in new activation component, else create new
                     $buyer = Buyers::buyerLookupByMail($legacyBuyer['email']);
                     if(empty($buyer)) {
-
                         // Create new buyer
                         $newBuyerData = array(
                             'first' => $legacyBuyer[0]['first'],
@@ -396,7 +377,6 @@ class MyLicensesController extends Controller
                             $result_array['status'] = false;
                             $result_array['text'] = 'Error creating buyer';
                             return $result_array;
-
                         }
                     }
                 }
@@ -432,7 +412,6 @@ class MyLicensesController extends Controller
                             $result_array['status'] = false;
                             $result_array['text'] = 'Component error 4';
                             return $result_array;
-
                         }
                     }
                 }
@@ -455,7 +434,6 @@ class MyLicensesController extends Controller
                 {
                     // Send serial mail to customer
                     if(!$isLegacyLicense) {
-
                         Helper::sendSerialMail($newLicenseData['id']);
                         //JAppActivationHelper::log('Serial mail sent to customer', JLog::INFO);
                     }
@@ -468,7 +446,6 @@ class MyLicensesController extends Controller
                         $result_array['status'] = false;
                         $result_array['text'] = 'Deletion of legacy license failed';
                         return $result_array;
-
                     }
                     //JAppActivationHelper::log('Legacy license deleted');
                 }
@@ -507,7 +484,6 @@ class MyLicensesController extends Controller
 
                 // Set new feature bit
                 $featureValues[$purchasedFeatureBit] = 1;
-
                 // Convert to feature set
                 $newFeatureset = array_keys(array_filter($featureValues));
                 $licenseData['prod_features'] = $newFeatureset;
@@ -520,9 +496,7 @@ class MyLicensesController extends Controller
                     $result_array['status'] = false;
                     $result_array['text'] = 'Component error 6';
                     return $result_array;
-
                 }
-
                 // Send serial mail to customer
 
                 //JAppActivationHelper::log('Serial mail sent to customer', JLog::INFO);
@@ -542,11 +516,9 @@ class MyLicensesController extends Controller
         }
 
        // $this->_finishFulfillment();
-
         $result_array['status'] = true;
         $result_array['text'] = 'Your code has been activated';
         return $result_array;
-
     }
 
     /**
